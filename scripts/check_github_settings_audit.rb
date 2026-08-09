@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "image_to_icns", "repo-template-rust-wasm"]
+  expected_repositories = [".github", "image_to_icns", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -90,6 +90,14 @@ begin
   errors << "repo-template-rust-wasm must remain release-free" unless template_targets.dig("releases", "value") == 0
   errors << "repo-template-rust-wasm topics must include template" unless template_targets.dig("topics", "value").include?("template")
   errors << "repo-template-rust-wasm code scanning status must be explicit" unless template_targets.dig("codeScanning", "value") == "not-configured"
+  trace_targets = production_policy.repository_targets("tool_call_trace")
+  errors << "tool_call_trace source must be published" unless trace_targets.dig("sourcePublished", "value") == true
+  errors << "tool_call_trace Issues must remain disabled" unless trace_targets.dig("issues", "value") == false
+  errors << "tool_call_trace Discussions must remain disabled" unless trace_targets.dig("discussions", "value") == false
+  errors << "tool_call_trace must remain release-free" unless trace_targets.dig("releases", "value") == 0
+  errors << "tool_call_trace topics must include ai-agents" unless trace_targets.dig("topics", "value").include?("ai-agents")
+  errors << "tool_call_trace code scanning must be configured" unless trace_targets.dig("codeScanning", "value") == "configured"
+  errors << "tool_call_trace must protect release tags" unless trace_targets.dig("rulesMinimum", "value") == 1
   manual_ids = production_policy.manual_attestations.map { |entry| entry.fetch("id") }
   errors << "manual attestations must be generated in stable key order" unless manual_ids == manual_ids.sort
 rescue GitHubSettingsAudit::PolicyError

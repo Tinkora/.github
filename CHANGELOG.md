@@ -26,6 +26,8 @@ when releases begin.
 - An ADR separating source-only publication from moderated public interaction.
 - An ADR authorizing evidence-gated project releases during solo maintenance
   without misrepresenting owner authorization as independent approval.
+- The verified Tool Call Trace repository, browser preview, and settings policy
+  registration on the public organization profile.
 
 ### Changed
 

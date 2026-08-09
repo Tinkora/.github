@@ -10,10 +10,17 @@ machine-readable contracts, and behavior that can be verified in CI.
 
 ## Projects
 
-The public project catalog is under review. A repository appears here only
-after its implementation, documentation, security boundary, maintenance
-status, and public URL have been verified. A tool schema or planning document
-alone is not treated as an Agent-callable product.
+- [Tool Call Trace](https://github.com/Tinkora/tool_call_trace) is a
+  browser-local waterfall viewer for timestamped AI agent tool calls.
+  [Open the preview](https://tinkora.github.io/tool_call_trace/).
+- [image_to_icns](https://github.com/Tinkora/image_to_icns) is a privacy-first
+  macOS `.icns` generator with a browser editor and an MCP server.
+  [Open the tool](https://tinkora.github.io/image_to_icns/).
+
+A repository appears here only after its implementation, documentation,
+security boundary, maintenance status, and public URL have been verified. A
+tool schema or planning document alone is not treated as an Agent-callable
+product.
 
 ## Participate
 
