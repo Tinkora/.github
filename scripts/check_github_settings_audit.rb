@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "dmg_background", "image_to_icns", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "dmg_background", "image_to_icns", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -91,6 +91,15 @@ begin
   errors << "image_to_icns Discussions must remain disabled" unless image_targets.dig("discussions", "value") == false
   errors << "image_to_icns must require its first immutable release" unless image_targets.dig("releases", "value") == 1
   errors << "image_to_icns topics must include icns" unless image_targets.dig("topics", "value").include?("icns")
+  qr_targets = production_policy.repository_targets("qr_forge")
+  errors << "qr_forge source must be published" unless qr_targets.dig("sourcePublished", "value") == true
+  errors << "qr_forge Issues must remain disabled" unless qr_targets.dig("issues", "value") == false
+  errors << "qr_forge Discussions must remain disabled" unless qr_targets.dig("discussions", "value") == false
+  errors << "qr_forge Projects must be enabled" unless qr_targets.dig("projects", "value") == true
+  errors << "qr_forge must require its first immutable release" unless qr_targets.dig("releases", "value") == 1
+  errors << "qr_forge topics must include qr-code-generator" unless qr_targets.dig("topics", "value").include?("qr-code-generator")
+  errors << "qr_forge default code scanning status must be explicit" unless qr_targets.dig("codeScanning", "value") == "not-configured"
+  errors << "qr_forge must protect its main branch and release tags" unless qr_targets.dig("rulesMinimum", "value") == 1
   template_targets = production_policy.repository_targets("repo-template-rust-wasm")
   errors << "repo-template-rust-wasm source must be published" unless template_targets.dig("sourcePublished", "value") == true
   errors << "repo-template-rust-wasm Issues must remain disabled" unless template_targets.dig("issues", "value") == false

@@ -87,6 +87,16 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
+      "qr_forge": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["barcode-generator", "developer-tools", "privacy-tools", "qr-code-generator", "rust", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": false},
+        "discussions": {"applicability": "CURRENT", "value": false},
+        "projects": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
       "repo-template-rust-wasm": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["developer-tools", "github-actions", "rust", "template", "tinkora", "webassembly"]},

@@ -19,6 +19,9 @@ machine-readable contracts, and behavior that can be verified in CI.
 - [image_to_icns](https://github.com/Tinkora/image_to_icns) is a privacy-first
   macOS `.icns` generator with a browser editor and an MCP server.
   [Open the tool](https://tinkora.github.io/image_to_icns/).
+- [QR Forge](https://github.com/Tinkora/qr_forge) is a browser-local QR,
+  Code 128, and EAN-13 generator with SVG and PNG exports.
+  [Open the tool](https://tinkora.github.io/qr_forge/).
 
 A repository appears here only after its implementation, documentation,
 security boundary, maintenance status, and public URL have been verified. A

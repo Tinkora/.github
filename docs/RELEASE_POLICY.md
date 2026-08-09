@@ -4,7 +4,7 @@
 
 | Setting | Current | Target | Apply when |
 | --- | --- | --- | --- |
-| Release automation | `image_to_icns` has a project-specific, tag-triggered workflow; the organization reusable workflow remains permanently dry-run | Build and verify reproducibly, then publish from a protected tag with least privilege and project-owned verification | A project has stable hosted checks, immutable release inputs, a documented artifact contract, and explicit owner authorization |
+| Release automation | `image_to_icns` and `qr_forge` have project-specific, tag-triggered workflows; the organization reusable workflow remains read-only | Build and verify reproducibly, then publish from a protected tag with least privilege and project-owned verification | A project has stable hosted checks, immutable release inputs, a documented artifact contract, and explicit owner authorization |
 | Versioning | No Tinkora project has published a GitHub Release | Use Semantic Versioning for public versions and document pre-`1.0.0` instability | A project declares a public contract and its first release is authorized |
 | Changelog | This governance repository contains only an `Unreleased` section | Maintain Keep a Changelog categories and move entries to a dated version only during release | A reviewed release candidate is approved; do not create historical entries without release evidence |
 | Git tags | No public release tag is relied upon as a Tinkora release | Use protected, immutable `vMAJOR.MINOR.PATCH` tags that point to the reviewed release commit | Tag protection is verified, the release commit and version agree, and tag creation is explicitly authorized |

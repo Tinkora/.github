@@ -30,6 +30,8 @@ when releases begin.
   registration on the public organization profile.
 - The verified DMG Background repository, browser tool, schema endpoint, and
   settings policy registration on the public organization profile.
+- The verified QR Forge repository, browser-local generator, public Pages
+  application, community channels, and settings policy registration.
 
 ### Changed
 

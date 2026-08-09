@@ -20,7 +20,7 @@ public disclosure of sensitive evidence.
 | Setting | Current | Target | Apply when |
 | --- | --- | --- | --- |
 | Emergency access restriction | No standing incident-specific remote rule is claimed | Temporarily revoke or narrow compromised access with least privilege | An authorized owner verifies a credible active risk, identifies exact affected access, records recovery privately, and approves the action |
-| Workflow or release pause | No release automation exists | Disable affected automation or publication while preserving evidence | A credible compromise could affect builds or releases, the incident lead records scope and rollback, and an authorized owner applies the pause |
+| Workflow or release pause | Project-specific protected-tag release automation exists for `image_to_icns` and `qr_forge`; organization release evidence remains read-only | Disable affected automation or publication while preserving evidence | A credible compromise could affect builds or releases, the incident lead records scope and rollback, and an authorized owner applies the pause |
 | Repository interaction limits | No incident restriction is pre-authorized | Temporarily limit interactions only when abuse or disclosure cannot be contained otherwise | The incident lead documents necessity and duration, an authorized owner approves it, and restoration criteria are defined |
 | Public advisory | No security advisory channel is claimed ready | Coordinate a minimal, accurate advisory and corrected release when appropriate | A private intake exists, affected scope and mitigation are understood, disclosure risk is reviewed, and publication is explicitly authorized |
 
