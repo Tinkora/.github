@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "image_to_icns", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "dmg_background", "image_to_icns", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -77,6 +77,14 @@ begin
   errors << ".github source must be published" unless repository_targets.dig("sourcePublished", "value") == true
   errors << ".github Issues must remain disabled" unless repository_targets.dig("issues", "value") == false
   errors << ".github Discussions must remain disabled" unless repository_targets.dig("discussions", "value") == false
+  dmg_targets = production_policy.repository_targets("dmg_background")
+  errors << "dmg_background source must be published" unless dmg_targets.dig("sourcePublished", "value") == true
+  errors << "dmg_background Issues must remain disabled" unless dmg_targets.dig("issues", "value") == false
+  errors << "dmg_background Discussions must remain disabled" unless dmg_targets.dig("discussions", "value") == false
+  errors << "dmg_background must remain release-free" unless dmg_targets.dig("releases", "value") == 0
+  errors << "dmg_background topics must include dmg" unless dmg_targets.dig("topics", "value").include?("dmg")
+  errors << "dmg_background code scanning must be configured" unless dmg_targets.dig("codeScanning", "value") == "configured"
+  errors << "dmg_background must protect release tags" unless dmg_targets.dig("rulesMinimum", "value") == 1
   image_targets = production_policy.repository_targets("image_to_icns")
   errors << "image_to_icns source must be published" unless image_targets.dig("sourcePublished", "value") == true
   errors << "image_to_icns Issues must remain disabled" unless image_targets.dig("issues", "value") == false

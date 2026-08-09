@@ -28,6 +28,8 @@ when releases begin.
   without misrepresenting owner authorization as independent approval.
 - The verified Tool Call Trace repository, browser preview, and settings policy
   registration on the public organization profile.
+- The verified DMG Background repository, browser tool, schema endpoint, and
+  settings policy registration on the public organization profile.
 
 ### Changed
 
@@ -62,6 +64,8 @@ when releases begin.
 
 ### Fixed
 
+- Separated the Rust toolchain used to compile current CI utilities from the
+  caller-selected project toolchain in coverage and WASM jobs.
 - Allowed the standard `.gitignore` emitted by pinned `wasm-pack 0.15.0` in
   reusable WASM artifacts while retaining the unknown-file and special-node
   output guards.

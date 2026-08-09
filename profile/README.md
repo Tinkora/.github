@@ -10,6 +10,9 @@ machine-readable contracts, and behavior that can be verified in CI.
 
 ## Projects
 
+- [DMG Background](https://github.com/Tinkora/dmg_background) is a
+  browser-local editor for macOS DMG background images and Finder layout
+  assets. [Open the tool](https://tinkora.github.io/dmg_background/).
 - [Tool Call Trace](https://github.com/Tinkora/tool_call_trace) is a
   browser-local waterfall viewer for timestamped AI agent tool calls.
   [Open the preview](https://tinkora.github.io/tool_call_trace/).

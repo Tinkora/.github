@@ -69,6 +69,15 @@
         "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
         "releases": {"applicability": "CURRENT", "value": 0}
       },
+      "dmg_background": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["developer-tools", "dmg", "macos", "privacy", "rust", "tinkora", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": false},
+        "discussions": {"applicability": "CURRENT", "value": false},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 0}
+      },
       "image_to_icns": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["developer-tools", "icns", "image-converter", "macos", "privacy", "rust", "tinkora", "webassembly"]},
