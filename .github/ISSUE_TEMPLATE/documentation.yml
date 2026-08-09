@@ -1,0 +1,48 @@
+name: Documentation issue
+description: Report missing, inaccurate, or unclear documentation with evidence.
+title: "[Docs]: "
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Documentation location
+      description: Provide the file, heading, command help, or verified public URL.
+    validations:
+      required: true
+  - type: textarea
+    id: audience-task
+    attributes:
+      label: Reader and task
+      description: Explain who is reading and what they are trying to complete.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe what is missing, inaccurate, ambiguous, or untranslated.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Quote the relevant text or provide a sanitized command result that demonstrates the gap.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-change
+    attributes:
+      label: Proposed change
+      description: Describe the corrected outcome and any English or Chinese counterpart that also needs updating.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Checks
+      options:
+        - label: I checked the latest version and searched for an existing report.
+          required: true
+        - label: I removed secrets and personal or proprietary data.
+          required: true

@@ -1,0 +1,86 @@
+{
+  "$schema": "../schemas/github-settings-policy.schema.json",
+  "schemaVersion": "1.0",
+  "stage": "solo-local",
+  "gates": {
+    "independentSecondOwner": "pending",
+    "publicInteraction": "pending",
+    "sourcePublication": "pending",
+    "releaseAutomation": "pending"
+  },
+  "organization": "example-org",
+  "expectedLogin": "fixture-operator",
+  "organizationTargets": {
+    "plan": {"applicability": "CURRENT", "value": "free"},
+    "basePermission": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": "none"},
+    "memberRepositoryCreation": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "value": false},
+    "memberRepositoryDeletion": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "value": false},
+    "memberVisibilityChanges": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "value": false},
+    "outsideCollaboratorInvitation": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": false},
+    "twoFactorRequired": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": true},
+    "projectsMinimum": {"applicability": "FUTURE_GATE", "gate": "publicInteraction", "value": 1},
+    "securityDefaultsMinimum": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "value": 1},
+    "actionsEnabledRepositories": {"applicability": "CURRENT", "value": "all"},
+    "actionsAllowed": {"applicability": "CURRENT", "value": "selected"},
+    "actionsShaPinningRequired": {"applicability": "CURRENT", "value": true},
+    "actionsGithubOwnedAllowed": {"applicability": "CURRENT", "value": true},
+    "actionsVerifiedAllowed": {"applicability": "CURRENT", "value": false},
+    "actionsPatternsAllowed": {"applicability": "CURRENT", "value": ["DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff", "zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054"]},
+    "defaultWorkflowPermission": {"applicability": "CURRENT", "value": "read"},
+    "canApprovePullRequestReviews": {"applicability": "CURRENT", "value": false}
+  },
+  "repositoryScope": {
+    "visibility": "public",
+    "defaults": {
+      "sourcePublished": {"applicability": "CURRENT", "value": false},
+      "defaultBranch": {"applicability": "CURRENT", "value": "main"},
+      "topics": {"applicability": "CURRENT", "value": []},
+      "issues": {"applicability": "CURRENT", "value": false},
+      "discussions": {"applicability": "CURRENT", "value": false},
+      "wiki": {"applicability": "CURRENT", "value": false},
+      "projects": {"applicability": "CURRENT", "value": false},
+      "allowSquashMerge": {"applicability": "CURRENT", "value": true},
+      "allowMergeCommit": {"applicability": "CURRENT", "value": false},
+      "allowRebaseMerge": {"applicability": "CURRENT", "value": false},
+      "deleteBranchOnMerge": {"applicability": "CURRENT", "value": true},
+      "privateVulnerabilityReporting": {"applicability": "CURRENT", "value": true},
+      "vulnerabilityAlerts": {"applicability": "CURRENT", "value": true},
+      "automatedSecurityFixes": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "value": true},
+      "secretScanning": {"applicability": "CURRENT", "value": "enabled"},
+      "secretScanningPushProtection": {"applicability": "CURRENT", "value": "enabled"},
+      "codeScanning": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "value": "configured"},
+      "rulesMinimum": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "value": 1},
+      "actionsEnabled": {"applicability": "CURRENT", "value": true},
+      "actionsAllowed": {"applicability": "CURRENT", "value": "selected"},
+      "actionsGithubOwnedAllowed": {"applicability": "CURRENT", "value": true},
+      "actionsVerifiedAllowed": {"applicability": "CURRENT", "value": false},
+      "actionsPatternsAllowed": {"applicability": "CURRENT", "value": ["DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff", "zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054"]},
+      "defaultWorkflowPermission": {"applicability": "CURRENT", "value": "read"},
+      "canApprovePullRequestReviews": {"applicability": "CURRENT", "value": false},
+      "communityHealthMinimum": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "value": 100},
+      "codeownersErrors": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "value": 0},
+      "releases": {"applicability": "CURRENT", "value": 0}
+    },
+    "repositories": {
+      "sample": {
+        "sourcePublished": {"applicability": "CURRENT", "value": false},
+        "topics": {"applicability": "CURRENT", "value": ["automation", "ruby"]},
+        "issues": {"applicability": "CURRENT", "value": false},
+        "releases": {"applicability": "CURRENT", "value": 0}
+      }
+    }
+  },
+  "manualAttestations": {
+    "manual.second_owner_recovery": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "severity": "HIGH"},
+    "manual.pvr_reporter_flow": {"applicability": "CURRENT", "severity": "HIGH"},
+    "manual.conduct_reporting_channel": {"applicability": "CURRENT", "severity": "HIGH"},
+    "manual.funding_recipient": {"applicability": "FUTURE_GATE", "gate": "publicInteraction", "severity": "MEDIUM"},
+    "manual.domain_control": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "severity": "MEDIUM"},
+    "manual.audit_log_review": {"applicability": "CURRENT", "severity": "MEDIUM"},
+    "manual.credential_inventory": {"applicability": "CURRENT", "severity": "HIGH"},
+    "manual.rules_behavior": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "severity": "HIGH"},
+    "manual.fork_secret_behavior": {"applicability": "FUTURE_GATE", "gate": "releaseAutomation", "severity": "HIGH"},
+    "manual.scanning_coverage_triage": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "severity": "HIGH"},
+    "manual.community_inheritance": {"applicability": "FUTURE_GATE", "gate": "sourcePublication", "severity": "MEDIUM"}
+  }
+}

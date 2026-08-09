@@ -1,0 +1,219 @@
+name: Reusable Rust quality
+
+'on':
+  workflow_call:
+    inputs:
+      working-directory:
+        description: Relative directory containing Cargo.toml
+        required: false
+        default: .
+        type: string
+      toolchain:
+        description: Rust toolchain channel or exact version
+        required: false
+        default: stable
+        type: string
+      features:
+        description: Comma-separated Cargo features
+        required: false
+        default: ''
+        type: string
+      target:
+        description: Optional Rust target triple
+        required: false
+        default: ''
+        type: string
+      locked:
+        description: Require Cargo.lock without updates
+        required: false
+        default: true
+        type: boolean
+      msrv:
+        description: Optional exact MSRV to check
+        required: false
+        default: ''
+        type: string
+      coverage:
+        description: Generate an LCOV artifact
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  rust-quality:
+    name: fmt, clippy, test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate inputs and install toolchain
+        shell: bash
+        env:
+          FEATURES: ${{ inputs.features }}
+          TARGET: ${{ inputs.target }}
+          TOOLCHAIN: ${{ inputs.toolchain }}
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          case "$WORKING_DIRECTORY" in
+            ''|/*|..|../*|*/../*|*/..) echo "invalid working-directory" >&2; exit 1 ;;
+          esac
+          [[ -d "$WORKING_DIRECTORY" && ! -L "$WORKING_DIRECTORY" ]] || { echo "working-directory must be a real directory" >&2; exit 1; }
+          resolved="$(realpath -- "$WORKING_DIRECTORY")"
+          case "$resolved" in
+            "$GITHUB_WORKSPACE"|"$GITHUB_WORKSPACE"/*) ;;
+            *) echo "working-directory escapes the workspace" >&2; exit 1 ;;
+          esac
+          [[ "$TOOLCHAIN" =~ ^(stable|beta|nightly|[0-9]+\.[0-9]+(\.[0-9]+)?|nightly-[0-9]{4}-[0-9]{2}-[0-9]{2})$ ]] || { echo "invalid toolchain" >&2; exit 1; }
+          [[ "$FEATURES" =~ ^[A-Za-z0-9_+./,-]*$ && "$FEATURES" != *..* ]] || { echo "invalid features" >&2; exit 1; }
+          [[ -z "$TARGET" || "$TARGET" =~ ^[A-Za-z0-9_][A-Za-z0-9_.-]*$ ]] || { echo "invalid target" >&2; exit 1; }
+          rustup toolchain install "$TOOLCHAIN" --profile minimal --no-self-update
+          rustup component add rustfmt clippy --toolchain "$TOOLCHAIN"
+          if [[ -n "$TARGET" ]]; then
+            rustup target add "$TARGET" --toolchain "$TOOLCHAIN"
+          fi
+
+      - name: Check formatting
+        shell: bash
+        env:
+          TOOLCHAIN: ${{ inputs.toolchain }}
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          cd -- "$WORKING_DIRECTORY"
+          cargo "+${TOOLCHAIN}" fmt --all -- --check
+
+      - name: Run Clippy
+        shell: bash
+        env:
+          FEATURES: ${{ inputs.features }}
+          LOCKED: ${{ inputs.locked }}
+          TARGET: ${{ inputs.target }}
+          TOOLCHAIN: ${{ inputs.toolchain }}
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          cd -- "$WORKING_DIRECTORY"
+          cargo_args=()
+          [[ "$LOCKED" == "true" ]] && cargo_args+=(--locked)
+          [[ -n "$FEATURES" ]] && cargo_args+=(--features "$FEATURES")
+          [[ -n "$TARGET" ]] && cargo_args+=(--target "$TARGET")
+          cargo "+${TOOLCHAIN}" clippy "${cargo_args[@]}" --all-targets -- -D warnings
+
+      - name: Run tests
+        shell: bash
+        env:
+          FEATURES: ${{ inputs.features }}
+          LOCKED: ${{ inputs.locked }}
+          TARGET: ${{ inputs.target }}
+          TOOLCHAIN: ${{ inputs.toolchain }}
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          cd -- "$WORKING_DIRECTORY"
+          cargo_args=()
+          [[ "$LOCKED" == "true" ]] && cargo_args+=(--locked)
+          [[ -n "$FEATURES" ]] && cargo_args+=(--features "$FEATURES")
+          [[ -n "$TARGET" ]] && cargo_args+=(--target "$TARGET")
+          cargo "+${TOOLCHAIN}" test "${cargo_args[@]}" --all-targets
+
+  msrv:
+    name: MSRV
+    if: inputs.msrv != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check with the declared MSRV
+        shell: bash
+        env:
+          FEATURES: ${{ inputs.features }}
+          LOCKED: ${{ inputs.locked }}
+          MSRV: ${{ inputs.msrv }}
+          TARGET: ${{ inputs.target }}
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          [[ "$MSRV" =~ ^1\.[0-9]+\.[0-9]+$ ]] || { echo "msrv must be an exact Rust 1.x.y version" >&2; exit 1; }
+          case "$WORKING_DIRECTORY" in
+            ''|/*|..|../*|*/../*|*/..) echo "invalid working-directory" >&2; exit 1 ;;
+          esac
+          [[ -d "$WORKING_DIRECTORY" && ! -L "$WORKING_DIRECTORY" ]] || { echo "working-directory must be a real directory" >&2; exit 1; }
+          resolved="$(realpath -- "$WORKING_DIRECTORY")"
+          case "$resolved" in
+            "$GITHUB_WORKSPACE"|"$GITHUB_WORKSPACE"/*) ;;
+            *) echo "working-directory escapes the workspace" >&2; exit 1 ;;
+          esac
+          [[ "$FEATURES" =~ ^[A-Za-z0-9_+./,-]*$ && "$FEATURES" != *..* ]] || { echo "invalid features" >&2; exit 1; }
+          [[ -z "$TARGET" || "$TARGET" =~ ^[A-Za-z0-9_][A-Za-z0-9_.-]*$ ]] || { echo "invalid target" >&2; exit 1; }
+          rustup toolchain install "$MSRV" --profile minimal --no-self-update
+          [[ -z "$TARGET" ]] || rustup target add "$TARGET" --toolchain "$MSRV"
+          cd -- "$WORKING_DIRECTORY"
+          cargo_args=()
+          [[ "$LOCKED" == "true" ]] && cargo_args+=(--locked)
+          [[ -n "$FEATURES" ]] && cargo_args+=(--features "$FEATURES")
+          [[ -n "$TARGET" ]] && cargo_args+=(--target "$TARGET")
+          cargo "+${MSRV}" check "${cargo_args[@]}" --all-targets
+
+  coverage:
+    name: coverage
+    if: inputs.coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Generate LCOV
+        shell: bash
+        env:
+          FEATURES: ${{ inputs.features }}
+          LOCKED: ${{ inputs.locked }}
+          TARGET: ${{ inputs.target }}
+          TOOLCHAIN: ${{ inputs.toolchain }}
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          case "$WORKING_DIRECTORY" in
+            ''|/*|..|../*|*/../*|*/..) echo "invalid working-directory" >&2; exit 1 ;;
+          esac
+          [[ -d "$WORKING_DIRECTORY" && ! -L "$WORKING_DIRECTORY" ]] || { echo "working-directory must be a real directory" >&2; exit 1; }
+          resolved="$(realpath -- "$WORKING_DIRECTORY")"
+          case "$resolved" in
+            "$GITHUB_WORKSPACE"|"$GITHUB_WORKSPACE"/*) ;;
+            *) echo "working-directory escapes the workspace" >&2; exit 1 ;;
+          esac
+          [[ "$TOOLCHAIN" =~ ^(stable|beta|nightly|[0-9]+\.[0-9]+(\.[0-9]+)?|nightly-[0-9]{4}-[0-9]{2}-[0-9]{2})$ ]] || { echo "invalid toolchain" >&2; exit 1; }
+          [[ "$FEATURES" =~ ^[A-Za-z0-9_+./,-]*$ && "$FEATURES" != *..* ]] || { echo "invalid features" >&2; exit 1; }
+          [[ -z "$TARGET" || "$TARGET" =~ ^[A-Za-z0-9_][A-Za-z0-9_.-]*$ ]] || { echo "invalid target" >&2; exit 1; }
+          rustup toolchain install "$TOOLCHAIN" --profile minimal --no-self-update
+          rustup component add llvm-tools-preview --toolchain "$TOOLCHAIN"
+          [[ -z "$TARGET" ]] || rustup target add "$TARGET" --toolchain "$TOOLCHAIN"
+          cargo "+${TOOLCHAIN}" install cargo-llvm-cov --version 0.8.7 --locked
+          cd -- "$WORKING_DIRECTORY"
+          cargo_args=()
+          [[ "$LOCKED" == "true" ]] && cargo_args+=(--locked)
+          [[ -n "$FEATURES" ]] && cargo_args+=(--features "$FEATURES")
+          [[ -n "$TARGET" ]] && cargo_args+=(--target "$TARGET")
+          cargo "+${TOOLCHAIN}" llvm-cov "${cargo_args[@]}" --all-targets --lcov --output-path "$RUNNER_TEMP/coverage.lcov"
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rust-coverage-${{ github.run_id }}
+          path: ${{ runner.temp }}/coverage.lcov
+          if-no-files-found: error
+          retention-days: 7

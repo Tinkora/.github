@@ -1,0 +1,179 @@
+name: Reusable WASM quality
+
+'on':
+  workflow_call:
+    inputs:
+      working-directory:
+        description: Relative directory containing the WASM crate
+        required: false
+        default: .
+        type: string
+      toolchain:
+        description: Rust toolchain channel or exact version
+        required: false
+        default: stable
+        type: string
+      features:
+        description: Comma-separated Cargo features
+        required: false
+        default: ''
+        type: string
+      locked:
+        description: Require Cargo.lock without updates
+        required: false
+        default: true
+        type: boolean
+      playwright-smoke:
+        description: Run the fixed test:wasm-smoke npm script in Chromium
+        required: false
+        default: false
+        type: boolean
+      node-version:
+        description: Supported Node.js LTS major or exact version
+        required: false
+        default: '24'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  wasm-build:
+    name: wasm-pack build
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build WASM package
+        shell: bash
+        env:
+          FEATURES: ${{ inputs.features }}
+          LOCKED: ${{ inputs.locked }}
+          TOOLCHAIN: ${{ inputs.toolchain }}
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          case "$WORKING_DIRECTORY" in
+            ''|/*|..|../*|*/../*|*/..) echo "invalid working-directory" >&2; exit 1 ;;
+          esac
+          [[ -d "$WORKING_DIRECTORY" && ! -L "$WORKING_DIRECTORY" ]] || { echo "working-directory must be a real directory" >&2; exit 1; }
+          resolved="$(realpath -- "$WORKING_DIRECTORY")"
+          case "$resolved" in
+            "$GITHUB_WORKSPACE"|"$GITHUB_WORKSPACE"/*) ;;
+            *) echo "working-directory escapes the workspace" >&2; exit 1 ;;
+          esac
+          [[ "$TOOLCHAIN" =~ ^(stable|beta|nightly|[0-9]+\.[0-9]+(\.[0-9]+)?|nightly-[0-9]{4}-[0-9]{2}-[0-9]{2})$ ]] || { echo "invalid toolchain" >&2; exit 1; }
+          [[ "$FEATURES" =~ ^[A-Za-z0-9_+./,-]*$ && "$FEATURES" != *..* ]] || { echo "invalid features" >&2; exit 1; }
+          rustup toolchain install "$TOOLCHAIN" --profile minimal --no-self-update
+          rustup target add wasm32-unknown-unknown --toolchain "$TOOLCHAIN"
+          cargo "+${TOOLCHAIN}" install wasm-pack --version 0.15.0 --locked
+          export RUSTUP_TOOLCHAIN="$TOOLCHAIN"
+          cd -- "$WORKING_DIRECTORY"
+          build_args=(--target web --release --out-dir "$RUNNER_TEMP/wasm-pkg")
+          cargo_args=()
+          [[ "$LOCKED" == "true" ]] && cargo_args+=(--locked)
+          [[ -n "$FEATURES" ]] && cargo_args+=(--features "$FEATURES")
+          if ((${#cargo_args[@]})); then
+            wasm-pack build "${build_args[@]}" -- "${cargo_args[@]}"
+          else
+            wasm-pack build "${build_args[@]}"
+          fi
+
+      - name: Enforce output whitelist
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/wasm-pkg"
+          [[ -d "$output" ]] || { echo "wasm-pack output is missing" >&2; exit 1; }
+          if find "$output" -type l -print -quit | grep -q .; then
+            echo "symlinks are forbidden in WASM output" >&2
+            exit 1
+          fi
+          if find "$output" ! -type f ! -type d -print -quit | grep -q .; then
+            echo "special files are forbidden in WASM build output" >&2
+            exit 1
+          fi
+          while IFS= read -r -d '' file; do
+            relative="${file#"$output"/}"
+            case "$relative" in
+              .gitignore|package.json|README.md|LICENSE|LICENSE.*|*.js|*.wasm|*.d.ts) ;;
+              *) echo "unexpected WASM output: $relative" >&2; exit 1 ;;
+            esac
+          done < <(find "$output" -type f -print0)
+
+      - name: Upload WASM package
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wasm-package-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/wasm-pkg
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+
+  playwright-smoke:
+    name: Playwright Chromium smoke
+    if: inputs.playwright-smoke
+    needs: wasm-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate Node.js and project path
+        shell: bash
+        env:
+          NODE_VERSION: ${{ inputs.node-version }}
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          [[ "$NODE_VERSION" =~ ^(20|22|24)(\.[0-9]+\.[0-9]+)?$ ]] || { echo "node-version must select a supported LTS" >&2; exit 1; }
+          case "$WORKING_DIRECTORY" in
+            ''|/*|..|../*|*/../*|*/..) echo "invalid working-directory" >&2; exit 1 ;;
+          esac
+          [[ -d "$WORKING_DIRECTORY" && ! -L "$WORKING_DIRECTORY" ]] || { echo "working-directory must be a real directory" >&2; exit 1; }
+          resolved="$(realpath -- "$WORKING_DIRECTORY")"
+          case "$resolved" in
+            "$GITHUB_WORKSPACE"|"$GITHUB_WORKSPACE"/*) ;;
+            *) echo "working-directory escapes the workspace" >&2; exit 1 ;;
+          esac
+          [[ -f "$WORKING_DIRECTORY/package-lock.json" && -f "$WORKING_DIRECTORY/package.json" ]] || { echo "Playwright smoke requires package.json and package-lock.json" >&2; exit 1; }
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Download WASM package
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: wasm-package-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/wasm-smoke-package
+
+      - name: Run fixed Chromium smoke test
+        shell: bash
+        env:
+          CI: 'true'
+          WASM_SMOKE_PACKAGE: ${{ runner.temp }}/wasm-smoke-package
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          [[ -d "$WASM_SMOKE_PACKAGE" && ! -L "$WASM_SMOKE_PACKAGE" ]] || { echo "WASM smoke package is missing" >&2; exit 1; }
+          if find "$WASM_SMOKE_PACKAGE" -type l -print -quit | grep -q .; then
+            echo "symlinks are forbidden in WASM smoke output" >&2
+            exit 1
+          fi
+          if find "$WASM_SMOKE_PACKAGE" ! -type f ! -type d -print -quit | grep -q .; then
+            echo "special files are forbidden in WASM smoke output" >&2
+            exit 1
+          fi
+          cd -- "$WORKING_DIRECTORY"
+          npm ci --ignore-scripts
+          npx --no-install playwright install --with-deps chromium
+          npm run test:wasm-smoke

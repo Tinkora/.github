@@ -1,0 +1,47 @@
+name: Usage or integration question
+description: Ask a non-sensitive question about using or integrating a Tinkora project.
+title: "[Question]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This form is public. Remove secrets, credentials, personal data, proprietary content, and private logs before submitting. Do not use this form for a suspected vulnerability or for sensitive harassment or Code of Conduct reports. Read SECURITY.md and CODE_OF_CONDUCT.md; their private channels must be verified before those reports can be accepted.
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: State the specific usage or integration question and the outcome you need.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Describe the non-sensitive workflow, inputs, and constraints needed to understand the question.
+    validations:
+      required: true
+  - type: textarea
+    id: research
+    attributes:
+      label: Documentation and issues checked
+      description: List the documentation, examples, and existing issues you reviewed, and explain what remains unclear.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and version
+      description: Provide the project version or commit, operating system, runtime, browser, and integration versions; explain if an item is not applicable.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Public-content checks
+      options:
+        - label: I searched the documentation and existing issues before asking.
+          required: true
+        - label: I removed secrets, credentials, personal data, proprietary content, and private logs.
+          required: true
+        - label: This is not a vulnerability report or a sensitive harassment or Code of Conduct report.
+          required: true

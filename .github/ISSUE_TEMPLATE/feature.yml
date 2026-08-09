@@ -1,0 +1,55 @@
+name: Feature request
+description: Propose an outcome backed by a real user workflow and evidence.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: workflow
+    attributes:
+      label: User workflow
+      description: Describe who has the problem, the real task they perform, and where the current workflow fails.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence of need
+      description: Provide sanitized examples, frequency, user feedback, or reproducible friction that supports the request.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Existing alternatives
+      description: Explain current workarounds and established tools considered, including why they do not fit this workflow.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Proposed outcome
+      description: Describe the user-visible result, not a preferred internal implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Value validation
+      description: Explain how the smallest experiment can show whether this is useful.
+    validations:
+      required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: Success and stop conditions
+      description: Give measurable success criteria and evidence that should cause the work to stop or be removed.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and the roadmap for overlapping work.
+          required: true
+        - label: I have not included sensitive or proprietary data.
+          required: true

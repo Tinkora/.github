@@ -1,0 +1,76 @@
+name: Project proposal
+description: Propose a new Tinkora project only after validating the workflow and alternatives.
+title: "[Project proposal]: "
+body:
+  - type: textarea
+    id: real-workflow
+    attributes:
+      label: Real user workflow
+      description: Identify actual users, the repeated job they perform, its context, frequency, and current cost.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and value validation
+      description: Provide sanitized research or usage evidence and describe the smallest test that can validate demand.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: At least three alternatives
+      description: Compare at least three established tools, libraries, workflows, or the option of doing nothing.
+      placeholder: |
+        1. Alternative, strengths, and gap
+        2. Alternative, strengths, and gap
+        3. Alternative, strengths, and gap
+    validations:
+      required: true
+  - type: textarea
+    id: differentiation
+    attributes:
+      label: Differentiation
+      description: Explain the narrow, defensible difference and why an extension or contribution upstream is insufficient.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Minimum scope and non-goals
+      description: Define the smallest useful product boundary and what will deliberately remain out of scope.
+    validations:
+      required: true
+  - type: textarea
+    id: success-metrics
+    attributes:
+      label: Success metrics
+      description: Provide measurable product, reliability, and maintenance outcomes with a review date or event.
+    validations:
+      required: true
+  - type: textarea
+    id: stop-conditions
+    attributes:
+      label: Stop conditions
+      description: State the evidence that should cause the proposal to pause, merge into another project, or be retired.
+    validations:
+      required: true
+  - type: input
+    id: maintainer
+    attributes:
+      label: Accountable maintainer
+      description: Name the person willing to own validation, maintenance, security, and deprecation work; this does not grant access.
+      placeholder: GitHub handle and relevant experience
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Checks
+      options:
+        - label: This proposal is based on a real workflow, not a repository name or feature inventory.
+          required: true
+        - label: I reviewed the roadmap and tool matrix for duplication.
+          required: true
+        - label: I understand that acceptance does not authorize a repository, release, domain, or funding link.
+          required: true

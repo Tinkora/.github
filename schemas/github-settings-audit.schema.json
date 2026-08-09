@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/tinkora/.github/schemas/github-settings-audit.schema.json",
+  "title": "GitHub settings read-only audit output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "mode", "run", "summary", "checks", "redaction"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "mode": {"const": "READ_ONLY"},
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["org", "login", "plan", "publicRepositoryCount"],
+      "properties": {
+        "org": {"$ref": "#/definitions/login"},
+        "login": {"$ref": "#/definitions/login"},
+        "plan": {"enum": ["free", "team", "enterprise", "business", "business_plus", "UNKNOWN"]},
+        "publicRepositoryCount": {"type": "integer", "minimum": 0}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["FAIL", "PASS", "UNKNOWN", "WARN"],
+      "properties": {
+        "FAIL": {"type": "integer", "minimum": 0},
+        "PASS": {"type": "integer", "minimum": 0},
+        "UNKNOWN": {"type": "integer", "minimum": 0},
+        "WARN": {"type": "integer", "minimum": 0}
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "resource", "status", "severity", "applicability", "expected", "actual", "capability", "evidence"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9_.]+$"},
+          "resource": {"type": "string", "pattern": "^(repository|[A-Za-z0-9-]+(?:/(?!\\.{1,2}$)[A-Za-z0-9_.-]+)?)$"},
+          "status": {"enum": ["PASS", "WARN", "UNKNOWN", "FAIL"]},
+          "severity": {"enum": ["INFO", "LOW", "MEDIUM", "HIGH"]},
+          "applicability": {"enum": ["APPLICABLE", "GATED", "NOT_APPLICABLE"]},
+          "expected": {"$ref": "#/definitions/safeValue"},
+          "actual": {"$ref": "#/definitions/safeValue"},
+          "capability": {"enum": ["AVAILABLE", "MISSING_SCOPE", "NOT_AVAILABLE_ON_FREE", "API_UNAVAILABLE", "MANUAL"]},
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["endpointId", "status", "reasonCode"],
+            "properties": {
+              "endpointId": {"type": "string", "pattern": "^[a-z][a-z0-9_.]+$"},
+              "status": {"oneOf": [{"type": "integer", "minimum": 0, "maximum": 599}, {"type": "string", "pattern": "^[A-Z_]+$"}]},
+              "reasonCode": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"}
+            }
+          }
+        }
+      }
+    },
+    "redaction": {
+      "const": {
+        "rawResponsesIncluded": false,
+        "identitiesIncluded": false,
+        "sensitiveFieldsIncluded": false
+      }
+    }
+  },
+  "definitions": {
+    "login": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"},
+    "safeString": {"type": "string", "pattern": "^[A-Za-z0-9._@*/-]+$"},
+    "safeValue": {
+      "oneOf": [
+        {"type": "boolean"},
+        {"type": "integer", "minimum": 0},
+        {"$ref": "#/definitions/safeString"},
+        {"type": "array", "uniqueItems": true, "items": {"$ref": "#/definitions/safeString"}}
+      ]
+    }
+  }
+}

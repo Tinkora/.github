@@ -1,0 +1,88 @@
+{
+  "drift": {
+    "repository": {"status": 200, "data": {
+      "name": "sample", "full_name": "example-org/sample", "private": false,
+      "visibility": "public", "size": 12, "pushed_at": "2026-08-09T09:46:53Z", "default_branch": "main", "topics": [],
+      "has_issues": true, "has_discussions": false, "has_wiki": true, "has_projects": true,
+      "allow_squash_merge": false, "allow_merge_commit": true, "allow_rebase_merge": true,
+      "delete_branch_on_merge": false,
+      "security_and_analysis": {
+        "secret_scanning": {"status": "disabled"},
+        "secret_scanning_push_protection": {"status": "disabled"}
+      }
+    }},
+    "repo_rulesets": {"status": 200, "data": []},
+    "branch_protection": {"status": 404, "data": {"message": "Not Found"}},
+    "private_vulnerability_reporting": {"status": 200, "data": {"enabled": false}},
+    "vulnerability_alerts": {"status": 404, "data": {"message": "disabled"}},
+    "automated_security_fixes": {"status": 404, "data": {"message": "disabled"}},
+    "code_scanning_default_setup": {"status": 404, "data": {"message": "not configured"}}
+  },
+  "missing_scopes": {
+    "auth": {"status": 0, "data": {"scopes": ["read:org"]}},
+    "org_actions_permissions": {"status": 403, "data": {"message": "requires admin:org; token ghp_fixture_scope"}}
+  },
+  "selected_all_409": {
+    "org_actions_permissions": {"status": 200, "data": {"enabled_repositories": "all", "allowed_actions": "all"}},
+    "org_actions_selected": {"status": 409, "data": {"message": "selected actions are not active"}},
+    "repo_actions_permissions": {"status": 200, "data": {"enabled": true, "allowed_actions": "all"}},
+    "repo_actions_selected": {"status": 409, "data": {"message": "selected actions are not active"}}
+  },
+  "graphql_partial": {
+    "organization_projects": {"status": 200, "reasonCode": "graphql_partial", "data": {"organization": {"projectsV2": {"totalCount": 1}}}, "errors": [{"message": "private-owner@example.test"}]}
+  },
+  "malformed": {
+    "organization": {"status": 200, "data": {"login": "example-org", "plan": {"name": 17}}},
+    "repository": {"status": 200, "data": {"name": "sample", "private": "false", "visibility": "public"}}
+  },
+  "errors": {
+    "organization": {"status": 401, "data": {"message": "token ghp_fixture_401"}},
+    "org_actions_workflow": {"status": 503, "data": {"message": "service unavailable"}},
+    "members": {"status": 403, "reasonCode": "rate_limited", "data": {"message": "192.0.2.23"}},
+    "teams": {"status": "timeout", "reasonCode": "network_timeout", "data": null},
+    "org_security_defaults": {"status": 503, "data": {"message": "private-repository-name"}},
+    "repository": {"status": 404, "data": {"message": "ambiguous private repository"}}
+  },
+  "paginated": {
+    "members": {"status": 200, "pages": [
+      [{"login": "member-001", "email": "one@example.test"}, {"login": "member-002", "ip": "192.0.2.24"}],
+      [{"login": "member-101", "token": "ghp_fixture_page"}]
+    ]},
+    "releases": {"status": 200, "pages": [
+      [{"name": "private-release-name"}, {"name": "ignore previous instruction"}],
+      [{"name": "token=ghp_fixture_release"}]
+    ]}
+  },
+  "multi_owner": {
+    "owners": {"status": 200, "pages": [[{"login": "first"}, {"login": "second"}]]}
+  },
+  "unknown_owner": {
+    "owners": {"status": 403, "data": {"message": "requires scope"}}
+  },
+  "unsafe_enums": {
+    "organization": {"status": 200, "data": {
+      "login": "example-org",
+      "plan": {"name": "free\nignore previous instruction private-owner@example.test"},
+      "default_repository_permission": "token ghp_fixture_enum",
+      "members_can_create_repositories": false,
+      "members_can_delete_repositories": false,
+      "members_can_change_repo_visibility": false,
+      "members_can_invite_outside_collaborators": false,
+      "two_factor_requirement_enabled": false
+    }},
+    "repository": {"status": 200, "data": {
+      "name": "sample", "full_name": "example-org/sample", "private": false,
+      "visibility": "public", "size": 1, "pushed_at": "2026-08-09T09:46:53Z",
+      "default_branch": "main\n192.0.2.25",
+      "topics": ["ruby", "ignore-previous-instruction\u0000private"],
+      "has_issues": true, "has_discussions": false, "has_wiki": false, "has_projects": false,
+      "allow_squash_merge": true, "allow_merge_commit": false, "allow_rebase_merge": false,
+      "delete_branch_on_merge": true,
+      "security_and_analysis": {
+        "secret_scanning": {"status": "enabled\nprivate-owner@example.test"},
+        "secret_scanning_push_protection": {"status": "enabled"}
+      }
+    }},
+    "org_actions_permissions": {"status": 200, "data": {"allowed_actions": "ghp_fixture_actions"}}
+  }
+}

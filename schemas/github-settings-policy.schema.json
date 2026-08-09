@@ -1,0 +1,332 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/tinkora/.github/schemas/github-settings-policy.schema.json",
+  "title": "GitHub settings audit policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "stage", "gates", "organization", "expectedLogin", "organizationTargets", "repositoryScope", "manualAttestations"],
+  "properties": {
+    "$schema": {"const": "../schemas/github-settings-policy.schema.json"},
+    "schemaVersion": {"const": "1.0"},
+    "stage": {"enum": ["solo-local", "solo-public", "multi-maintainer"]},
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["independentSecondOwner", "publicInteraction", "sourcePublication", "releaseAutomation"],
+      "properties": {
+        "independentSecondOwner": {"$ref": "#/definitions/gateState"},
+        "publicInteraction": {"$ref": "#/definitions/gateState"},
+        "sourcePublication": {"$ref": "#/definitions/gateState"},
+        "releaseAutomation": {"$ref": "#/definitions/gateState"}
+      }
+    },
+    "organization": {"$ref": "#/definitions/login"},
+    "expectedLogin": {"$ref": "#/definitions/login"},
+    "organizationTargets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plan", "basePermission", "memberRepositoryCreation", "memberRepositoryDeletion",
+        "memberVisibilityChanges", "outsideCollaboratorInvitation", "twoFactorRequired",
+        "projectsMinimum", "securityDefaultsMinimum", "actionsEnabledRepositories",
+        "actionsAllowed", "actionsShaPinningRequired", "actionsGithubOwnedAllowed", "actionsVerifiedAllowed",
+        "actionsPatternsAllowed", "defaultWorkflowPermission", "canApprovePullRequestReviews"
+      ],
+      "properties": {
+        "plan": {"$ref": "#/definitions/planTarget"},
+        "basePermission": {"$ref": "#/definitions/basePermissionTarget"},
+        "memberRepositoryCreation": {"$ref": "#/definitions/booleanTarget"},
+        "memberRepositoryDeletion": {"$ref": "#/definitions/booleanTarget"},
+        "memberVisibilityChanges": {"$ref": "#/definitions/booleanTarget"},
+        "outsideCollaboratorInvitation": {"$ref": "#/definitions/booleanTarget"},
+        "twoFactorRequired": {"$ref": "#/definitions/booleanTarget"},
+        "projectsMinimum": {"$ref": "#/definitions/countTarget"},
+        "securityDefaultsMinimum": {"$ref": "#/definitions/countTarget"},
+        "actionsEnabledRepositories": {"$ref": "#/definitions/actionsEnabledRepositoriesTarget"},
+        "actionsAllowed": {"$ref": "#/definitions/actionsAllowedTarget"},
+        "actionsShaPinningRequired": {"$ref": "#/definitions/booleanTarget"},
+        "actionsGithubOwnedAllowed": {"$ref": "#/definitions/booleanTarget"},
+        "actionsVerifiedAllowed": {"$ref": "#/definitions/booleanTarget"},
+        "actionsPatternsAllowed": {"$ref": "#/definitions/actionPatternsTarget"},
+        "defaultWorkflowPermission": {"$ref": "#/definitions/workflowPermissionTarget"},
+        "canApprovePullRequestReviews": {"$ref": "#/definitions/booleanTarget"}
+      }
+    },
+    "repositoryScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visibility", "defaults", "repositories"],
+      "properties": {
+        "visibility": {"const": "public"},
+        "defaults": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourcePublished", "defaultBranch", "topics", "issues", "discussions",
+            "wiki", "projects", "allowSquashMerge", "allowMergeCommit", "allowRebaseMerge",
+            "deleteBranchOnMerge", "privateVulnerabilityReporting", "vulnerabilityAlerts",
+            "automatedSecurityFixes", "secretScanning", "secretScanningPushProtection",
+            "codeScanning", "rulesMinimum", "actionsEnabled", "actionsAllowed",
+            "actionsGithubOwnedAllowed", "actionsVerifiedAllowed", "actionsPatternsAllowed",
+            "defaultWorkflowPermission", "canApprovePullRequestReviews",
+            "communityHealthMinimum", "codeownersErrors", "releases"
+          ],
+          "properties": {
+            "sourcePublished": {"$ref": "#/definitions/booleanTarget"},
+            "defaultBranch": {"$ref": "#/definitions/branchTarget"},
+            "topics": {"$ref": "#/definitions/topicsTarget"},
+            "issues": {"$ref": "#/definitions/booleanTarget"},
+            "discussions": {"$ref": "#/definitions/booleanTarget"},
+            "wiki": {"$ref": "#/definitions/booleanTarget"},
+            "projects": {"$ref": "#/definitions/booleanTarget"},
+            "allowSquashMerge": {"$ref": "#/definitions/booleanTarget"},
+            "allowMergeCommit": {"$ref": "#/definitions/booleanTarget"},
+            "allowRebaseMerge": {"$ref": "#/definitions/booleanTarget"},
+            "deleteBranchOnMerge": {"$ref": "#/definitions/booleanTarget"},
+            "privateVulnerabilityReporting": {"$ref": "#/definitions/booleanTarget"},
+            "vulnerabilityAlerts": {"$ref": "#/definitions/booleanTarget"},
+            "automatedSecurityFixes": {"$ref": "#/definitions/booleanTarget"},
+            "secretScanning": {"$ref": "#/definitions/securityAnalysisTarget"},
+            "secretScanningPushProtection": {"$ref": "#/definitions/securityAnalysisTarget"},
+            "codeScanning": {"$ref": "#/definitions/codeScanningTarget"},
+            "rulesMinimum": {"$ref": "#/definitions/countTarget"},
+            "actionsEnabled": {"$ref": "#/definitions/booleanTarget"},
+            "actionsAllowed": {"$ref": "#/definitions/actionsAllowedTarget"},
+            "actionsGithubOwnedAllowed": {"$ref": "#/definitions/booleanTarget"},
+            "actionsVerifiedAllowed": {"$ref": "#/definitions/booleanTarget"},
+            "actionsPatternsAllowed": {"$ref": "#/definitions/actionPatternsTarget"},
+            "defaultWorkflowPermission": {"$ref": "#/definitions/workflowPermissionTarget"},
+            "canApprovePullRequestReviews": {"$ref": "#/definitions/booleanTarget"},
+            "communityHealthMinimum": {"$ref": "#/definitions/countTarget"},
+            "codeownersErrors": {"$ref": "#/definitions/countTarget"},
+            "releases": {"$ref": "#/definitions/countTarget"}
+          }
+        },
+        "repositories": {
+          "type": "object",
+          "propertyNames": {"pattern": "^(?!\\.{1,2}$)[A-Za-z0-9_.-]+$"},
+          "additionalProperties": {"$ref": "#/definitions/repositoryOverride"}
+        }
+      }
+    },
+    "manualAttestations": {
+      "type": "object",
+      "propertyNames": {"pattern": "^manual\\.[a-z0-9_]+$"},
+      "additionalProperties": {"$ref": "#/definitions/manualAttestation"}
+    }
+  },
+  "allOf": [
+    {
+      "if": {"type": "object", "properties": {"stage": {"const": "multi-maintainer"}}},
+      "then": {
+        "properties": {
+          "gates": {
+            "type": "object",
+            "properties": {"independentSecondOwner": {"const": "satisfied"}}
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {"publicInteraction": {"not": {"const": "satisfied"}}}
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "repositoryScope": {
+            "properties": {
+              "defaults": {
+                "properties": {
+                  "issues": {"const": {"applicability": "CURRENT", "value": false}},
+                  "discussions": {"const": {"applicability": "CURRENT", "value": false}}
+                }
+              },
+              "repositories": {
+                "additionalProperties": {
+                  "properties": {
+                    "issues": {"const": {"applicability": "CURRENT", "value": false}},
+                    "discussions": {"const": {"applicability": "CURRENT", "value": false}}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "login": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"},
+    "gateName": {"enum": ["independentSecondOwner", "publicInteraction", "sourcePublication", "releaseAutomation"]},
+    "gateState": {"enum": ["pending", "satisfied", "not_applicable"]},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicability", "value"],
+      "properties": {
+        "applicability": {"enum": ["CURRENT", "FUTURE_GATE"]},
+        "gate": {"$ref": "#/definitions/gateName"},
+        "value": {}
+      },
+      "oneOf": [
+        {
+          "properties": {"applicability": {"const": "CURRENT"}},
+          "not": {"required": ["gate"]}
+        },
+        {
+          "required": ["gate"],
+          "properties": {"applicability": {"const": "FUTURE_GATE"}}
+        }
+      ]
+    },
+    "repositoryOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourcePublished", "topics", "issues", "releases"],
+      "properties": {
+        "sourcePublished": {"$ref": "#/definitions/booleanTarget"},
+        "defaultBranch": {"$ref": "#/definitions/branchTarget"},
+        "topics": {"$ref": "#/definitions/topicsTarget"},
+        "issues": {"$ref": "#/definitions/booleanTarget"},
+        "discussions": {"$ref": "#/definitions/booleanTarget"},
+        "wiki": {"$ref": "#/definitions/booleanTarget"},
+        "projects": {"$ref": "#/definitions/booleanTarget"},
+        "allowSquashMerge": {"$ref": "#/definitions/booleanTarget"},
+        "allowMergeCommit": {"$ref": "#/definitions/booleanTarget"},
+        "allowRebaseMerge": {"$ref": "#/definitions/booleanTarget"},
+        "deleteBranchOnMerge": {"$ref": "#/definitions/booleanTarget"},
+        "privateVulnerabilityReporting": {"$ref": "#/definitions/booleanTarget"},
+        "vulnerabilityAlerts": {"$ref": "#/definitions/booleanTarget"},
+        "automatedSecurityFixes": {"$ref": "#/definitions/booleanTarget"},
+        "secretScanning": {"$ref": "#/definitions/securityAnalysisTarget"},
+        "secretScanningPushProtection": {"$ref": "#/definitions/securityAnalysisTarget"},
+        "codeScanning": {"$ref": "#/definitions/codeScanningTarget"},
+        "rulesMinimum": {"$ref": "#/definitions/countTarget"},
+        "actionsEnabled": {"$ref": "#/definitions/booleanTarget"},
+        "actionsAllowed": {"$ref": "#/definitions/actionsAllowedTarget"},
+        "actionsGithubOwnedAllowed": {"$ref": "#/definitions/booleanTarget"},
+        "actionsVerifiedAllowed": {"$ref": "#/definitions/booleanTarget"},
+        "actionsPatternsAllowed": {"$ref": "#/definitions/actionPatternsTarget"},
+        "defaultWorkflowPermission": {"$ref": "#/definitions/workflowPermissionTarget"},
+        "canApprovePullRequestReviews": {"$ref": "#/definitions/booleanTarget"},
+        "communityHealthMinimum": {"$ref": "#/definitions/countTarget"},
+        "codeownersErrors": {"$ref": "#/definitions/countTarget"},
+        "releases": {"$ref": "#/definitions/countTarget"}
+      }
+    },
+    "booleanTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"type": "boolean"}}}
+      ]
+    },
+    "countTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"type": "integer", "minimum": 0}}}
+      ]
+    },
+    "planTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"enum": ["free", "team", "enterprise", "business", "business_plus"]}}}
+      ]
+    },
+    "basePermissionTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"enum": ["none", "read", "write", "admin"]}}}
+      ]
+    },
+    "actionsEnabledRepositoriesTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"enum": ["all", "selected", "none"]}}}
+      ]
+    },
+    "actionsAllowedTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"enum": ["all", "local_only", "selected"]}}}
+      ]
+    },
+    "workflowPermissionTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"enum": ["read", "write"]}}}
+      ]
+    },
+    "securityAnalysisTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"enum": ["enabled", "disabled"]}}}
+      ]
+    },
+    "codeScanningTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"enum": ["configured", "not-configured"]}}}
+      ]
+    },
+    "branchTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {"type": "object", "properties": {"value": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"}}}
+      ]
+    },
+    "topicsTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,49}$"}
+            }
+          }
+        }
+      ]
+    },
+    "actionPatternsTarget": {
+      "allOf": [
+        {"$ref": "#/definitions/target"},
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@[0-9a-f]{40}$"}
+            }
+          }
+        }
+      ]
+    },
+    "manualAttestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicability", "severity"],
+      "properties": {
+        "applicability": {"enum": ["CURRENT", "FUTURE_GATE"]},
+        "gate": {"$ref": "#/definitions/gateName"},
+        "severity": {"enum": ["LOW", "MEDIUM", "HIGH"]}
+      },
+      "oneOf": [
+        {
+          "properties": {"applicability": {"const": "CURRENT"}},
+          "not": {"required": ["gate"]}
+        },
+        {
+          "required": ["gate"],
+          "properties": {"applicability": {"const": "FUTURE_GATE"}}
+        }
+      ]
+    }
+  }
+}

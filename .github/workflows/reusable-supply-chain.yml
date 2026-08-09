@@ -1,0 +1,90 @@
+name: Reusable supply-chain audit
+
+'on':
+  workflow_call:
+    inputs:
+      working-directory:
+        description: Relative directory containing Cargo.toml, Cargo.lock, and deny.toml
+        required: false
+        default: .
+        type: string
+      toolchain:
+        description: Rust toolchain used to install cargo-deny
+        required: false
+        default: stable
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  rust-dependency-audit:
+    name: cargo-deny and cargo-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate inputs and install fixed audit tools
+        shell: bash
+        env:
+          TOOLCHAIN: ${{ inputs.toolchain }}
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          case "$WORKING_DIRECTORY" in
+            ''|/*|..|../*|*/../*|*/..) echo "invalid working-directory" >&2; exit 1 ;;
+          esac
+          [[ -d "$WORKING_DIRECTORY" && ! -L "$WORKING_DIRECTORY" ]] || { echo "working-directory must be a real directory" >&2; exit 1; }
+          resolved="$(realpath -- "$WORKING_DIRECTORY")"
+          case "$resolved" in
+            "$GITHUB_WORKSPACE"|"$GITHUB_WORKSPACE"/*) ;;
+            *) echo "working-directory escapes the workspace" >&2; exit 1 ;;
+          esac
+          [[ "$TOOLCHAIN" =~ ^(stable|[0-9]+\.[0-9]+\.[0-9]+)$ ]] || { echo "invalid toolchain" >&2; exit 1; }
+          [[ -f "$WORKING_DIRECTORY/Cargo.toml" ]] || { echo "Cargo.toml is required" >&2; exit 1; }
+          [[ -f "$WORKING_DIRECTORY/Cargo.lock" ]] || { echo "Cargo.lock is required" >&2; exit 1; }
+          [[ -f "$WORKING_DIRECTORY/deny.toml" ]] || { echo "deny.toml is required" >&2; exit 1; }
+          rustup toolchain install "$TOOLCHAIN" --profile minimal --no-self-update
+          cargo "+${TOOLCHAIN}" install cargo-deny --version 0.20.2 --locked
+          cargo "+${TOOLCHAIN}" install cargo-audit --version 0.22.2 --locked
+
+      - name: Run cargo-deny
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          cd -- "$WORKING_DIRECTORY"
+          cargo deny check advisories bans licenses sources
+
+      - name: Run cargo-audit
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        run: |
+          set -euo pipefail
+          cd -- "$WORKING_DIRECTORY"
+          cargo audit
+
+  workflow-static-analysis:
+    name: zizmor
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Audit GitHub Actions
+        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
+        with:
+          version: 1.29.0
+          collect: workflows
+          online-audits: false
+          advanced-security: false
+          annotations: true

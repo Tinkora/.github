@@ -1,0 +1,104 @@
+name: Governance audit
+
+'on':
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - '.github/dependabot.yml'
+      - 'scripts/**'
+      - 'schemas/**'
+      - 'config/**'
+      - 'docs/**'
+      - 'GOVERNANCE.md'
+      - 'ORGANIZATION_SETUP_PLAN.md'
+      - 'README.md'
+      - 'README.zh-CN.md'
+      - 'CHANGELOG.md'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/**'
+      - '.github/dependabot.yml'
+      - 'scripts/**'
+      - 'schemas/**'
+      - 'config/**'
+      - 'docs/**'
+      - 'GOVERNANCE.md'
+      - 'ORGANIZATION_SETUP_PLAN.md'
+      - 'README.md'
+      - 'README.zh-CN.md'
+      - 'CHANGELOG.md'
+  schedule:
+    - cron: '43 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    name: Local governance contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up fixed Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24.11.1'
+
+      - name: Install fixed SPDX validator
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --prefix scripts/spdx-validator
+          npx --no-install --prefix scripts/spdx-validator ajv help validate >/dev/null
+
+      - name: Prepare fixed Rust test toolchain
+        shell: bash
+        run: rustup toolchain install 1.88.0 --profile minimal --no-self-update
+
+      - name: Run all repository contracts
+        shell: bash
+        env:
+          RUSTUP_TOOLCHAIN: 1.88.0
+        run: scripts/check_all.sh
+
+      - name: Install verified actionlint
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/actionlint.tar.gz"
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location \
+            --output "$archive" \
+            https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz
+          echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  $archive" | sha256sum --check
+          tar -xzf "$archive" -C "$RUNNER_TEMP" actionlint
+          "$RUNNER_TEMP/actionlint" -version
+
+      - name: Parse all workflow files with actionlint
+        shell: bash
+        run: find .github/workflows -type f -name '*.yml' -exec "$RUNNER_TEMP/actionlint" {} +
+
+  workflow-security:
+    name: Workflow static analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Audit workflow security
+        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
+        with:
+          version: 1.29.0
+          collect: all
+          online-audits: false
+          advanced-security: false
+          annotations: true

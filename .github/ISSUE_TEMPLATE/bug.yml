@@ -1,0 +1,65 @@
+name: Bug report
+description: Report reproducible behavior that differs from documented outcomes.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include secrets, personal data, or vulnerability details. Follow SECURITY.md for suspected security issues.
+  - type: input
+    id: project-version
+    attributes:
+      label: Project and version
+      description: Name the project and provide a release, commit, or build identifier.
+      placeholder: project-name at commit abc1234
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest complete sequence that reproduces the problem.
+      placeholder: |
+        1. Start with...
+        2. Run...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected outcome
+      description: State the documented or intended result.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual outcome
+      description: Include the exact error or incorrect result.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Add sanitized logs, screenshots, fixtures, or a minimal repository that supports the report.
+      placeholder: Remove credentials, tokens, personal data, and proprietary inputs.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include operating system, browser or runtime, architecture, and relevant tool versions.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and reproduced this against the latest available code.
+          required: true
+        - label: I removed secrets, personal data, and vulnerability details.
+          required: true
