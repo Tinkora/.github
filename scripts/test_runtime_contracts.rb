@@ -13,12 +13,20 @@ ROOT = Pathname.new(__dir__).join("..").realpath
 WORKFLOW_DIR = ROOT.join(".github/workflows")
 errors = []
 
-def step_script(workflow, job, step_name, directory: WORKFLOW_DIR)
+def step_definition(workflow, job, step_name, directory: WORKFLOW_DIR)
   document = Psych.safe_load(directory.join(workflow).read(encoding: "UTF-8"), aliases: false)
   step = document.fetch("jobs").fetch(job).fetch("steps").find { |candidate| candidate["name"] == step_name }
   raise "missing step #{workflow}:#{job}:#{step_name}" unless step
 
-  step.fetch("run")
+  step
+end
+
+def step_script(workflow, job, step_name, directory: WORKFLOW_DIR)
+  step_definition(workflow, job, step_name, directory: directory).fetch("run")
+end
+
+def step_environment(workflow, job, step_name, directory: WORKFLOW_DIR)
+  step_definition(workflow, job, step_name, directory: directory).fetch("env", {})
 end
 
 def run_script(script, env:, directory:)
@@ -118,7 +126,48 @@ Dir.mktmpdir("pages-contract-") do |temporary|
   errors << "Pages tree 应拒绝空目录" if status.success?
 end
 
+coverage = step_script("reusable-rust-quality.yml", "coverage", "Generate LCOV")
+unless step_environment("reusable-rust-quality.yml", "coverage", "Generate LCOV")["CI_TOOLCHAIN"] == "1.95.0"
+  errors << "Coverage must define the fixed CI toolchain on the step that installs cargo-llvm-cov"
+end
+Dir.mktmpdir("coverage-toolchain-contract-") do |temporary|
+  workspace = Pathname.new(temporary).join("workspace")
+  workspace.join("crate").mkpath
+  workspace = workspace.realpath
+  bin = Pathname.new(temporary).join("bin")
+  bin.mkpath
+  cargo_capture = Pathname.new(temporary).join("cargo-commands")
+  rustup_capture = Pathname.new(temporary).join("rustup-commands")
+  write_stub(bin, "cargo", 'printf "%s\n" "$*" >> "$CARGO_CAPTURE"')
+  write_stub(bin, "rustup", 'printf "%s\n" "$*" >> "$RUSTUP_CAPTURE"')
+  env = {
+    "CARGO_CAPTURE" => cargo_capture.to_s,
+    "CI_TOOLCHAIN" => "1.95.0",
+    "FEATURES" => "",
+    "GITHUB_WORKSPACE" => workspace.to_s,
+    "LOCKED" => "true",
+    "PATH" => "#{bin}:#{ENV.fetch("PATH")}",
+    "RUNNER_TEMP" => temporary,
+    "RUSTUP_CAPTURE" => rustup_capture.to_s,
+    "TARGET" => "",
+    "TOOLCHAIN" => "1.85.0",
+    "WORKING_DIRECTORY" => "crate"
+  }
+  _stdout, stderr, status = run_script(coverage, env: env, directory: workspace)
+  cargo_commands = cargo_capture.file? ? cargo_capture.readlines(chomp: true) : []
+  rustup_commands = rustup_capture.file? ? rustup_capture.readlines(chomp: true) : []
+  unless status.success? &&
+         cargo_commands.include?("+1.95.0 install cargo-llvm-cov --version 0.8.7 --locked") &&
+         cargo_commands.any? { |command| command.start_with?("+1.85.0 llvm-cov ") } &&
+         rustup_commands.include?("toolchain install 1.95.0 --profile minimal --no-self-update")
+    errors << "Coverage tooling must compile with the fixed CI toolchain while coverage uses the project toolchain: #{stderr.strip}"
+  end
+end
+
 wasm_build = step_script("reusable-wasm-quality.yml", "wasm-build", "Build WASM package")
+unless step_environment("reusable-wasm-quality.yml", "wasm-build", "Build WASM package")["CI_TOOLCHAIN"] == "1.95.0"
+  errors << "WASM build must define the fixed CI toolchain on the step that installs wasm-pack"
+end
 Dir.mktmpdir("wasm-toolchain-contract-") do |temporary|
   workspace = Pathname.new(temporary).join("workspace")
   workspace.join("crate").mkpath
@@ -126,28 +175,37 @@ Dir.mktmpdir("wasm-toolchain-contract-") do |temporary|
   bin = Pathname.new(temporary).join("bin")
   bin.mkpath
   capture = Pathname.new(temporary).join("toolchain")
-  write_stub(bin, "rustup")
-  write_stub(bin, "cargo")
+  cargo_capture = Pathname.new(temporary).join("cargo-commands")
+  rustup_capture = Pathname.new(temporary).join("rustup-commands")
+  write_stub(bin, "rustup", 'printf "%s\n" "$*" >> "$RUSTUP_CAPTURE"')
+  write_stub(bin, "cargo", 'printf "%s\n" "$*" >> "$CARGO_CAPTURE"')
   write_stub(bin, "wasm-pack", 'printf "%s" "${RUSTUP_TOOLCHAIN-}" > "$TOOLCHAIN_CAPTURE"')
   env = {
+    "CARGO_CAPTURE" => cargo_capture.to_s,
+    "CI_TOOLCHAIN" => "1.95.0",
     "FEATURES" => "",
     "GITHUB_WORKSPACE" => workspace.to_s,
     "LOCKED" => "false",
     "PATH" => "#{bin}:#{ENV.fetch("PATH")}",
     "RUNNER_TEMP" => temporary,
+    "RUSTUP_CAPTURE" => rustup_capture.to_s,
     "RUSTUP_TOOLCHAIN" => nil,
-    "TOOLCHAIN" => "1.88.0",
+    "TOOLCHAIN" => "1.85.0",
     "TOOLCHAIN_CAPTURE" => capture.to_s,
     "WORKING_DIRECTORY" => "crate"
   }
   _stdout, stderr, status = run_script(wasm_build, env: env, directory: workspace)
-  unless status.success? && capture.file? && capture.read == "1.88.0"
-    errors << "wasm-pack 内部 cargo 必须使用所选 toolchain: #{stderr.strip}"
+  cargo_commands = cargo_capture.file? ? cargo_capture.readlines(chomp: true) : []
+  rustup_commands = rustup_capture.file? ? rustup_capture.readlines(chomp: true) : []
+  unless status.success? &&
+         capture.file? && capture.read == "1.85.0" &&
+         cargo_commands.include?("+1.95.0 install wasm-pack --version 0.15.0 --locked") &&
+         rustup_commands.include?("toolchain install 1.95.0 --profile minimal --no-self-update")
+    errors << "wasm-pack tooling must compile with the fixed CI toolchain while builds use the project toolchain: #{stderr.strip}"
   end
 end
 
 msrv = step_script("reusable-rust-quality.yml", "msrv", "Check with the declared MSRV")
-coverage = step_script("reusable-rust-quality.yml", "coverage", "Generate LCOV")
 wasm_smoke_path = step_script("reusable-wasm-quality.yml", "playwright-smoke", "Validate Node.js and project path")
 Dir.mktmpdir("working-directory-escape-") do |temporary|
   workspace = Pathname.new(temporary).join("workspace")

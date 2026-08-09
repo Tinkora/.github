@@ -180,6 +180,7 @@ jobs:
       - name: Generate LCOV
         shell: bash
         env:
+          CI_TOOLCHAIN: 1.95.0
           FEATURES: ${{ inputs.features }}
           LOCKED: ${{ inputs.locked }}
           TARGET: ${{ inputs.target }}
@@ -200,9 +201,10 @@ jobs:
           [[ "$FEATURES" =~ ^[A-Za-z0-9_+./,-]*$ && "$FEATURES" != *..* ]] || { echo "invalid features" >&2; exit 1; }
           [[ -z "$TARGET" || "$TARGET" =~ ^[A-Za-z0-9_][A-Za-z0-9_.-]*$ ]] || { echo "invalid target" >&2; exit 1; }
           rustup toolchain install "$TOOLCHAIN" --profile minimal --no-self-update
+          rustup toolchain install "$CI_TOOLCHAIN" --profile minimal --no-self-update
           rustup component add llvm-tools-preview --toolchain "$TOOLCHAIN"
           [[ -z "$TARGET" ]] || rustup target add "$TARGET" --toolchain "$TOOLCHAIN"
-          cargo "+${TOOLCHAIN}" install cargo-llvm-cov --version 0.8.7 --locked
+          cargo "+${CI_TOOLCHAIN}" install cargo-llvm-cov --version 0.8.7 --locked
           cd -- "$WORKING_DIRECTORY"
           cargo_args=()
           [[ "$LOCKED" == "true" ]] && cargo_args+=(--locked)

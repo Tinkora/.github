@@ -57,12 +57,18 @@ The primary, MSRV, and coverage jobs resolve the working directory with
 `realpath` and reject paths outside the workspace, including intermediate
 symlink escapes.
 
+The coverage job compiles the fixed `cargo-llvm-cov` binary with a separate,
+fixed Rust `1.95.0` CI toolchain. It still installs `llvm-tools-preview` for and
+runs coverage with the caller-selected project toolchain. A project's MSRV
+therefore constrains the project build, not the build of current CI tooling.
+
 ## WASM quality
 
 `reusable-wasm-quality.yml` fixes the Rust target to
 `wasm32-unknown-unknown`, installs `wasm-pack 0.15.0` with Cargo's `--version`
-and `--locked` controls, exports the selected `RUSTUP_TOOLCHAIN` for
-wasm-pack's internal Cargo calls, and builds a web package. It rejects
+and `--locked` controls using the separate, fixed Rust `1.95.0` CI toolchain,
+exports the caller-selected `RUSTUP_TOOLCHAIN` for wasm-pack's internal Cargo
+calls, and builds the project with that caller-selected toolchain. It rejects
 symlinks, FIFO, socket, device, and other special nodes plus any file outside
 the generated package whitelist before retaining the package for seven days.
 

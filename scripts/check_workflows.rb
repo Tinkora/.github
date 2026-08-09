@@ -113,7 +113,10 @@ if (path = WORKFLOW_DIR.join("reusable-rust-quality.yml")).file?
     "固定 clippy" => "clippy \"${cargo_args[@]}\" --all-targets -- -D warnings",
     "固定 test" => "test \"${cargo_args[@]}\" --all-targets",
     "MSRV job" => "inputs.msrv != ''",
-    "空 features 分支" => "FEATURES"
+    "空 features 分支" => "FEATURES",
+    "固定 CI 工具链" => "CI_TOOLCHAIN: 1.95.0",
+    "独立安装 cargo-llvm-cov" => 'cargo "+${CI_TOOLCHAIN}" install cargo-llvm-cov --version 0.8.7 --locked',
+    "项目工具链运行 coverage" => 'cargo "+${TOOLCHAIN}" llvm-cov'
   }.each { |label, token| errors << "reusable-rust-quality.yml: 缺少#{label}" unless text.include?(token) }
   if text.scan("working-directory escapes the workspace").length < 3
     errors << "reusable-rust-quality.yml: primary、MSRV、coverage 都必须校验 realpath 工作区边界"
@@ -125,6 +128,8 @@ if (path = WORKFLOW_DIR.join("reusable-wasm-quality.yml")).file?
   {
     "固定 wasm32 target" => "wasm32-unknown-unknown",
     "固定 wasm-pack 版本" => "wasm-pack --version 0.15.0 --locked",
+    "固定 CI 工具链" => "CI_TOOLCHAIN: 1.95.0",
+    "独立安装 wasm-pack" => 'cargo "+${CI_TOOLCHAIN}" install wasm-pack --version 0.15.0 --locked',
     "wasm-pack 内部 Rust toolchain" => 'export RUSTUP_TOOLCHAIN="$TOOLCHAIN"',
     "固定 smoke script" => "npm run test:wasm-smoke",
     "Chromium 安装" => "playwright install --with-deps chromium",
