@@ -480,9 +480,9 @@ module GitHubSettingsAudit
     def validate_public_interaction_hold!(scope)
       return if data.dig("gates", "publicInteraction") == "satisfied"
 
-      targets = [scope.fetch("defaults")] + scope.fetch("repositories").values.map do |overrides|
-        scope.fetch("defaults").merge(overrides)
-      end
+      # The pending gate keeps organization-wide defaults closed while allowing
+      # explicitly reviewed project repositories to opt into scoped support.
+      targets = [scope.fetch("defaults")]
       disabled = {"applicability" => "CURRENT", "value" => false}
       unless targets.all? { |values| values.fetch("issues") == disabled && values.fetch("discussions") == disabled }
         raise PolicyError, "public interaction must remain disabled"

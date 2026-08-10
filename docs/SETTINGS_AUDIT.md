@@ -83,8 +83,11 @@ scripts/smoke_github_settings_audit.sh
 The policy distinguishes present obligations from future adoption gates.
 `CURRENT` targets have no `gate` field. Every `FUTURE_GATE` target names one of
 the four policy gates. `sourcePublication` and `publicInteraction` are
-independent: source can be public while Issues, Discussions, and active
-contribution solicitation remain closed. `releaseAutomation` covers
+independent: source can be public while organization-wide Issues and
+Discussions remain closed. An explicitly reviewed project override may enable
+its own Issues or Discussions without satisfying the organization-wide gate;
+the audit keeps that exception visible in the repository-specific policy.
+`releaseAutomation` covers
 organization-wide reusable or unattended publication; a deliberately
 authorized project-specific protected-tag workflow does not satisfy that gate.
 A pending gate yields `GATED/WARN` regardless of the currently visible value; a
@@ -237,7 +240,7 @@ scripts/smoke_github_settings_audit.sh
 
 ### 阶段、能力与状态
 
-Policy 中的 `CURRENT` 目标不得包含 `gate`；每个 `FUTURE_GATE` 目标必须绑定四个固定 gate 之一。`sourcePublication` 与 `publicInteraction` 相互独立：源码可以公开，但 Issues、Discussions 和主动贡献招募仍可保持关闭。gate 为 `pending` 时输出 `GATED/WARN`，不因当前值碰巧符合而伪装成 `PASS`；为 `satisfied` 时输出 `APPLICABLE`，再按证据得到 `PASS`、`FAIL` 或 `UNKNOWN`；为 `not_applicable` 时输出 `NOT_APPLICABLE/WARN`。当前目标也输出 `APPLICABLE`。`multi-maintainer` 阶段必须已满足独立第二 owner gate。对适用目标，缺少 scope、认证失败、限流、网络错误、5xx、字段错误、GraphQL partial 或无法消歧的 `404` 一律为 `UNKNOWN`。
+Policy 中的 `CURRENT` 目标不得包含 `gate`；每个 `FUTURE_GATE` 目标必须绑定四个固定 gate 之一。`sourcePublication` 与 `publicInteraction` 相互独立：源码可以公开，而组织级 Issues 与 Discussions 仍可保持关闭。经过明确审查的项目 override 可以单独开启自己的 Issues 或 Discussions，但不会满足组织级 gate；审计会在项目专属 policy 中保留这一例外。`releaseAutomation` 覆盖组织级可复用或无人值守发布。gate 为 `pending` 时输出 `GATED/WARN`，不因当前值碰巧符合而伪装成 `PASS`；为 `satisfied` 时输出 `APPLICABLE`，再按证据得到 `PASS`、`FAIL` 或 `UNKNOWN`；为 `not_applicable` 时输出 `NOT_APPLICABLE/WARN`。当前目标也输出 `APPLICABLE`。`multi-maintainer` 阶段必须已满足独立第二 owner gate。对适用目标，缺少 scope、认证失败、限流、网络错误、5xx、字段错误、GraphQL partial 或无法消歧的 `404` 一律为 `UNKNOWN`。
 
 Solo 阶段的一位可见 owner 和关闭的组织强制 2FA 可以构成当前安全保持状态；独立第二 owner 与组织 2FA 的采用门禁仍为 `WARN`。API 即使看到两位 owner，也不能证明第二位 owner 独立可信并完成恢复测试，因此仍需人工证明。
 

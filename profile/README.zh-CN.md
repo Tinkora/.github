@@ -12,9 +12,15 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [Cron Maker](https://github.com/Tinkora/cron_maker) 是一个在浏览器本地运行的
   Unix cron 构建、校验与解释工具，并按所选时区预览后续执行时间。
   [打开工具](https://tinkora.github.io/cron_maker/)。
+- [Cert Viewer](https://github.com/Tinkora/cert_viewer) 在本地检查 X.509 PEM
+  和 DER 证书，包括扩展和指纹。
+  [打开工具](https://tinkora.github.io/cert_viewer/)。
 - [DMG Background](https://github.com/Tinkora/dmg_background) 是一个在浏览器本地运行的
   macOS DMG 背景图与 Finder 布局资产编辑器。
   [打开工具](https://tinkora.github.io/dmg_background/)。
+- [JWT Inspector](https://github.com/Tinkora/jwt_inspector) 在本地分离 JWT
+  解码、过期检查，以及 HS256/RS256 签名检查。
+  [打开工具](https://tinkora.github.io/jwt_inspector/)。
 - [Tool Call Trace](https://github.com/Tinkora/tool_call_trace) 是一个在浏览器本地运行的
   AI Agent 工具调用瀑布流查看器。[打开预览](https://tinkora.github.io/tool_call_trace/)。
 - [image_to_icns](https://github.com/Tinkora/image_to_icns) 是一个隐私优先的 macOS

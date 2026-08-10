@@ -129,28 +129,25 @@
     },
     {
       "if": {
+        "type": "object",
         "properties": {
           "gates": {
+            "type": "object",
             "properties": {"publicInteraction": {"not": {"const": "satisfied"}}}
           }
         }
       },
       "then": {
+        "type": "object",
         "properties": {
           "repositoryScope": {
+            "type": "object",
             "properties": {
               "defaults": {
+                "type": "object",
                 "properties": {
                   "issues": {"const": {"applicability": "CURRENT", "value": false}},
                   "discussions": {"const": {"applicability": "CURRENT", "value": false}}
-                }
-              },
-              "repositories": {
-                "additionalProperties": {
-                  "properties": {
-                    "issues": {"const": {"applicability": "CURRENT", "value": false}},
-                    "discussions": {"const": {"applicability": "CURRENT", "value": false}}
-                  }
                 }
               }
             }

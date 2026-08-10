@@ -13,9 +13,15 @@ machine-readable contracts, and behavior that can be verified in CI.
 - [Cron Maker](https://github.com/Tinkora/cron_maker) is a browser-local Unix
   cron builder, validator, explainer, and time-zone-aware execution preview.
   [Open the tool](https://tinkora.github.io/cron_maker/).
+- [Cert Viewer](https://github.com/Tinkora/cert_viewer) inspects X.509 PEM and
+  DER certificates locally, including extensions and fingerprints.
+  [Open the tool](https://tinkora.github.io/cert_viewer/).
 - [DMG Background](https://github.com/Tinkora/dmg_background) is a
   browser-local editor for macOS DMG background images and Finder layout
   assets. [Open the tool](https://tinkora.github.io/dmg_background/).
+- [JWT Inspector](https://github.com/Tinkora/jwt_inspector) separates local
+  JWT decoding, expiry inspection, and HS256/RS256 signature checks.
+  [Open the tool](https://tinkora.github.io/jwt_inspector/).
 - [Tool Call Trace](https://github.com/Tinkora/tool_call_trace) is a
   browser-local waterfall viewer for timestamped AI agent tool calls.
   [Open the preview](https://tinkora.github.io/tool_call_trace/).

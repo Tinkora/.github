@@ -165,6 +165,19 @@ class GitHubSettingsAuditSpecIssuesTest < Minitest::Test
     assert_equal "pending", document.dig("gates", "publicInteraction")
   end
 
+  def test_pending_public_interaction_allows_an_explicit_project_override
+    document = policy_document
+    project = document.dig("repositoryScope", "repositories", "sample")
+    project["issues"]["value"] = true
+    project["discussions"] = {"applicability" => "CURRENT", "value" => true}
+
+    parsed = GitHubSettingsAudit::Policy.new(document)
+
+    assert_equal true, parsed.repository_targets("sample").dig("issues", "value")
+    assert_equal true, parsed.repository_targets("sample").dig("discussions", "value")
+    assert ajv_valid?(document)
+  end
+
   def test_recent_push_is_published_before_repository_size_metadata_updates
     document = policy_document
     document["gates"]["sourcePublication"] = "satisfied"
@@ -199,9 +212,9 @@ class GitHubSettingsAuditSpecIssuesTest < Minitest::Test
     end
   end
 
-  def test_pending_public_interaction_rejects_enabled_issues_or_discussions_targets
+  def test_pending_public_interaction_rejects_enabled_organization_defaults
     issues_enabled = policy_document
-    issues_enabled.dig("repositoryScope", "repositories", "sample", "issues")["value"] = true
+    issues_enabled.dig("repositoryScope", "defaults", "issues")["value"] = true
     discussions_enabled = policy_document
     discussions_enabled.dig("repositoryScope", "defaults", "discussions")["value"] = true
 

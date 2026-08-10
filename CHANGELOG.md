@@ -35,6 +35,8 @@ when releases begin.
   settings policy registration on the public organization profile.
 - The verified QR Forge repository, browser-local generator, public Pages
   application, community channels, and settings policy registration.
+- The verified Cert Viewer and JWT Inspector repositories, browser tools,
+  versioned releases, and explicit project interaction policy overrides.
 
 ### Changed
 
@@ -68,6 +70,8 @@ when releases begin.
   automation remains gated.
 - Aligned release governance with the published `image_to_icns v0.1.0` release
   and the still-unreleased QR Forge and Cron Maker repositories.
+- Clarified that the pending organization interaction gate does not block a
+  separately reviewed project's Issues or Discussions.
 
 ### Fixed
 
