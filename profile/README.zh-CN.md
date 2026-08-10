@@ -9,6 +9,9 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 
 ## 项目
 
+- [Cron Maker](https://github.com/Tinkora/cron_maker) 是一个在浏览器本地运行的
+  Unix cron 构建、校验与解释工具，并按所选时区预览后续执行时间。
+  [打开工具](https://tinkora.github.io/cron_maker/)。
 - [DMG Background](https://github.com/Tinkora/dmg_background) 是一个在浏览器本地运行的
   macOS DMG 背景图与 Finder 布局资产编辑器。
   [打开工具](https://tinkora.github.io/dmg_background/)。

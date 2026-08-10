@@ -125,9 +125,14 @@ Public repository checks cover explicit management, source publication, default 
 topics, Issues, Discussions, Wiki, Projects, merge methods, merged-branch
 deletion, `security_and_analysis`, private vulnerability reporting,
 vulnerability alerts, automated fixes, secret scanning, push protection, code
-scanning default setup, rulesets or branch protection, Actions enablement,
-allowed-action mode and all three selected-action fields, community profile,
-CODEOWNERS errors, and release count.
+scanning through configured CodeQL default setup or a clean advanced CodeQL
+analysis for the current default-branch HEAD, rulesets or branch protection,
+Actions enablement, allowed-action mode and all three selected-action fields,
+community profile, CODEOWNERS errors, and release count. An advanced analysis
+from another tool or for another branch or commit, an analysis with an error,
+or malformed analysis data does not prove code scanning is configured. A
+repository proven empty by `pushed_at: null`, with no default branch and absent
+CodeQL default setup, is explicitly `not-configured`.
 
 Source publication uses a syntactically valid, non-null GitHub `pushed_at`
 timestamp instead of the approximate and asynchronously updated repository
@@ -242,7 +247,7 @@ GitHub Free 不支持的组织级 Rulesets 与 Audit Log API 属于套餐能力�
 
 组织检查包括套餐、base permission、成员创建/删除/visibility/invite、Solo 与未来 2FA、Projects、安全默认配置、Actions 启用仓库范围、allowed-actions 模式、完整 SHA 强制、selected-actions 三个字段、workflow 默认权限、当前操作者 membership，以及 owner、member、公开 member、outside collaborator 和 Team 数量。人员和 Team 只保留数量。
 
-公开仓库检查包括显式登记、源码发布状态、default branch、topics、Issues、Discussions、Wiki、Projects、merge methods、合并后删分支、`security_and_analysis`、PVR、vulnerability alerts、automated fixes、secret scanning、push protection、code scanning、rulesets/branch protection、Actions 启用状态、allowed-actions 模式与 selected-actions 三个字段、Community Profile、CODEOWNERS errors 和 Releases 数量。
+公开仓库检查包括显式登记、源码发布状态、default branch、topics、Issues、Discussions、Wiki、Projects、merge methods、合并后删分支、`security_and_analysis`、PVR、vulnerability alerts、automated fixes、secret scanning、push protection、code scanning、rulesets/branch protection、Actions 启用状态、allowed-actions 模式与 selected-actions 三个字段、Community Profile、CODEOWNERS errors 和 Releases 数量。Code scanning 可由已配置的 CodeQL Default setup，或当前默认分支 HEAD 上没有错误的 Advanced CodeQL analysis 证明；其他工具、分支或 commit、带错误或结构异常的 analysis 不构成已配置证据。由 `pushed_at: null` 证明为空、没有默认分支且不存在 CodeQL Default setup 的仓库明确为 `not-configured`。
 
 源码发布状态以 GitHub `pushed_at` 的非空合法时间戳为证据，不使用近似且异步更新的仓库 `size`。时间戳为 `null` 表示空仓库；字段缺失或格式错误时输出 `UNKNOWN`。
 

@@ -10,6 +10,9 @@ machine-readable contracts, and behavior that can be verified in CI.
 
 ## Projects
 
+- [Cron Maker](https://github.com/Tinkora/cron_maker) is a browser-local Unix
+  cron builder, validator, explainer, and time-zone-aware execution preview.
+  [Open the tool](https://tinkora.github.io/cron_maker/).
 - [DMG Background](https://github.com/Tinkora/dmg_background) is a
   browser-local editor for macOS DMG background images and Finder layout
   assets. [Open the tool](https://tinkora.github.io/dmg_background/).

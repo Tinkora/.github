@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "dmg_background", "image_to_icns", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "cron_maker", "dmg_background", "image_to_icns", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -77,6 +77,15 @@ begin
   errors << ".github source must be published" unless repository_targets.dig("sourcePublished", "value") == true
   errors << ".github Issues must remain disabled" unless repository_targets.dig("issues", "value") == false
   errors << ".github Discussions must remain disabled" unless repository_targets.dig("discussions", "value") == false
+  cron_targets = production_policy.repository_targets("cron_maker")
+  errors << "cron_maker source must be published" unless cron_targets.dig("sourcePublished", "value") == true
+  errors << "cron_maker Issues must remain disabled" unless cron_targets.dig("issues", "value") == false
+  errors << "cron_maker Discussions must remain disabled" unless cron_targets.dig("discussions", "value") == false
+  errors << "cron_maker Projects must remain disabled" unless cron_targets.dig("projects", "value") == false
+  errors << "cron_maker must remain release-free" unless cron_targets.dig("releases", "value") == 0
+  errors << "cron_maker topics must include cron-expression" unless cron_targets.dig("topics", "value").include?("cron-expression")
+  errors << "cron_maker code scanning must be configured" unless cron_targets.dig("codeScanning", "value") == "configured"
+  errors << "cron_maker must protect release tags" unless cron_targets.dig("rulesMinimum", "value") == 1
   dmg_targets = production_policy.repository_targets("dmg_background")
   errors << "dmg_background source must be published" unless dmg_targets.dig("sourcePublished", "value") == true
   errors << "dmg_background Issues must remain disabled" unless dmg_targets.dig("issues", "value") == false
@@ -96,9 +105,9 @@ begin
   errors << "qr_forge Issues must remain disabled" unless qr_targets.dig("issues", "value") == false
   errors << "qr_forge Discussions must remain disabled" unless qr_targets.dig("discussions", "value") == false
   errors << "qr_forge Projects must be enabled" unless qr_targets.dig("projects", "value") == true
-  errors << "qr_forge must require its first immutable release" unless qr_targets.dig("releases", "value") == 1
+  errors << "qr_forge must remain release-free" unless qr_targets.dig("releases", "value") == 0
   errors << "qr_forge topics must include qr-code-generator" unless qr_targets.dig("topics", "value").include?("qr-code-generator")
-  errors << "qr_forge default code scanning status must be explicit" unless qr_targets.dig("codeScanning", "value") == "not-configured"
+  errors << "qr_forge code scanning must be configured" unless qr_targets.dig("codeScanning", "value") == "configured"
   errors << "qr_forge must protect its main branch and release tags" unless qr_targets.dig("rulesMinimum", "value") == 1
   template_targets = production_policy.repository_targets("repo-template-rust-wasm")
   errors << "repo-template-rust-wasm source must be published" unless template_targets.dig("sourcePublished", "value") == true

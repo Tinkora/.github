@@ -95,6 +95,97 @@ class GitHubSettingsAuditTest < Minitest::Test
     assert_equal "NOT_APPLICABLE", checks.fetch("repo.default_branch").fetch("applicability")
   end
 
+  def test_advanced_code_scanning_analysis_counts_as_configured
+    advanced = fixture
+    advanced.fetch("repository").fetch("data").merge!(
+      "size" => 1,
+      "pushed_at" => "2026-08-09T22:43:10Z",
+      "default_branch" => "main"
+    )
+    advanced["code_scanning_default_setup"] = {
+      "status" => 200,
+      "data" => {"state" => "not-configured"}
+    }
+    advanced["code_scanning_analyses"] = {
+      "status" => 200,
+      "data" => [
+        {
+          "ref" => "refs/heads/main",
+          "commit_sha" => "c" * 40,
+          "error" => "",
+          "tool" => {"name" => "CodeQL"}
+        }
+      ]
+    }
+    advanced["repository_branch"] = {
+      "status" => 200,
+      "data" => {"commit" => {"sha" => "c" * 40}}
+    }
+    transport = FixtureTransport.new(advanced)
+    check = checks_by_id(audit(transport)).fetch("repo.code_scanning")
+
+    assert_equal "configured", check.fetch("actual")
+    analyses_call = transport.calls.find { |call| call.first == "code_scanning_analyses" }
+    assert_equal "main", analyses_call.fetch(1).fetch(:branch)
+    assert transport.calls.any? { |call| call.first == "repository_branch" }
+  end
+
+  def test_advanced_code_scanning_requires_a_clean_default_branch_analysis
+    base = fixture
+    base.fetch("repository").fetch("data").merge!(
+      "size" => 1,
+      "pushed_at" => "2026-08-09T22:43:10Z",
+      "default_branch" => "main"
+    )
+    base["code_scanning_default_setup"] = {
+      "status" => 200,
+      "data" => {"state" => "not-configured"}
+    }
+
+    wrong_branch = Marshal.load(Marshal.dump(base))
+    wrong_branch["code_scanning_analyses"] = {
+      "status" => 200,
+      "data" => [{"ref" => "refs/heads/feature", "commit_sha" => "c" * 40, "error" => "", "tool" => {"name" => "CodeQL"}}]
+    }
+    wrong_branch["repository_branch"] = {"status" => 200, "data" => {"commit" => {"sha" => "c" * 40}}}
+    failed_analysis = Marshal.load(Marshal.dump(base))
+    failed_analysis["code_scanning_analyses"] = {
+      "status" => 200,
+      "data" => [{"ref" => "refs/heads/main", "commit_sha" => "c" * 40, "error" => "build failed", "tool" => {"name" => "CodeQL"}}]
+    }
+    failed_analysis["repository_branch"] = {"status" => 200, "data" => {"commit" => {"sha" => "c" * 40}}}
+    malformed = Marshal.load(Marshal.dump(base))
+    malformed["code_scanning_analyses"] = {
+      "status" => 200,
+      "data" => [{"ref" => 17, "commit_sha" => "c" * 40, "error" => "", "tool" => {"name" => "CodeQL"}}]
+    }
+    malformed["repository_branch"] = {"status" => 200, "data" => {"commit" => {"sha" => "c" * 40}}}
+    stale_head = Marshal.load(Marshal.dump(base))
+    stale_head["code_scanning_analyses"] = {
+      "status" => 200,
+      "data" => [{"ref" => "refs/heads/main", "commit_sha" => "c" * 40, "error" => "", "tool" => {"name" => "CodeQL"}}]
+    }
+    stale_head["repository_branch"] = {
+      "status" => 200,
+      "data" => {"commit" => {"sha" => "d" * 40}}
+    }
+    wrong_tool = Marshal.load(Marshal.dump(base))
+    wrong_tool["code_scanning_analyses"] = {
+      "status" => 200,
+      "data" => [{"ref" => "refs/heads/main", "commit_sha" => "c" * 40, "error" => "", "tool" => {"name" => "Semgrep"}}]
+    }
+    wrong_tool["repository_branch"] = {
+      "status" => 200,
+      "data" => {"commit" => {"sha" => "c" * 40}}
+    }
+
+    assert_equal "not-configured", checks_by_id(audit(FixtureTransport.new(wrong_branch))).fetch("repo.code_scanning").fetch("actual")
+    assert_equal "not-configured", checks_by_id(audit(FixtureTransport.new(failed_analysis))).fetch("repo.code_scanning").fetch("actual")
+    assert_equal "UNKNOWN", checks_by_id(audit(FixtureTransport.new(malformed))).fetch("repo.code_scanning").fetch("actual")
+    assert_equal "not-configured", checks_by_id(audit(FixtureTransport.new(stale_head))).fetch("repo.code_scanning").fetch("actual")
+    assert_equal "UNKNOWN", checks_by_id(audit(FixtureTransport.new(wrong_tool))).fetch("repo.code_scanning").fetch("actual")
+  end
+
   def test_missing_scopes_respect_current_and_pending_applicability_without_graphql
     transport = FixtureTransport.new(fixture("missing_scopes"))
     result = audit(transport)

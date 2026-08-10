@@ -44,6 +44,7 @@ module GitHubSettingsAudit
       org_security_defaults: Entry.new(endpoint_id: "org_security_defaults", rest_path: "/orgs/%{org}/code-security/configurations/defaults?per_page=100"),
       repositories: Entry.new(endpoint_id: "repositories", rest_path: "/orgs/%{org}/repos?type=public&per_page=100"),
       repository: Entry.new(endpoint_id: "repository", rest_path: "/repos/%{org}/%{repo}"),
+      repository_branch: Entry.new(endpoint_id: "repository_branch", rest_path: "/repos/%{org}/%{repo}/branches/%{branch}"),
       repo_rulesets: Entry.new(endpoint_id: "repo_rulesets", rest_path: "/repos/%{org}/%{repo}/rulesets?per_page=100"),
       branch_protection: Entry.new(endpoint_id: "branch_protection", rest_path: "/repos/%{org}/%{repo}/branches/%{branch}/protection"),
       repo_actions_permissions: Entry.new(endpoint_id: "repo_actions_permissions", rest_path: "/repos/%{org}/%{repo}/actions/permissions"),
@@ -56,6 +57,7 @@ module GitHubSettingsAudit
       vulnerability_alerts: Entry.new(endpoint_id: "vulnerability_alerts", rest_path: "/repos/%{org}/%{repo}/vulnerability-alerts"),
       automated_security_fixes: Entry.new(endpoint_id: "automated_security_fixes", rest_path: "/repos/%{org}/%{repo}/automated-security-fixes"),
       code_scanning_default_setup: Entry.new(endpoint_id: "code_scanning_default_setup", rest_path: "/repos/%{org}/%{repo}/code-scanning/default-setup"),
+      code_scanning_analyses: Entry.new(endpoint_id: "code_scanning_analyses", rest_path: "/repos/%{org}/%{repo}/code-scanning/analyses?tool_name=CodeQL&ref=refs%%2Fheads%%2F%{branch}&per_page=100"),
       organization_projects: Entry.new(endpoint_id: "organization_projects", graphql_query: ORGANIZATION_PROJECTS_QUERY),
       organization_rulesets: Entry.new(endpoint_id: "organization_rulesets"),
       manual_attestation: Entry.new(endpoint_id: "manual_attestation")
@@ -655,6 +657,7 @@ module GitHubSettingsAudit
 
   class Auditor
     STATUS_ORDER = %w[FAIL PASS UNKNOWN WARN].freeze
+    COMMIT_SHA_PATTERN = /\A[0-9a-f]{40}\z/.freeze
     REASON_CODES = %w[
       authentication_failed count_only count_unavailable empty_repository
       empty_repository_gate forbidden free_plan_capability graphql_partial
@@ -949,7 +952,7 @@ module GitHubSettingsAudit
       audit_repo_rules(resource, name, data, empty, targets)
       audit_repo_actions(resource, name, targets)
       audit_repo_community(resource, name, targets)
-      audit_repo_security_endpoints(resource, name, targets)
+      audit_repo_security_endpoints(resource, name, targets, data["default_branch"], empty)
       releases = get(:releases, {org: @organization, repo: name}, paginate: true)
       add_response_or_comparison("repo.releases", resource, targets.fetch("releases"), releases.success? ? releases.count : nil, releases, :medium)
     end
@@ -1090,7 +1093,7 @@ module GitHubSettingsAudit
       end
     end
 
-    def audit_repo_security_endpoints(resource, name, targets)
+    def audit_repo_security_endpoints(resource, name, targets, default_branch, empty)
       pvr = get(:private_vulnerability_reporting, org: @organization, repo: name)
       pvr_value = pvr.data["enabled"] if pvr.success? && pvr.data.is_a?(Hash)
       add_response_or_comparison("repo.private_vulnerability_reporting", resource, targets.fetch("privateVulnerabilityReporting"), typed(pvr_value, boolean_types), pvr, :high)
@@ -1102,11 +1105,80 @@ module GitHubSettingsAudit
 
       scanning = get(:code_scanning_default_setup, org: @organization, repo: name)
       state = scanning.data["state"] if scanning.success? && scanning.data.is_a?(Hash)
-      if scanning.status == 404
-        evidence = synthetic_response(:code_scanning_default_setup, status: 200)
+      normalized_state = enum(state, %w[configured not-configured])
+      if normalized_state == "configured"
+        add_response_or_comparison("repo.code_scanning", resource, targets.fetch("codeScanning"), normalized_state, scanning, :high)
+        return
+      end
+
+      unless normalized_state == "not-configured" || scanning.status == 404
+        add_target_unknown("repo.code_scanning", resource, :high, targets.fetch("codeScanning"), scanning)
+        return
+      end
+
+      if empty == true && default_branch.nil?
+        if scanning.status == 404
+          evidence = synthetic_response(:code_scanning_default_setup, status: 200)
+          add_response_or_comparison("repo.code_scanning", resource, targets.fetch("codeScanning"), "not-configured", evidence, :high, evidence_status: 404, reason_code: "resource_absent")
+        else
+          add_response_or_comparison("repo.code_scanning", resource, targets.fetch("codeScanning"), "not-configured", scanning, :high)
+        end
+        return
+      end
+
+      unless default_branch.is_a?(String) && default_branch.match?(Policy::BRANCH_PATTERN)
+        add_target_unknown("repo.code_scanning", resource, :high, targets.fetch("codeScanning"), scanning)
+        return
+      end
+
+      analyses = get(:code_scanning_analyses, org: @organization, repo: name, branch: default_branch)
+      if analyses.status == 404
+        evidence = synthetic_response(:code_scanning_analyses, status: 200)
         add_response_or_comparison("repo.code_scanning", resource, targets.fetch("codeScanning"), "not-configured", evidence, :high, evidence_status: 404, reason_code: "resource_absent")
-      else
-        add_response_or_comparison("repo.code_scanning", resource, targets.fetch("codeScanning"), enum(state, %w[configured not-configured]), scanning, :high)
+        return
+      end
+
+      candidates = advanced_code_scanning_candidates(analyses, default_branch)
+      unless candidates
+        add_target_unknown("repo.code_scanning", resource, :high, targets.fetch("codeScanning"), analyses)
+        return
+      end
+
+      if candidates.empty?
+        add_response_or_comparison("repo.code_scanning", resource, targets.fetch("codeScanning"), "not-configured", analyses, :high)
+        return
+      end
+
+      branch = get(:repository_branch, org: @organization, repo: name, branch: default_branch)
+      head_sha = branch.data.dig("commit", "sha") if branch.success? && branch.data.is_a?(Hash)
+      unless head_sha.is_a?(String) && head_sha.match?(COMMIT_SHA_PATTERN)
+        add_target_unknown("repo.code_scanning", resource, :high, targets.fetch("codeScanning"), branch)
+        return
+      end
+
+      advanced_state = candidates.any? { |analysis| analysis["commit_sha"] == head_sha } ? "configured" : "not-configured"
+      add_response_or_comparison("repo.code_scanning", resource, targets.fetch("codeScanning"), advanced_state, analyses, :high)
+    end
+
+    def advanced_code_scanning_candidates(response, default_branch)
+      return unless response.success? && response.data.is_a?(Array)
+      return unless default_branch.is_a?(String) && default_branch.match?(Policy::BRANCH_PATTERN)
+
+      analyses = response.data
+      valid = analyses.all? do |analysis|
+        analysis.is_a?(Hash) &&
+          analysis["ref"].is_a?(String) &&
+          analysis["commit_sha"].is_a?(String) &&
+          analysis["commit_sha"].match?(COMMIT_SHA_PATTERN) &&
+          analysis["error"].is_a?(String) &&
+          analysis["tool"].is_a?(Hash) &&
+          analysis.dig("tool", "name") == "CodeQL"
+      end
+      return unless valid
+
+      expected_ref = "refs/heads/#{default_branch}"
+      analyses.select do |analysis|
+        analysis["ref"] == expected_ref && analysis["error"].empty?
       end
     end
 

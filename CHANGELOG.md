@@ -26,6 +26,9 @@ when releases begin.
 - An ADR separating source-only publication from moderated public interaction.
 - An ADR authorizing evidence-gated project releases during solo maintenance
   without misrepresenting owner authorization as independent approval.
+- The verified Cron Maker repository, browser-local Unix cron workbench,
+  bundled IANA time-zone preview, public Pages application, and settings policy
+  registration.
 - The verified Tool Call Trace repository, browser preview, and settings policy
   registration on the public organization profile.
 - The verified DMG Background repository, browser tool, schema endpoint, and
@@ -63,6 +66,8 @@ when releases begin.
 - Clarified that project-owned, protected-tag publication may use a final
   least-privilege write job while organization-wide or unattended release
   automation remains gated.
+- Aligned release governance with the published `image_to_icns v0.1.0` release
+  and the still-unreleased QR Forge and Cron Maker repositories.
 
 ### Fixed
 

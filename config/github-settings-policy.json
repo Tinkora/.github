@@ -69,6 +69,16 @@
         "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
         "releases": {"applicability": "CURRENT", "value": 0}
       },
+      "cron_maker": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["cron", "cron-expression", "developer-tools", "privacy", "rust", "scheduling", "timezone", "tinkora", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": false},
+        "discussions": {"applicability": "CURRENT", "value": false},
+        "projects": {"applicability": "CURRENT", "value": false},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 0}
+      },
       "dmg_background": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["developer-tools", "dmg", "macos", "privacy", "rust", "tinkora", "webassembly"]},
@@ -93,9 +103,9 @@
         "issues": {"applicability": "CURRENT", "value": false},
         "discussions": {"applicability": "CURRENT", "value": false},
         "projects": {"applicability": "CURRENT", "value": true},
-        "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
-        "releases": {"applicability": "CURRENT", "value": 1}
+        "releases": {"applicability": "CURRENT", "value": 0}
       },
       "repo-template-rust-wasm": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
