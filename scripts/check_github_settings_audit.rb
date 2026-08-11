@@ -155,7 +155,7 @@ begin
   errors << "tool_call_trace source must be published" unless trace_targets.dig("sourcePublished", "value") == true
   errors << "tool_call_trace Issues must remain disabled" unless trace_targets.dig("issues", "value") == false
   errors << "tool_call_trace Discussions must remain disabled" unless trace_targets.dig("discussions", "value") == false
-  errors << "tool_call_trace must have its first release" unless trace_targets.dig("releases", "value") == 1
+  errors << "tool_call_trace must have two published releases" unless trace_targets.dig("releases", "value") == 2
   errors << "tool_call_trace topics must include ai-agents" unless trace_targets.dig("topics", "value").include?("ai-agents")
   errors << "tool_call_trace code scanning must be configured" unless trace_targets.dig("codeScanning", "value") == "configured"
   errors << "tool_call_trace must protect release tags" unless trace_targets.dig("rulesMinimum", "value") == 1

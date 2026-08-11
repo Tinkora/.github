@@ -48,6 +48,8 @@ when releases begin.
 
 ### Changed
 
+- Synchronized governance evidence with Tool Call Trace `v0.2.0` and its
+  second published release.
 - Made settings-audit gates control effective applicability, split Actions
   parent and selected fields into independent checks, and tightened ambiguous
   API and policy-schema decisions.
