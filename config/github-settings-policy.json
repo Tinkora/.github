@@ -89,6 +89,16 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
+      "curl_builder": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["ai-agents", "api", "code-generation", "curl", "developer-tools", "http", "rust", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
       "diff_viz": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["developer-tools", "diff", "diff-viewer", "json-diff", "patch", "privacy", "rust", "tinkora", "webassembly"]},
@@ -104,6 +114,16 @@
         "topics": {"applicability": "CURRENT", "value": ["developer-tools", "dmg", "macos", "privacy", "rust", "tinkora", "webassembly"]},
         "issues": {"applicability": "CURRENT", "value": false},
         "discussions": {"applicability": "CURRENT", "value": false},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
+      "encoding_toolbox": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["ai-agents", "base64", "developer-tools", "encoding", "hashing", "hmac", "local-first", "rust", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": false},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}

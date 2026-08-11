@@ -15,6 +15,9 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [Cert Viewer](https://github.com/Tinkora/cert_viewer) 在本地检查 X.509 PEM
   和 DER 证书，包括扩展和指纹。
   [打开工具](https://tinkora.github.io/cert_viewer/)。
+- [Curl Builder](https://github.com/Tinkora/curl_builder) 在本地构建 HTTP 请求，
+  生成经过转义的 cURL、Fetch、Python、Go、Rust 和 Node.js 代码片段，但不会执行请求。
+  [打开工具](https://tinkora.github.io/curl_builder/)。
 - [DMG Background](https://github.com/Tinkora/dmg_background) 是一个在浏览器本地运行的
   macOS DMG 背景图与 Finder 布局资产编辑器。
   [打开工具](https://tinkora.github.io/dmg_background/)。
@@ -23,6 +26,9 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [JWT Inspector](https://github.com/Tinkora/jwt_inspector) 在本地分离 JWT
   解码、过期检查，以及 HS256/RS256 签名检查。
   [打开工具](https://tinkora.github.io/jwt_inspector/)。
+- [Encoding Toolbox](https://github.com/Tinkora/encoding_toolbox) 提供本地
+  Base64、十六进制、摘要、HMAC 和文件校验工作流，面向开发者和 Agent。
+  [打开工具](https://tinkora.github.io/encoding_toolbox/)。
 - [Tool Call Trace](https://github.com/Tinkora/tool_call_trace) 是一个在浏览器本地运行的
   AI Agent 工具调用瀑布流查看器。[打开工具](https://tinkora.github.io/tool_call_trace/)。
 - [image_to_icns](https://github.com/Tinkora/image_to_icns) 是一个隐私优先的 macOS

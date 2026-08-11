@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "cert_viewer", "cron_maker", "diff_viz", "dmg_background", "image_to_icns", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "cert_viewer", "cron_maker", "curl_builder", "diff_viz", "dmg_background", "encoding_toolbox", "image_to_icns", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -88,6 +88,15 @@ begin
   errors << "cron_maker topics must include cron-expression" unless cron_targets.dig("topics", "value").include?("cron-expression")
   errors << "cron_maker code scanning must be configured" unless cron_targets.dig("codeScanning", "value") == "configured"
   errors << "cron_maker must protect release tags" unless cron_targets.dig("rulesMinimum", "value") == 1
+  curl_targets = production_policy.repository_targets("curl_builder")
+  errors << "curl_builder source must be published" unless curl_targets.dig("sourcePublished", "value") == true
+  errors << "curl_builder Issues must be enabled" unless curl_targets.dig("issues", "value") == true
+  errors << "curl_builder Discussions must be enabled" unless curl_targets.dig("discussions", "value") == true
+  errors << "curl_builder Projects must be enabled" unless curl_targets.dig("projects", "value") == true
+  errors << "curl_builder must have its first release" unless curl_targets.dig("releases", "value") == 1
+  errors << "curl_builder topics must include code-generation" unless curl_targets.dig("topics", "value").include?("code-generation")
+  errors << "curl_builder code scanning must be configured" unless curl_targets.dig("codeScanning", "value") == "configured"
+  errors << "curl_builder must protect its main branch" unless curl_targets.dig("rulesMinimum", "value") == 1
   diff_targets = production_policy.repository_targets("diff_viz")
   errors << "diff_viz source must be published" unless diff_targets.dig("sourcePublished", "value") == true
   errors << "diff_viz Issues must be enabled" unless diff_targets.dig("issues", "value") == true
@@ -113,6 +122,15 @@ begin
   errors << "dmg_background topics must include dmg" unless dmg_targets.dig("topics", "value").include?("dmg")
   errors << "dmg_background code scanning must be configured" unless dmg_targets.dig("codeScanning", "value") == "configured"
   errors << "dmg_background must protect release tags" unless dmg_targets.dig("rulesMinimum", "value") == 1
+  encoding_targets = production_policy.repository_targets("encoding_toolbox")
+  errors << "encoding_toolbox source must be published" unless encoding_targets.dig("sourcePublished", "value") == true
+  errors << "encoding_toolbox Issues must be enabled" unless encoding_targets.dig("issues", "value") == true
+  errors << "encoding_toolbox Discussions must be enabled" unless encoding_targets.dig("discussions", "value") == true
+  errors << "encoding_toolbox Projects must remain disabled" unless encoding_targets.dig("projects", "value") == false
+  errors << "encoding_toolbox must have its first release" unless encoding_targets.dig("releases", "value") == 1
+  errors << "encoding_toolbox topics must include encoding" unless encoding_targets.dig("topics", "value").include?("encoding")
+  errors << "encoding_toolbox code scanning must be configured" unless encoding_targets.dig("codeScanning", "value") == "configured"
+  errors << "encoding_toolbox must protect its main branch" unless encoding_targets.dig("rulesMinimum", "value") == 1
   image_targets = production_policy.repository_targets("image_to_icns")
   errors << "image_to_icns source must be published" unless image_targets.dig("sourcePublished", "value") == true
   errors << "image_to_icns Issues must remain disabled" unless image_targets.dig("issues", "value") == false

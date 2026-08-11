@@ -41,6 +41,8 @@ when releases begin.
   policy registration on the public organization profile.
 - The verified Diff Viz repository, browser-local application, Pages site,
   supply-chain release, and settings policy registration.
+- The verified Curl Builder prerelease and Encoding Toolbox release, including
+  browser applications, supply-chain evidence, and settings policy registration.
 - The first DMG Background and Tool Call Trace supply-chain releases with
   checksums, SPDX SBOMs, license inventories, and artifact attestations.
 - A bilingual evidence review of recurring Agent workflow failures and bounded

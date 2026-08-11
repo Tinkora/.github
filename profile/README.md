@@ -16,6 +16,10 @@ machine-readable contracts, and behavior that can be verified in CI.
 - [Cert Viewer](https://github.com/Tinkora/cert_viewer) inspects X.509 PEM and
   DER certificates locally, including extensions and fingerprints.
   [Open the tool](https://tinkora.github.io/cert_viewer/).
+- [Curl Builder](https://github.com/Tinkora/curl_builder) builds HTTP requests
+  locally and generates escaped cURL, Fetch, Python, Go, Rust, and Node.js
+  snippets without executing the request.
+  [Open the tool](https://tinkora.github.io/curl_builder/).
 - [DMG Background](https://github.com/Tinkora/dmg_background) is a
   browser-local editor for macOS DMG background images and Finder layout
   assets. [Open the tool](https://tinkora.github.io/dmg_background/).
@@ -25,6 +29,10 @@ machine-readable contracts, and behavior that can be verified in CI.
 - [JWT Inspector](https://github.com/Tinkora/jwt_inspector) separates local
   JWT decoding, expiry inspection, and HS256/RS256 signature checks.
   [Open the tool](https://tinkora.github.io/jwt_inspector/).
+- [Encoding Toolbox](https://github.com/Tinkora/encoding_toolbox) provides
+  local Base64, hexadecimal, digest, HMAC, and file-checksum workflows for
+  developers and agents.
+  [Open the tool](https://tinkora.github.io/encoding_toolbox/).
 - [Tool Call Trace](https://github.com/Tinkora/tool_call_trace) is a
   browser-local waterfall viewer for timestamped AI agent tool calls.
   [Open the tool](https://tinkora.github.io/tool_call_trace/).
