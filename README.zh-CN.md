@@ -12,6 +12,8 @@
 - 可被项目仓库继承的 Issue Forms 与 Pull Request 模板。
 - 维护者、访问控制、发布、安全、生命周期和翻译政策。
 - 架构决策，包括[源码发布边界](docs/decisions/0001-source-publication-boundary.md)。
+- 以证据为门禁的产品立项记录，包括当前的
+  [Agent 工作流痛点审查](docs/agent-workflow-pain-points-2026-08.zh-CN.md)。
 - 经过评审的 Rust、WebAssembly、供应链、GitHub Pages 和候选发布验证 workflow。
 - 永久只读的 [GitHub 设置审计](docs/SETTINGS_AUDIT.md)，用于核验已记录的组织与仓库控制。
 

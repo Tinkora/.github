@@ -232,6 +232,7 @@ module GitHubSettingsAudit
       "memberRepositoryCreation" => [TrueClass, FalseClass],
       "memberRepositoryDeletion" => [TrueClass, FalseClass],
       "memberVisibilityChanges" => [TrueClass, FalseClass],
+      "memberTeamCreation" => [TrueClass, FalseClass],
       "outsideCollaboratorInvitation" => [TrueClass, FalseClass],
       "twoFactorRequired" => [TrueClass, FalseClass],
       "projectsMinimum" => Integer,
@@ -658,6 +659,13 @@ module GitHubSettingsAudit
   class Auditor
     STATUS_ORDER = %w[FAIL PASS UNKNOWN WARN].freeze
     COMMIT_SHA_PATTERN = /\A[0-9a-f]{40}\z/.freeze
+    NEW_REPOSITORY_SECURITY_DEFAULTS = %w[
+      dependency_graph_enabled_for_new_repositories
+      dependabot_alerts_enabled_for_new_repositories
+      dependabot_security_updates_enabled_for_new_repositories
+      secret_scanning_enabled_for_new_repositories
+      secret_scanning_push_protection_enabled_for_new_repositories
+    ].freeze
     REASON_CODES = %w[
       authentication_failed count_only count_unavailable empty_repository
       empty_repository_gate forbidden free_plan_capability graphql_partial
@@ -746,6 +754,7 @@ module GitHubSettingsAudit
       add_response_or_comparison("org.member_repository_creation", @organization, @policy.organization_target("memberRepositoryCreation"), creation, organization, :high)
       add_response_or_comparison("org.member_repository_deletion", @organization, @policy.organization_target("memberRepositoryDeletion"), typed(data["members_can_delete_repositories"], boolean_types), organization, :high)
       add_response_or_comparison("org.member_visibility_changes", @organization, @policy.organization_target("memberVisibilityChanges"), typed(data["members_can_change_repo_visibility"], boolean_types), organization, :high)
+      add_response_or_comparison("org.member_team_creation", @organization, @policy.organization_target("memberTeamCreation"), typed(data["members_can_create_teams"], boolean_types), organization, :high)
       add_response_or_comparison("org.outside_collaborator_invitation", @organization, @policy.organization_target("outsideCollaboratorInvitation"), typed(data["members_can_invite_outside_collaborators"], boolean_types), organization, :high)
 
       owners = add_count("org.owners.count", :owners, :high)
@@ -758,7 +767,7 @@ module GitHubSettingsAudit
       audit_two_factor(data, organization, owners)
       audit_org_actions
       audit_org_projects
-      audit_org_security_defaults
+      audit_org_security_defaults(data, organization)
       audit_free_capabilities
     end
 
@@ -877,9 +886,11 @@ module GitHubSettingsAudit
       add_minimum("org.projects", @organization, target, typed(count, Integer), response, :medium)
     end
 
-    def audit_org_security_defaults
-      response = get(:org_security_defaults, {org: @organization}, paginate: true)
-      count = response.success? ? response.count : nil
+    def audit_org_security_defaults(data, response)
+      values = NEW_REPOSITORY_SECURITY_DEFAULTS.map do |field|
+        typed(data[field], boolean_types)
+      end
+      count = values.any?(&:nil?) ? nil : values.count(true)
       add_minimum("org.security_defaults", @organization, @policy.organization_target("securityDefaultsMinimum"), count, response, :high)
     end
 

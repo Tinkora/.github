@@ -13,13 +13,14 @@
   "organizationTargets": {
     "plan": {"applicability": "CURRENT", "value": "free"},
     "basePermission": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": "none"},
-    "memberRepositoryCreation": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": false},
-    "memberRepositoryDeletion": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": false},
-    "memberVisibilityChanges": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": false},
+    "memberRepositoryCreation": {"applicability": "CURRENT", "value": false},
+    "memberRepositoryDeletion": {"applicability": "CURRENT", "value": false},
+    "memberVisibilityChanges": {"applicability": "CURRENT", "value": false},
+    "memberTeamCreation": {"applicability": "CURRENT", "value": false},
     "outsideCollaboratorInvitation": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": false},
     "twoFactorRequired": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": true},
     "projectsMinimum": {"applicability": "FUTURE_GATE", "gate": "publicInteraction", "value": 1},
-    "securityDefaultsMinimum": {"applicability": "FUTURE_GATE", "gate": "releaseAutomation", "value": 1},
+    "securityDefaultsMinimum": {"applicability": "CURRENT", "value": 5},
     "actionsEnabledRepositories": {"applicability": "CURRENT", "value": "all"},
     "actionsAllowed": {"applicability": "CURRENT", "value": "selected"},
     "actionsShaPinningRequired": {"applicability": "CURRENT", "value": true},
@@ -76,7 +77,7 @@
         "discussions": {"applicability": "CURRENT", "value": true},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
-        "releases": {"applicability": "CURRENT", "value": 1}
+        "releases": {"applicability": "CURRENT", "value": 2}
       },
       "cron_maker": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
@@ -86,7 +87,17 @@
         "projects": {"applicability": "CURRENT", "value": false},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
-        "releases": {"applicability": "CURRENT", "value": 0}
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
+      "diff_viz": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["developer-tools", "diff", "diff-viewer", "json-diff", "patch", "privacy", "rust", "tinkora", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": false},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 1}
       },
       "dmg_background": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
@@ -95,7 +106,7 @@
         "discussions": {"applicability": "CURRENT", "value": false},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
-        "releases": {"applicability": "CURRENT", "value": 0}
+        "releases": {"applicability": "CURRENT", "value": 1}
       },
       "image_to_icns": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
@@ -113,17 +124,26 @@
         "discussions": {"applicability": "CURRENT", "value": true},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 2}
+      },
+      "mcp_doctor": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["cli", "developer-tools", "diagnostics", "mcp", "model-context-protocol", "rust", "tinkora"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
       "qr_forge": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["barcode-generator", "developer-tools", "privacy-tools", "qr-code-generator", "rust", "webassembly"]},
-        "issues": {"applicability": "CURRENT", "value": false},
-        "discussions": {"applicability": "CURRENT", "value": false},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
         "projects": {"applicability": "CURRENT", "value": true},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
-        "releases": {"applicability": "CURRENT", "value": 0}
+        "releases": {"applicability": "CURRENT", "value": 1}
       },
       "repo-template-rust-wasm": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
@@ -139,7 +159,7 @@
         "discussions": {"applicability": "CURRENT", "value": false},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
-        "releases": {"applicability": "CURRENT", "value": 0}
+        "releases": {"applicability": "CURRENT", "value": 1}
       }
     }
   },

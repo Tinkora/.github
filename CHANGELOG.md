@@ -37,6 +37,14 @@ when releases begin.
   application, community channels, and settings policy registration.
 - The verified Cert Viewer and JWT Inspector repositories, browser tools,
   versioned releases, and explicit project interaction policy overrides.
+- The verified MCP Doctor repository, cross-platform CLI release, and settings
+  policy registration on the public organization profile.
+- The verified Diff Viz repository, browser-local application, Pages site,
+  supply-chain release, and settings policy registration.
+- The first DMG Background and Tool Call Trace supply-chain releases with
+  checksums, SPDX SBOMs, license inventories, and artifact attestations.
+- A bilingual evidence review of recurring Agent workflow failures and bounded
+  product intake for MCP diagnostics, trace redaction, and context budgets.
 
 ### Changed
 
@@ -68,8 +76,13 @@ when releases begin.
 - Clarified that project-owned, protected-tag publication may use a final
   least-privilege write job while organization-wide or unattended release
   automation remains gated.
-- Aligned release governance with the published `image_to_icns v0.1.0` release
-  and the still-unreleased QR Forge and Cron Maker repositories.
+- Aligned release governance with the current Cert Viewer, Cron Maker,
+  image_to_icns, JWT Inspector, MCP Doctor, and QR Forge releases, including
+  JWT Inspector's project-owned supply-chain workflow.
+- Restricted non-owner repository creation, deletion, transfer, visibility
+  changes, and Team creation in the live organization settings.
+- Enabled dependency graph, Dependabot alerts and security updates, secret
+  scanning, and push protection by default for newly created repositories.
 - Clarified that the pending organization interaction gate does not block a
   separately reviewed project's Issues or Discussions.
 

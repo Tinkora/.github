@@ -27,7 +27,7 @@
       "additionalProperties": false,
       "required": [
         "plan", "basePermission", "memberRepositoryCreation", "memberRepositoryDeletion",
-        "memberVisibilityChanges", "outsideCollaboratorInvitation", "twoFactorRequired",
+        "memberVisibilityChanges", "memberTeamCreation", "outsideCollaboratorInvitation", "twoFactorRequired",
         "projectsMinimum", "securityDefaultsMinimum", "actionsEnabledRepositories",
         "actionsAllowed", "actionsShaPinningRequired", "actionsGithubOwnedAllowed", "actionsVerifiedAllowed",
         "actionsPatternsAllowed", "defaultWorkflowPermission", "canApprovePullRequestReviews"
@@ -38,6 +38,7 @@
         "memberRepositoryCreation": {"$ref": "#/definitions/booleanTarget"},
         "memberRepositoryDeletion": {"$ref": "#/definitions/booleanTarget"},
         "memberVisibilityChanges": {"$ref": "#/definitions/booleanTarget"},
+        "memberTeamCreation": {"$ref": "#/definitions/booleanTarget"},
         "outsideCollaboratorInvitation": {"$ref": "#/definitions/booleanTarget"},
         "twoFactorRequired": {"$ref": "#/definitions/booleanTarget"},
         "projectsMinimum": {"$ref": "#/definitions/countTarget"},

@@ -118,8 +118,8 @@ when the readable parent policy is not `selected`.
 ## Coverage
 
 Organization checks cover the plan, base permission, member repository
-creation/deletion/visibility/invitation, Solo and future 2FA states, Projects,
-security defaults, Actions enablement scope, allowed-action mode, full-SHA
+creation/deletion/visibility/Team creation/invitation, Solo and future 2FA states, Projects,
+the five new-repository security defaults, Actions enablement scope, allowed-action mode, full-SHA
 pinning requirement, all three selected-action fields, workflow defaults, the current operator membership,
 and counts for owners, members, public members, outside collaborators, and
 Teams. Only counts are retained for people and Teams.
@@ -248,7 +248,7 @@ GitHub Free 不支持的组织级 Rulesets 与 Audit Log API 属于套餐能力�
 
 ### 覆盖范围与人工项
 
-组织检查包括套餐、base permission、成员创建/删除/visibility/invite、Solo 与未来 2FA、Projects、安全默认配置、Actions 启用仓库范围、allowed-actions 模式、完整 SHA 强制、selected-actions 三个字段、workflow 默认权限、当前操作者 membership，以及 owner、member、公开 member、outside collaborator 和 Team 数量。人员和 Team 只保留数量。
+组织检查包括套餐、base permission、成员创建/删除/visibility/Team creation/invite、Solo 与未来 2FA、Projects、5 项新仓库安全默认配置、Actions 启用仓库范围、allowed-actions 模式、完整 SHA 强制、selected-actions 三个字段、workflow 默认权限、当前操作者 membership，以及 owner、member、公开 member、outside collaborator 和 Team 数量。人员和 Team 只保留数量。
 
 公开仓库检查包括显式登记、源码发布状态、default branch、topics、Issues、Discussions、Wiki、Projects、merge methods、合并后删分支、`security_and_analysis`、PVR、vulnerability alerts、automated fixes、secret scanning、push protection、code scanning、rulesets/branch protection、Actions 启用状态、allowed-actions 模式与 selected-actions 三个字段、Community Profile、CODEOWNERS errors 和 Releases 数量。Code scanning 可由已配置的 CodeQL Default setup，或当前默认分支 HEAD 上没有错误的 Advanced CodeQL analysis 证明；其他工具、分支或 commit、带错误或结构异常的 analysis 不构成已配置证据。由 `pushed_at: null` 证明为空、没有默认分支且不存在 CodeQL Default setup 的仓库明确为 `not-configured`。
 

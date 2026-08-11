@@ -67,12 +67,14 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "cert_viewer", "cron_maker", "dmg_background", "image_to_icns", "jwt_inspector", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "cert_viewer", "cron_maker", "diff_viz", "dmg_background", "image_to_icns", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
   errors << "source publication gate must be satisfied" unless gates["sourcePublication"] == "satisfied"
   errors << "public interaction gate must remain pending" unless gates["publicInteraction"] == "pending"
+  errors << "member Team creation must remain owner-only" unless production_policy.organization_target("memberTeamCreation").dig("value") == false
+  errors << "all five new-repository security defaults must remain enabled" unless production_policy.organization_target("securityDefaultsMinimum").dig("value") == 5
   repository_targets = production_policy.repository_targets(".github")
   errors << ".github source must be published" unless repository_targets.dig("sourcePublished", "value") == true
   errors << ".github Issues must remain disabled" unless repository_targets.dig("issues", "value") == false
@@ -82,15 +84,24 @@ begin
   errors << "cron_maker Issues must remain disabled" unless cron_targets.dig("issues", "value") == false
   errors << "cron_maker Discussions must remain disabled" unless cron_targets.dig("discussions", "value") == false
   errors << "cron_maker Projects must remain disabled" unless cron_targets.dig("projects", "value") == false
-  errors << "cron_maker must remain release-free" unless cron_targets.dig("releases", "value") == 0
+  errors << "cron_maker must have its first release" unless cron_targets.dig("releases", "value") == 1
   errors << "cron_maker topics must include cron-expression" unless cron_targets.dig("topics", "value").include?("cron-expression")
   errors << "cron_maker code scanning must be configured" unless cron_targets.dig("codeScanning", "value") == "configured"
   errors << "cron_maker must protect release tags" unless cron_targets.dig("rulesMinimum", "value") == 1
+  diff_targets = production_policy.repository_targets("diff_viz")
+  errors << "diff_viz source must be published" unless diff_targets.dig("sourcePublished", "value") == true
+  errors << "diff_viz Issues must be enabled" unless diff_targets.dig("issues", "value") == true
+  errors << "diff_viz Discussions must be enabled" unless diff_targets.dig("discussions", "value") == true
+  errors << "diff_viz Projects must be disabled" unless diff_targets.dig("projects", "value") == false
+  errors << "diff_viz must have its first release" unless diff_targets.dig("releases", "value") == 1
+  errors << "diff_viz topics must include diff-viewer" unless diff_targets.dig("topics", "value").include?("diff-viewer")
+  errors << "diff_viz code scanning must be configured" unless diff_targets.dig("codeScanning", "value") == "configured"
+  errors << "diff_viz must protect its main branch and release tags" unless diff_targets.dig("rulesMinimum", "value") == 1
   cert_targets = production_policy.repository_targets("cert_viewer")
   errors << "cert_viewer source must be published" unless cert_targets.dig("sourcePublished", "value") == true
   errors << "cert_viewer Issues must be enabled" unless cert_targets.dig("issues", "value") == true
   errors << "cert_viewer Discussions must be enabled" unless cert_targets.dig("discussions", "value") == true
-  errors << "cert_viewer must have its first release" unless cert_targets.dig("releases", "value") == 1
+  errors << "cert_viewer must have two published releases" unless cert_targets.dig("releases", "value") == 2
   errors << "cert_viewer topics must include x509" unless cert_targets.dig("topics", "value").include?("x509")
   errors << "cert_viewer code scanning must be configured" unless cert_targets.dig("codeScanning", "value") == "configured"
   errors << "cert_viewer must protect its main branch and release tags" unless cert_targets.dig("rulesMinimum", "value") == 1
@@ -98,7 +109,7 @@ begin
   errors << "dmg_background source must be published" unless dmg_targets.dig("sourcePublished", "value") == true
   errors << "dmg_background Issues must remain disabled" unless dmg_targets.dig("issues", "value") == false
   errors << "dmg_background Discussions must remain disabled" unless dmg_targets.dig("discussions", "value") == false
-  errors << "dmg_background must remain release-free" unless dmg_targets.dig("releases", "value") == 0
+  errors << "dmg_background must have its first release" unless dmg_targets.dig("releases", "value") == 1
   errors << "dmg_background topics must include dmg" unless dmg_targets.dig("topics", "value").include?("dmg")
   errors << "dmg_background code scanning must be configured" unless dmg_targets.dig("codeScanning", "value") == "configured"
   errors << "dmg_background must protect release tags" unless dmg_targets.dig("rulesMinimum", "value") == 1
@@ -112,16 +123,24 @@ begin
   errors << "jwt_inspector source must be published" unless jwt_targets.dig("sourcePublished", "value") == true
   errors << "jwt_inspector Issues must be enabled" unless jwt_targets.dig("issues", "value") == true
   errors << "jwt_inspector Discussions must be enabled" unless jwt_targets.dig("discussions", "value") == true
-  errors << "jwt_inspector must have its first release" unless jwt_targets.dig("releases", "value") == 1
+  errors << "jwt_inspector must have two published releases" unless jwt_targets.dig("releases", "value") == 2
   errors << "jwt_inspector topics must include jwt" unless jwt_targets.dig("topics", "value").include?("jwt")
   errors << "jwt_inspector code scanning must be configured" unless jwt_targets.dig("codeScanning", "value") == "configured"
   errors << "jwt_inspector must protect its main branch and release tags" unless jwt_targets.dig("rulesMinimum", "value") == 1
+  mcp_targets = production_policy.repository_targets("mcp_doctor")
+  errors << "mcp_doctor source must be published" unless mcp_targets.dig("sourcePublished", "value") == true
+  errors << "mcp_doctor Issues must be enabled" unless mcp_targets.dig("issues", "value") == true
+  errors << "mcp_doctor Discussions must be enabled" unless mcp_targets.dig("discussions", "value") == true
+  errors << "mcp_doctor must have its first release" unless mcp_targets.dig("releases", "value") == 1
+  errors << "mcp_doctor topics must include mcp" unless mcp_targets.dig("topics", "value").include?("mcp")
+  errors << "mcp_doctor code scanning must be configured" unless mcp_targets.dig("codeScanning", "value") == "configured"
+  errors << "mcp_doctor must protect its main branch and release tags" unless mcp_targets.dig("rulesMinimum", "value") == 1
   qr_targets = production_policy.repository_targets("qr_forge")
   errors << "qr_forge source must be published" unless qr_targets.dig("sourcePublished", "value") == true
-  errors << "qr_forge Issues must remain disabled" unless qr_targets.dig("issues", "value") == false
-  errors << "qr_forge Discussions must remain disabled" unless qr_targets.dig("discussions", "value") == false
+  errors << "qr_forge Issues must be enabled" unless qr_targets.dig("issues", "value") == true
+  errors << "qr_forge Discussions must be enabled" unless qr_targets.dig("discussions", "value") == true
   errors << "qr_forge Projects must be enabled" unless qr_targets.dig("projects", "value") == true
-  errors << "qr_forge must remain release-free" unless qr_targets.dig("releases", "value") == 0
+  errors << "qr_forge must have its first release" unless qr_targets.dig("releases", "value") == 1
   errors << "qr_forge topics must include qr-code-generator" unless qr_targets.dig("topics", "value").include?("qr-code-generator")
   errors << "qr_forge code scanning must be configured" unless qr_targets.dig("codeScanning", "value") == "configured"
   errors << "qr_forge must protect its main branch and release tags" unless qr_targets.dig("rulesMinimum", "value") == 1
@@ -136,7 +155,7 @@ begin
   errors << "tool_call_trace source must be published" unless trace_targets.dig("sourcePublished", "value") == true
   errors << "tool_call_trace Issues must remain disabled" unless trace_targets.dig("issues", "value") == false
   errors << "tool_call_trace Discussions must remain disabled" unless trace_targets.dig("discussions", "value") == false
-  errors << "tool_call_trace must remain release-free" unless trace_targets.dig("releases", "value") == 0
+  errors << "tool_call_trace must have its first release" unless trace_targets.dig("releases", "value") == 1
   errors << "tool_call_trace topics must include ai-agents" unless trace_targets.dig("topics", "value").include?("ai-agents")
   errors << "tool_call_trace code scanning must be configured" unless trace_targets.dig("codeScanning", "value") == "configured"
   errors << "tool_call_trace must protect release tags" unless trace_targets.dig("rulesMinimum", "value") == 1

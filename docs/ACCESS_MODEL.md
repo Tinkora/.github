@@ -1,7 +1,7 @@
 # Access model
 
 This policy separates observed access from intended controls. Its baseline is
-2026-08-09. Nothing in the `Target` column states that a GitHub setting is
+2026-08-11. Nothing in the `Target` column states that a GitHub setting is
 already enabled.
 
 The [permanently read-only settings audit](SETTINGS_AUDIT.md) reports visible
@@ -16,10 +16,10 @@ must not be converted into current failures merely because they appear in a
 | Owners | One owner and one total member; a single point of recovery and administration | At least two independent, long-term trusted owners before high-impact governance | A real person accepts continuity duties, uses secure 2FA, verifies access, and the change receives explicit authorization; another account controlled by the current owner does not qualify |
 | Mandatory 2FA | Organization enforcement is off | Require secure 2FA for all organization members and outside collaborators | A second trusted owner is active, every affected person has been checked and notified, recovery is tested, and enforcement is explicitly authorized |
 | Base permission | `read` | `none`, with repository access granted explicitly by role | Before a second member joins, after repository access has been audited, and with explicit authorization |
-| Repository creation | Members may currently create public and private repositories | Only owners or an explicitly delegated trusted role create repositories under the documented project checklist | The project lifecycle and required controls are available and the organization-setting change is explicitly authorized |
-| Deletion and visibility | Members currently have permission to delete repositories and change visibility | Restrict deletion, transfer, and visibility changes to owners | Existing responsibilities are reviewed and the organization-setting change is explicitly authorized |
-| Teams | Closed `maintainers` and `security` Teams exist; both currently contain only `tinkeragora`; `security` is the organization security manager | Keep repository grants narrow and add only real contributors who need the role | Membership, actual Team slug, repository permission and review date are verified; Team creation does not satisfy the independent-owner gate |
-| Outside collaborators | No delegated collaborator model is documented | Owners or an explicitly delegated trusted maintainer approve repository-specific access | A real collaboration requires access and the approver, scope, and review date are recorded |
+| Repository creation | Non-owner members cannot create public or private repositories; the API reports repository creation type `none` | Keep repository creation limited to owners or an explicitly delegated trusted role under the documented project checklist | Re-evaluate only when a real maintainer role requires delegated creation |
+| Deletion and visibility | Only owners may delete, transfer, or change repository visibility | Keep deletion, transfer, and visibility changes limited to owners | Re-evaluate only after a multi-owner recovery path and explicit authorization exist |
+| Teams | Closed `maintainers` and `security` Teams exist; both currently contain only `tinkeragora`; `security` is the organization security manager; non-owner members cannot create Teams | Keep repository grants narrow and add only real contributors who need the role | Membership, actual Team slug, repository permission and review date are verified; Team creation does not satisfy the independent-owner gate |
+| Outside collaborators | There are no outside collaborators; GitHub still permits repository administrators to send invitations | Owners or an explicitly delegated trusted maintainer approve repository-specific access | A real collaboration requires access and the approver, scope, and review date are recorded; tighten the organization switch when GitHub exposes a supported control |
 
 ## Repository access and merge controls
 
@@ -39,7 +39,7 @@ must not be converted into current failures merely because they appear in a
 | Setting | Current | Target | Apply when |
 | --- | --- | --- | --- |
 | Release publishers | Only the organization owner may deliberately create a protected project release tag; no organization-wide or unattended publisher is authorized | Separate build verification from least-privilege release publication | A project reaches its documented release gate, the exact commit and hosted evidence are reviewed, and tag creation is separately authorized |
-| High-privilege automation | `cron_maker`, `image_to_icns`, and `qr_forge` limit `contents: write` to their final tag-triggered publication jobs; their release Environments have no independent reviewer on GitHub Free | Require a protected Environment or appropriately scoped GitHub App with non-author approval | A second trusted owner is active, credentials and recovery are tested, and the exact automation is explicitly authorized |
+| High-privilege automation | `cert_viewer`, `cron_maker`, `diff_viz`, `dmg_background`, `image_to_icns`, `jwt_inspector`, `mcp_doctor`, `qr_forge`, and `tool_call_trace` limit `contents: write` to their final tag-triggered publication jobs; their release Environments have no independent reviewer on GitHub Free | Require a protected Environment or appropriately scoped GitHub App with non-author approval | A second trusted owner is active, credentials and recovery are tested, and the exact automation is explicitly authorized |
 
 During the solo stage, a deliberate protected-tag push is an accountable owner
 authorization, not independent review. It is permitted only under

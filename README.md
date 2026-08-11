@@ -15,6 +15,8 @@ governance policies.
 - Maintainer, access, release, security, lifecycle, and translation policies.
 - Architecture decisions, including the
   [source publication boundary](docs/decisions/0001-source-publication-boundary.md).
+- Evidence-gated product intake, including the current
+  [Agent workflow pain-point review](docs/agent-workflow-pain-points-2026-08.md).
 - Reviewed reusable workflows for Rust, WebAssembly, supply-chain checks,
   GitHub Pages, and release-candidate validation.
 - A permanently read-only

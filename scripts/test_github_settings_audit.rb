@@ -70,6 +70,37 @@ class GitHubSettingsAuditTest < Minitest::Test
     refute transport.calls.any? { |call| call.first == "organization_rulesets" || call.first == "audit_log" }
   end
 
+  def test_member_team_creation_uses_the_organization_control
+    check = checks_by_id(audit(FixtureTransport.new(fixture))).fetch("org.member_team_creation")
+
+    assert_equal false, check.fetch("actual")
+    assert_equal "WARN", check.fetch("status")
+    assert_equal "GATED", check.fetch("applicability")
+  end
+
+  def test_new_repository_security_defaults_use_the_organization_control
+    check = checks_by_id(audit(FixtureTransport.new(fixture))).fetch("org.security_defaults")
+
+    assert_equal 5, check.fetch("actual")
+    assert_equal "PASS", check.fetch("status")
+    assert_equal "organization", check.dig("evidence", "endpointId")
+  end
+
+  def test_new_repository_security_defaults_fail_closed
+    disabled = fixture
+    disabled.dig("organization", "data")["dependabot_security_updates_enabled_for_new_repositories"] = false
+    disabled_check = checks_by_id(audit(FixtureTransport.new(disabled))).fetch("org.security_defaults")
+
+    missing = fixture
+    missing.dig("organization", "data").delete("secret_scanning_push_protection_enabled_for_new_repositories")
+    missing_check = checks_by_id(audit(FixtureTransport.new(missing))).fetch("org.security_defaults")
+
+    assert_equal 4, disabled_check.fetch("actual")
+    assert_equal "FAIL", disabled_check.fetch("status")
+    assert_equal "UNKNOWN", missing_check.fetch("actual")
+    assert_equal "UNKNOWN", missing_check.fetch("status")
+  end
+
   def test_drift_detects_merge_pvr_security_topics_and_rules
     result = audit(FixtureTransport.new(fixture("drift")))
     statuses = result.document.fetch("checks").to_h { |check| [check.fetch("id"), check.fetch("status")] }
