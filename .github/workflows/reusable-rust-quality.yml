@@ -218,4 +218,5 @@ jobs:
           name: rust-coverage-${{ github.run_id }}
           path: ${{ runner.temp }}/coverage.lcov
           if-no-files-found: error
+          overwrite: true
           retention-days: 7

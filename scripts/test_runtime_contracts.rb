@@ -39,6 +39,21 @@ def write_stub(directory, name, body = ":")
   path.chmod(0o755)
 end
 
+WORKFLOW_DIR.glob("*.yml").sort.each do |path|
+  workflow = Psych.safe_load(path.read(encoding: "UTF-8"), aliases: false)
+  workflow.fetch("jobs", {}).each do |job_name, job|
+    job.fetch("steps", []).each do |step|
+      next unless step.fetch("uses", "").start_with?("actions/upload-artifact@")
+
+      settings = step.fetch("with", {})
+      artifact_name = settings.fetch("name", "")
+      location = "#{path.basename}:#{job_name}:#{step.fetch("name", "unnamed")}"
+      errors << "#{location} artifact name must not depend on run_attempt" if artifact_name.include?("github.run_attempt")
+      errors << "#{location} must set overwrite=true for full-run retries" unless settings["overwrite"] == true
+    end
+  end
+end
+
 begin
   release_dry_run = step_script("reusable-release.yml", "prepare", "Reject publication requests")
 rescue RuntimeError => e

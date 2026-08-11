@@ -211,4 +211,5 @@ jobs:
           path: ${{ runner.temp }}/release-candidate
           if-no-files-found: error
           include-hidden-files: false
+          overwrite: true
           retention-days: 7

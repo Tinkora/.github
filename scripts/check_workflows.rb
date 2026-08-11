@@ -86,6 +86,18 @@ WORKFLOWS.each do |name, allowed_inputs|
     errors << "#{name}: 每个 checkout step 都必须设置 persist-credentials: false"
   end
 
+  document.fetch("jobs", {}).each do |job_name, job|
+    job.fetch("steps", []).each do |step|
+      next unless step.fetch("uses", "").start_with?("actions/upload-artifact@")
+
+      settings = step.fetch("with", {})
+      artifact_name = settings.fetch("name", "")
+      location = "#{name}:#{job_name}:#{step.fetch("name", "unnamed")}"
+      errors << "#{location}: artifact 名禁止依赖 run_attempt" if artifact_name.include?("github.run_attempt")
+      errors << "#{location}: 必须设置 overwrite: true 支持全量重跑" unless settings["overwrite"] == true
+    end
+  end
+
   next unless allowed_inputs
 
   call = document.dig("on", "workflow_call")
@@ -141,9 +153,9 @@ if (path = WORKFLOW_DIR.join("reusable-wasm-quality.yml")).file?
   if text.scan("special files are forbidden in WASM").length < 2
     errors << "reusable-wasm-quality.yml: build 与 smoke 输出都必须拒绝特殊节点"
   end
-  artifact_name = 'wasm-package-${{ github.run_id }}-${{ github.run_attempt }}'
+  artifact_name = 'wasm-package-${{ github.run_id }}'
   unless text.scan(artifact_name).length == 2
-    errors << "reusable-wasm-quality.yml: 上传和下载 artifact 名必须包含 run_id 与 run_attempt"
+    errors << "reusable-wasm-quality.yml: 上传和下载 artifact 名必须仅使用稳定的 run_id"
   end
   errors << "reusable-wasm-quality.yml: 禁止 curl | sh" if text.match?(/curl\b.*\|\s*(?:ba)?sh/)
 end
