@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "cert_viewer", "cron_maker", "curl_builder", "diff_viz", "dmg_background", "encoding_toolbox", "image_to_icns", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "cert_viewer", "cron_maker", "curl_builder", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "image_to_icns", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -97,6 +97,15 @@ begin
   errors << "curl_builder topics must include code-generation" unless curl_targets.dig("topics", "value").include?("code-generation")
   errors << "curl_builder code scanning must be configured" unless curl_targets.dig("codeScanning", "value") == "configured"
   errors << "curl_builder must protect its main branch" unless curl_targets.dig("rulesMinimum", "value") == 1
+  primitives_targets = production_policy.repository_targets("developer_primitives")
+  errors << "developer_primitives source must be published" unless primitives_targets.dig("sourcePublished", "value") == true
+  errors << "developer_primitives Issues must be enabled" unless primitives_targets.dig("issues", "value") == true
+  errors << "developer_primitives Discussions must be enabled" unless primitives_targets.dig("discussions", "value") == true
+  errors << "developer_primitives Projects must be enabled" unless primitives_targets.dig("projects", "value") == true
+  errors << "developer_primitives must have its first release" unless primitives_targets.dig("releases", "value") == 1
+  errors << "developer_primitives topics must include uuidv7" unless primitives_targets.dig("topics", "value").include?("uuidv7")
+  errors << "developer_primitives code scanning must be configured" unless primitives_targets.dig("codeScanning", "value") == "configured"
+  errors << "developer_primitives must have repository rules" unless primitives_targets.dig("rulesMinimum", "value") == 1
   diff_targets = production_policy.repository_targets("diff_viz")
   errors << "diff_viz source must be published" unless diff_targets.dig("sourcePublished", "value") == true
   errors << "diff_viz Issues must be enabled" unless diff_targets.dig("issues", "value") == true

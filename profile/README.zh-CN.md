@@ -18,6 +18,10 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [Curl Builder](https://github.com/Tinkora/curl_builder) 在本地构建 HTTP 请求，
   生成经过转义的 cURL、Fetch、Python、Go、Rust 和 Node.js 代码片段，但不会执行请求。
   [打开工具](https://tinkora.github.io/curl_builder/)。
+- [Developer Primitives](https://github.com/Tinkora/developer_primitives) 通过
+  浏览器本地工作台和跨平台 `tinkora-id` CLI 生成并严格检查 UUID v4、UUID v7 与
+  ULID。[打开工具](https://tinkora.github.io/developer_primitives/)或
+  [下载 v0.1.0](https://github.com/Tinkora/developer_primitives/releases/tag/v0.1.0)。
 - [DMG Background](https://github.com/Tinkora/dmg_background) 是一个在浏览器本地运行的
   macOS DMG 背景图与 Finder 布局资产编辑器。
   [打开工具](https://tinkora.github.io/dmg_background/)。

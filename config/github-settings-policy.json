@@ -99,6 +99,16 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
+      "developer_primitives": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["ai-agents", "cli", "developer-tools", "local-first", "rust", "ulid", "uuid", "uuidv7", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
       "diff_viz": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["developer-tools", "diff", "diff-viewer", "json-diff", "patch", "privacy", "rust", "tinkora", "webassembly"]},
