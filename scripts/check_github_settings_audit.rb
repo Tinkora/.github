@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "cert_viewer", "cron_maker", "curl_builder", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "image_to_icns", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "cert_viewer", "cron_maker", "curl_builder", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -141,6 +141,16 @@ begin
   errors << "encoding_toolbox topics must include encoding" unless encoding_targets.dig("topics", "value").include?("encoding")
   errors << "encoding_toolbox code scanning must be configured" unless encoding_targets.dig("codeScanning", "value") == "configured"
   errors << "encoding_toolbox must protect its main branch" unless encoding_targets.dig("rulesMinimum", "value") == 1
+  favicon_targets = production_policy.repository_targets("favicon_kit")
+  errors << "favicon_kit source must be published" unless favicon_targets.dig("sourcePublished", "value") == true
+  errors << "favicon_kit Issues must be enabled" unless favicon_targets.dig("issues", "value") == true
+  errors << "favicon_kit Discussions must be enabled" unless favicon_targets.dig("discussions", "value") == true
+  errors << "favicon_kit Projects must be enabled" unless favicon_targets.dig("projects", "value") == true
+  errors << "favicon_kit must allow rebase merge" unless favicon_targets.dig("allowRebaseMerge", "value") == true
+  errors << "favicon_kit must have its first release" unless favicon_targets.dig("releases", "value") == 1
+  errors << "favicon_kit topics must include favicon-generator" unless favicon_targets.dig("topics", "value").include?("favicon-generator")
+  errors << "favicon_kit code scanning must be configured" unless favicon_targets.dig("codeScanning", "value") == "configured"
+  errors << "favicon_kit must protect main and release tags" unless favicon_targets.dig("rulesMinimum", "value") == 2
   image_targets = production_policy.repository_targets("image_to_icns")
   errors << "image_to_icns source must be published" unless image_targets.dig("sourcePublished", "value") == true
   errors << "image_to_icns Issues must remain disabled" unless image_targets.dig("issues", "value") == false

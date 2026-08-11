@@ -138,6 +138,17 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
+      "favicon_kit": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["browser-local", "favicon", "favicon-generator", "privacy", "pwa", "rust", "wasm", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": true},
+        "allowRebaseMerge": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 2},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
       "image_to_icns": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["developer-tools", "icns", "image-converter", "macos", "privacy", "rust", "tinkora", "webassembly"]},

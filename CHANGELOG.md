@@ -45,6 +45,8 @@ when releases begin.
   browser applications, supply-chain evidence, and settings policy registration.
 - The verified Developer Primitives `v0.1.0` release, browser-local UUID/ULID
   workbench, cross-platform CLI, and settings policy registration.
+- The verified Favicon Kit `v0.1.0` release, browser-local asset generator,
+  public Pages application, and settings policy registration.
 - The first DMG Background and Tool Call Trace supply-chain releases with
   checksums, SPDX SBOMs, license inventories, and artifact attestations.
 - A bilingual evidence review of recurring Agent workflow failures and bounded

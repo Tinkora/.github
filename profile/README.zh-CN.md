@@ -33,6 +33,10 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [Encoding Toolbox](https://github.com/Tinkora/encoding_toolbox) 提供本地
   Base64、十六进制、摘要、HMAC 和文件校验工作流，面向开发者和 Agent。
   [打开工具](https://tinkora.github.io/encoding_toolbox/)。
+- [Favicon Kit](https://github.com/Tinkora/favicon_kit) 在浏览器本地将一张原图
+  转换为经过验证的浏览器、Apple Touch、PWA 和 Windows favicon 资产包。
+  [打开工具](https://tinkora.github.io/favicon_kit/)或
+  [下载 v0.1.0](https://github.com/Tinkora/favicon_kit/releases/tag/v0.1.0)。
 - [Tool Call Trace](https://github.com/Tinkora/tool_call_trace) 是一个在浏览器本地运行的
   AI Agent 工具调用瀑布流查看器。[打开工具](https://tinkora.github.io/tool_call_trace/)。
 - [image_to_icns](https://github.com/Tinkora/image_to_icns) 是一个隐私优先的 macOS

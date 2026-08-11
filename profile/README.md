@@ -39,6 +39,11 @@ machine-readable contracts, and behavior that can be verified in CI.
   local Base64, hexadecimal, digest, HMAC, and file-checksum workflows for
   developers and agents.
   [Open the tool](https://tinkora.github.io/encoding_toolbox/).
+- [Favicon Kit](https://github.com/Tinkora/favicon_kit) turns one source image
+  into a validated browser, Apple Touch, PWA, and Windows favicon package,
+  entirely in the browser.
+  [Open the tool](https://tinkora.github.io/favicon_kit/) or
+  [download v0.1.0](https://github.com/Tinkora/favicon_kit/releases/tag/v0.1.0).
 - [Tool Call Trace](https://github.com/Tinkora/tool_call_trace) is a
   browser-local waterfall viewer for timestamped AI agent tool calls.
   [Open the tool](https://tinkora.github.io/tool_call_trace/).
