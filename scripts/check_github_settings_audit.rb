@@ -102,8 +102,9 @@ begin
   errors << "developer_primitives Issues must be enabled" unless primitives_targets.dig("issues", "value") == true
   errors << "developer_primitives Discussions must be enabled" unless primitives_targets.dig("discussions", "value") == true
   errors << "developer_primitives Projects must be enabled" unless primitives_targets.dig("projects", "value") == true
-  errors << "developer_primitives must have its first release" unless primitives_targets.dig("releases", "value") == 1
+  errors << "developer_primitives must have two published releases" unless primitives_targets.dig("releases", "value") == 2
   errors << "developer_primitives topics must include uuidv7" unless primitives_targets.dig("topics", "value").include?("uuidv7")
+  errors << "developer_primitives topics must include timezone" unless primitives_targets.dig("topics", "value").include?("timezone")
   errors << "developer_primitives code scanning must be configured" unless primitives_targets.dig("codeScanning", "value") == "configured"
   errors << "developer_primitives must have repository rules" unless primitives_targets.dig("rulesMinimum", "value") == 1
   diff_targets = production_policy.repository_targets("diff_viz")

@@ -21,10 +21,11 @@ machine-readable contracts, and behavior that can be verified in CI.
   snippets without executing the request.
   [Open the tool](https://tinkora.github.io/curl_builder/).
 - [Developer Primitives](https://github.com/Tinkora/developer_primitives)
-  generates and strictly inspects UUID v4, UUID v7, and ULID values in a
-  browser-local workbench and the cross-platform `tinkora-id` CLI.
+  generates and inspects UUID/ULID values, converts explicit timestamps across
+  IANA time zones, and exposes DST gaps and folds through a browser-local
+  workbench plus the cross-platform `tinkora-id` and `tinkora-time` CLIs.
   [Open the tool](https://tinkora.github.io/developer_primitives/) or
-  [download v0.1.0](https://github.com/Tinkora/developer_primitives/releases/tag/v0.1.0).
+  [download v0.2.0](https://github.com/Tinkora/developer_primitives/releases/tag/v0.2.0).
 - [DMG Background](https://github.com/Tinkora/dmg_background) is a
   browser-local editor for macOS DMG background images and Finder layout
   assets. [Open the tool](https://tinkora.github.io/dmg_background/).

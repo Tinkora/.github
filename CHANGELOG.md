@@ -52,6 +52,8 @@ when releases begin.
 
 ### Changed
 
+- Synchronized Developer Primitives `v0.2.0`, including its browser-local IANA
+  time-zone module, dual CLI archives, release evidence, and discovery topics.
 - Synchronized governance evidence with Tool Call Trace `v0.2.0` and its
   second published release.
 - Made settings-audit gates control effective applicability, split Actions
