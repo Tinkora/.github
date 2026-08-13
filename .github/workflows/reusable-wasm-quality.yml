@@ -178,5 +178,11 @@ jobs:
           fi
           cd -- "$WORKING_DIRECTORY"
           npm ci --ignore-scripts
-          npx --no-install playwright install --with-deps chromium
+          browser_path="$(command -v chromium || command -v chromium-browser || command -v google-chrome || true)"
+          if [[ -n "$browser_path" ]]; then
+            export BROWSER_EXECUTABLE_PATH="$browser_path"
+            export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+          else
+            npx --no-install playwright install --with-deps chromium
+          fi
           npm run test:wasm-smoke

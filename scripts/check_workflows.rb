@@ -145,6 +145,9 @@ if (path = WORKFLOW_DIR.join("reusable-wasm-quality.yml")).file?
     "wasm-pack 内部 Rust toolchain" => 'export RUSTUP_TOOLCHAIN="$TOOLCHAIN"',
     "固定 smoke script" => "npm run test:wasm-smoke",
     "Chromium 安装" => "playwright install --with-deps chromium",
+    "系统 Chromium 回退" => "BROWSER_EXECUTABLE_PATH",
+    "跳过受限 CDN 下载" => "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD",
+    "系统浏览器条件" => 'if [[ -n "$browser_path" ]]; then',
     "输出白名单" => "unexpected WASM output"
   }.each { |label, token| errors << "reusable-wasm-quality.yml: 缺少#{label}" unless text.include?(token) }
   if text.scan("working-directory escapes the workspace").length < 2
