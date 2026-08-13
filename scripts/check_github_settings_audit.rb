@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "cert_viewer", "cron_maker", "csv_sculptor", "curl_builder", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "pe_version_info", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "cert_viewer", "cron_maker", "csv_sculptor", "curl_builder", "data_toolbox", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "json_yaml_swiss", "pe_version_info", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -106,6 +106,16 @@ begin
   errors << "curl_builder topics must include code-generation" unless curl_targets.dig("topics", "value").include?("code-generation")
   errors << "curl_builder code scanning must be configured" unless curl_targets.dig("codeScanning", "value") == "configured"
   errors << "curl_builder must protect its main branch" unless curl_targets.dig("rulesMinimum", "value") == 1
+  data_targets = production_policy.repository_targets("data_toolbox")
+  errors << "data_toolbox source must be published" unless data_targets.dig("sourcePublished", "value") == true
+  errors << "data_toolbox Issues must be enabled" unless data_targets.dig("issues", "value") == true
+  errors << "data_toolbox Discussions must be enabled" unless data_targets.dig("discussions", "value") == true
+  errors << "data_toolbox Projects must be enabled" unless data_targets.dig("projects", "value") == true
+  errors << "data_toolbox must remain release-free" unless data_targets.dig("releases", "value") == 0
+  errors << "data_toolbox topics must include ai-agents" unless data_targets.dig("topics", "value").include?("ai-agents")
+  errors << "data_toolbox topics must include tinkora" unless data_targets.dig("topics", "value").include?("tinkora")
+  errors << "data_toolbox code scanning must be configured" unless data_targets.dig("codeScanning", "value") == "configured"
+  errors << "data_toolbox must protect its main branch and release tags" unless data_targets.dig("rulesMinimum", "value") == 2
   primitives_targets = production_policy.repository_targets("developer_primitives")
   errors << "developer_primitives source must be published" unless primitives_targets.dig("sourcePublished", "value") == true
   errors << "developer_primitives Issues must be enabled" unless primitives_targets.dig("issues", "value") == true
@@ -166,11 +176,20 @@ begin
   errors << "image_to_icns Discussions must be enabled" unless image_targets.dig("discussions", "value") == true
   errors << "image_to_icns must require its first immutable release" unless image_targets.dig("releases", "value") == 1
   errors << "image_to_icns topics must include icns" unless image_targets.dig("topics", "value").include?("icns")
+  json_yaml_targets = production_policy.repository_targets("json_yaml_swiss")
+  errors << "json_yaml_swiss source must be published" unless json_yaml_targets.dig("sourcePublished", "value") == true
+  errors << "json_yaml_swiss Issues must be enabled" unless json_yaml_targets.dig("issues", "value") == true
+  errors << "json_yaml_swiss Discussions must be enabled" unless json_yaml_targets.dig("discussions", "value") == true
+  errors << "json_yaml_swiss Projects must remain disabled" unless json_yaml_targets.dig("projects", "value") == false
+  errors << "json_yaml_swiss must have its first release" unless json_yaml_targets.dig("releases", "value") == 1
+  errors << "json_yaml_swiss topics must include tinkora" unless json_yaml_targets.dig("topics", "value").include?("tinkora")
+  errors << "json_yaml_swiss code scanning must be configured" unless json_yaml_targets.dig("codeScanning", "value") == "configured"
+  errors << "json_yaml_swiss must protect its main branch" unless json_yaml_targets.dig("rulesMinimum", "value") == 1
   pe_targets = production_policy.repository_targets("pe_version_info")
   errors << "pe_version_info source must be published" unless pe_targets.dig("sourcePublished", "value") == true
   errors << "pe_version_info Issues must be enabled" unless pe_targets.dig("issues", "value") == true
   errors << "pe_version_info Discussions must be enabled" unless pe_targets.dig("discussions", "value") == true
-  errors << "pe_version_info must remain release-free" unless pe_targets.dig("releases", "value") == 0
+  errors << "pe_version_info must have its alpha release" unless pe_targets.dig("releases", "value") == 1
   errors << "pe_version_info topics must include PE" unless pe_targets.dig("topics", "value").include?("pe")
   errors << "pe_version_info code scanning status must be explicit" unless pe_targets.dig("codeScanning", "value") == "not-configured"
   jwt_targets = production_policy.repository_targets("jwt_inspector")

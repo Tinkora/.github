@@ -57,6 +57,9 @@ when releases begin.
 
 ### Changed
 
+- Registered Data Toolbox and JSON YAML Swiss in the public settings policy,
+  synchronized PE Version Info's `v0.1.0-alpha.1` release, and enabled the
+  missing JSON YAML Swiss secret-scanning controls.
 - Synchronized the settings policy and release policy with CSV Sculptor's
   verified `v0.1.0-alpha.1` release and protected `main` branch.
 - Synchronized Developer Primitives `v0.2.0`, including its browser-local IANA
