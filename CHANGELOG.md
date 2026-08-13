@@ -57,6 +57,9 @@ when releases begin.
 
 ### Changed
 
+- Documented dependency-update review gates: Dependabot is proposal-only,
+  patch/minor groups use full checks, and coupled Rust major upgrades require a
+  coordinated migration with dependency-graph and compatibility evidence.
 - Registered Data Toolbox and JSON YAML Swiss in the public settings policy,
   synchronized PE Version Info's `v0.1.0-alpha.1` release, and enabled the
   missing JSON YAML Swiss secret-scanning controls.
