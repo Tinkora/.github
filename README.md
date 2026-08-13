@@ -11,6 +11,8 @@ governance policies.
 - The organization profile in [`profile/`](profile/README.md).
 - Default contribution, conduct, security, and support guidance for public
   repositories that do not define their own files.
+- A default Ko-fi funding link for repositories that do not define their own
+  sponsorship options.
 - Issue Forms and a pull request template for repositories that inherit them.
 - Maintainer, access, release, security, lifecycle, and translation policies.
 - Architecture decisions, including the

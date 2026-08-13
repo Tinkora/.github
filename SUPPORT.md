@@ -4,6 +4,21 @@
 
 Tinkora is maintained on a best-effort basis without a response-time SLA.
 
+## Financial support
+
+Tinkora's tools remain free and open source. If they save you time and you
+would like to help with maintenance costs, you can leave a one-time or monthly
+tip on [Ko-fi](https://ko-fi.com/tinkora). In practical terms, this mostly
+helps keep the AI token meter running for research, testing, documentation,
+and maintenance.
+
+Tips are entirely optional. They do not purchase access, faster responses,
+issue priority, or influence over the roadmap. Using the tools, reporting
+reproducible issues, and contributing thoughtful improvements are equally
+valued ways to support the work.
+
+## Getting help
+
 For a non-sensitive usage or integration question, first read the project's
 documentation and search its existing issues, then use the
 [question form](.github/ISSUE_TEMPLATE/question.yml). Include the affected

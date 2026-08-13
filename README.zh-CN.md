@@ -9,6 +9,7 @@
 
 - [`profile/`](profile/README.zh-CN.md) 中的组织简介。
 - 供未自行定义文件的公开仓库继承的贡献、行为、安全和支持指南。
+- 供未自行定义赞助选项的仓库继承的默认 Ko-fi 入口。
 - 可被项目仓库继承的 Issue Forms 与 Pull Request 模板。
 - 维护者、访问控制、发布、安全、生命周期和翻译政策。
 - 架构决策，包括[源码发布边界](docs/decisions/0001-source-publication-boundary.md)。

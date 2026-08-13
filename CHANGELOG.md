@@ -51,6 +51,9 @@ when releases begin.
   checksums, SPDX SBOMs, license inventories, and artifact attestations.
 - A bilingual evidence review of recurring Agent workflow failures and bounded
   product intake for MCP diagnostics, trace redaction, and context budgets.
+- An organization-wide Ko-fi funding link with bilingual guidance that keeps
+  financial support optional and independent from access, support priority,
+  and roadmap decisions.
 
 ### Changed
 

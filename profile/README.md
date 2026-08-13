@@ -72,3 +72,16 @@ product.
 Issues and Discussions on this governance repository remain disabled while the
 organization establishes sustainable moderation and private conduct-reporting
 capacity.
+
+## Support the work
+
+Tinkora's tools are free and open source. If they save you time and you would
+like to help with maintenance costs, you can leave a tip on
+[Ko-fi](https://ko-fi.com/tinkora). In practical terms, this mostly helps keep
+the AI token meter running for research, testing, documentation, and
+maintenance.
+
+Tips are entirely optional. They do not purchase access, faster responses,
+issue priority, or influence over the roadmap. Using the tools, reporting
+reproducible issues, and contributing thoughtful improvements are equally
+valued ways to support the work.
