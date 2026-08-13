@@ -109,6 +109,16 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
+      "data_toolbox": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["ai-agents", "ai-tools", "cli", "csv", "data-quality", "data-validation", "developer-tools", "local-first", "privacy", "rust", "tinkora", "tsv", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 2},
+        "releases": {"applicability": "CURRENT", "value": 0}
+      },
       "developer_primitives": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["ai-agents", "cli", "datetime", "developer-tools", "local-first", "rust", "timestamp", "timezone", "ulid", "uuid", "uuidv7", "webassembly"]},
@@ -168,6 +178,16 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
+      "json_yaml_swiss": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["configuration", "developer-tools", "json", "rust", "tinkora", "toml", "wasm", "yaml"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": false},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
       "pe_version_info": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["ai-agents", "developer-tools", "pe", "rust", "tinkora", "windows"]},
@@ -175,7 +195,7 @@
         "discussions": {"applicability": "CURRENT", "value": true},
         "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
         "rulesMinimum": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": 1},
-        "releases": {"applicability": "CURRENT", "value": 0}
+        "releases": {"applicability": "CURRENT", "value": 1}
       },
       "jwt_inspector": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},

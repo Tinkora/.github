@@ -32,6 +32,13 @@ machine-readable contracts, and behavior that can be verified in CI.
   locally and generates escaped cURL, Fetch, Python, Go, Rust, and Node.js
   snippets without executing the request.
   [Open the tool](https://tinkora.github.io/curl_builder/).
+- [CSV Sculptor](https://github.com/Tinkora/csv_sculptor) inspects, filters,
+  sorts, and converts CSV/TSV data locally in the browser.
+  [Open the Alpha](https://tinkora.github.io/csv_sculptor/).
+- [Data Toolbox](https://github.com/Tinkora/data_toolbox) reports CSV/TSV
+  shape, delimiter ambiguity, jagged rows, and spreadsheet-formula risks
+  without silently changing the input.
+  [Open the Draft](https://tinkora.github.io/data_toolbox/).
 - [Developer Primitives](https://github.com/Tinkora/developer_primitives)
   generates and inspects UUID/ULID values, converts explicit timestamps across
   IANA time zones, and exposes DST gaps and folds through a browser-local
@@ -62,9 +69,17 @@ machine-readable contracts, and behavior that can be verified in CI.
 - [image_to_icns](https://github.com/Tinkora/image_to_icns) is a privacy-first
   macOS `.icns` generator with a browser editor and an MCP server.
   [Open the tool](https://tinkora.github.io/image_to_icns/).
+- [JSON YAML Swiss](https://github.com/Tinkora/json_yaml_swiss) validates,
+  formats, and deliberately converts JSON, YAML, and TOML while reporting
+  lossy boundaries.
+  [Open the Alpha](https://tinkora.github.io/json_yaml_swiss/).
 - [MCP Doctor](https://github.com/Tinkora/mcp_doctor) statically diagnoses local
   stdio MCP server configuration, paths, environment, and transport contracts.
   [View the release](https://github.com/Tinkora/mcp_doctor/releases/latest).
+- [PE Version Info](https://github.com/Tinkora/pe_version_info) provides the
+  cross-platform `pevi` CLI for inspecting and safely updating Windows PE
+  `VERSIONINFO` resources and icons.
+  [Download the Alpha](https://github.com/Tinkora/pe_version_info/releases/tag/v0.1.0-alpha.1).
 - [QR Forge](https://github.com/Tinkora/qr_forge) is a browser-local QR,
   Code 128, and EAN-13 generator with SVG and PNG exports.
   [Open the tool](https://tinkora.github.io/qr_forge/).
