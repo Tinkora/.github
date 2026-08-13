@@ -179,6 +179,23 @@ upload or `security-events: write`.
 
 ## Workflow templates and dependency updates
 
+### Dependabot policy
+
+Every project repository owns its own `.github/dependabot.yml`; the special
+organization `.github` repository is not inherited by other repositories.
+Use weekly Monday updates in `Asia/Shanghai`, a seven-day cooldown for routine
+updates, and an open PR limit of two per ecosystem. Group patch and minor
+updates within each ecosystem, while leaving major updates as independent PRs
+for migration review. Do not ignore major updates permanently. Security
+updates remain eligible for immediate pull requests and are not delayed by the
+cooldown. Repositories with extra Cargo workspaces or worker manifests may add
+separate entries with a documented directory rationale.
+
+The organization audit treats missing, untracked, or divergent Dependabot
+configuration as drift. A project must not claim a complete supply-chain gate
+until its manifest directories, lockfiles, update groups, cooldown, and PR
+limits have been checked.
+
 No organization workflow-template catalog is currently published. Project
 repositories may call these reusable workflows only with a reviewed,
 reachable 40-character commit SHA.
