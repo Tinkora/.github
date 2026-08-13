@@ -152,8 +152,8 @@
       "image_to_icns": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["developer-tools", "icns", "image-converter", "macos", "privacy", "rust", "tinkora", "webassembly"]},
-        "issues": {"applicability": "CURRENT", "value": false},
-        "discussions": {"applicability": "CURRENT", "value": false},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
@@ -161,8 +161,8 @@
       "pe_version_info": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["ai-agents", "developer-tools", "pe", "rust", "tinkora", "windows"]},
-        "issues": {"applicability": "CURRENT", "value": false},
-        "discussions": {"applicability": "CURRENT", "value": false},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
         "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
         "rulesMinimum": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 0}

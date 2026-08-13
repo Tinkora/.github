@@ -153,14 +153,14 @@ begin
   errors << "favicon_kit must protect main and release tags" unless favicon_targets.dig("rulesMinimum", "value") == 2
   image_targets = production_policy.repository_targets("image_to_icns")
   errors << "image_to_icns source must be published" unless image_targets.dig("sourcePublished", "value") == true
-  errors << "image_to_icns Issues must remain disabled" unless image_targets.dig("issues", "value") == false
-  errors << "image_to_icns Discussions must remain disabled" unless image_targets.dig("discussions", "value") == false
+  errors << "image_to_icns Issues must be enabled" unless image_targets.dig("issues", "value") == true
+  errors << "image_to_icns Discussions must be enabled" unless image_targets.dig("discussions", "value") == true
   errors << "image_to_icns must require its first immutable release" unless image_targets.dig("releases", "value") == 1
   errors << "image_to_icns topics must include icns" unless image_targets.dig("topics", "value").include?("icns")
   pe_targets = production_policy.repository_targets("pe_version_info")
   errors << "pe_version_info source must be published" unless pe_targets.dig("sourcePublished", "value") == true
-  errors << "pe_version_info Issues must remain disabled" unless pe_targets.dig("issues", "value") == false
-  errors << "pe_version_info Discussions must remain disabled" unless pe_targets.dig("discussions", "value") == false
+  errors << "pe_version_info Issues must be enabled" unless pe_targets.dig("issues", "value") == true
+  errors << "pe_version_info Discussions must be enabled" unless pe_targets.dig("discussions", "value") == true
   errors << "pe_version_info must remain release-free" unless pe_targets.dig("releases", "value") == 0
   errors << "pe_version_info topics must include PE" unless pe_targets.dig("topics", "value").include?("pe")
   errors << "pe_version_info code scanning status must be explicit" unless pe_targets.dig("codeScanning", "value") == "not-configured"

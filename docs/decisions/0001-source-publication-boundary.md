@@ -34,10 +34,11 @@ The settings policy uses two independent gates:
   operational prerequisites are verified.
 
 Source may be public while `publicInteraction` remains `pending`. During that
-state, Issues and Discussions stay disabled and maintainers do not actively
-solicit external contributions. Reading, downloading, forking, or independently
-evaluating public source does not by itself open a Tinkora-managed interaction
-channel.
+state, organization defaults and the governance repository stay closed, while
+an explicitly registered product repository may enable Issues and Discussions
+after its own support, security, and moderation links are present. Reading,
+downloading, forking, or independently evaluating public source does not by
+itself open a Tinkora-managed interaction channel.
 
 `repositoryScope.defaults` contains shared controls.
 `repositoryScope.repositories` is an explicit map of managed public

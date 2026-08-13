@@ -196,6 +196,16 @@ configuration as drift. A project must not claim a complete supply-chain gate
 until its manifest directories, lockfiles, update groups, cooldown, and PR
 limits have been checked.
 
+Before a repository is made public, freeze its default branch at `main`, run a
+dependency and action freshness review, and record any intentionally older
+major version with its MSRV, platform, or runtime compatibility reason. Enable
+Dependabot only after that branch and manifest review is complete. A Dependabot
+PR targeting a temporary branch is invalid evidence: close it and recreate it
+against `main`. Keep at most two routine PRs per ecosystem; handle security
+updates first, validate patch/minor updates with the full lockfile CI, and
+review major updates as isolated migrations rather than permanently ignoring
+them.
+
 No organization workflow-template catalog is currently published. Project
 repositories may call these reusable workflows only with a reviewed,
 reachable 40-character commit SHA.

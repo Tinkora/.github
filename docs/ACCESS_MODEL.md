@@ -25,13 +25,13 @@ must not be converted into current failures merely because they appear in a
 
 | Setting | Current | Target | Apply when |
 | --- | --- | --- | --- |
-| Special `.github` repository | The public profile and community health files are published on `main`; Issues and Discussions remain disabled | Keep the public profile accurate while manual intake controls are pending | Remote checks pass and publication claims remain limited to verified evidence |
+| Special `.github` repository | The public profile and community health files are published on `main`; Issues and Discussions remain disabled | Keep the governance repository read-only while product repositories provide scoped intake | Remote checks pass and publication claims remain limited to verified evidence |
 | Pull request requirement | Solo-owner maintenance happens directly on `main`; no remote rule requires a pull request | External changes use pull requests; require maintainer PRs only after independent review exists | Required checks are stable, an emergency recovery path is documented, and the rule is explicitly authorized |
 | Required approvals | No remote rule exists | Solo stage: `0`; multi-maintainer stage: at least one non-author approval | Keep `0` while one owner would otherwise self-lock; increase only after a second trusted owner and a real reviewer can independently approve |
 | Required checks | No remote rule exists | Require the repository's verified formatting, test, build, documentation, and security checks | Each named check has run reliably on default-branch and pull-request events and rule activation is explicitly authorized |
 | Conversation resolution | No remote rule exists | Require all review conversations to be resolved | Pull request protection is enabled and maintainers have verified the merge workflow |
 | Direct push, force push, and deletion | The sole owner may push normal commits directly to `main`; force pushes and deletion are not routine operations | Block force pushes and deletion; move maintainer changes to required pull requests when independent review exists | Pull request checks and owner recovery have been tested and the rule is explicitly authorized |
-| CODEOWNERS | Team slugs now exist, but each Team has only the sole owner and no effective remote CODEOWNERS file is present | Protect sensitive paths with review from a real, populated maintainer role | At least two appropriate reviewers exist, Team permissions and slugs are verified, and CODEOWNER review is explicitly authorized |
+| CODEOWNERS | Product repositories use either their maintainer team or the current owner; the teams currently contain only the sole owner | Protect sensitive paths with review from a real, populated maintainer role | At least two appropriate reviewers exist, Team permissions and slugs are verified, and CODEOWNER review is explicitly authorized |
 | Administration bypass | Only the current owner could recover from a bad initial rule | Limit bypass to documented emergencies and record the reason | Rules are tested, at least two trusted owners can recover access, and the narrowed bypass is explicitly authorized |
 
 ## Release access
