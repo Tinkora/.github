@@ -30,6 +30,11 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [Curl Builder](https://github.com/Tinkora/curl_builder) 在本地构建 HTTP 请求，
   生成经过转义的 cURL、Fetch、Python、Go、Rust 和 Node.js 代码片段，但不会执行请求。
   [打开工具](https://tinkora.github.io/curl_builder/)。
+- [CSV Sculptor](https://github.com/Tinkora/csv_sculptor) 在浏览器本地检查、筛选、
+  排序和转换 CSV/TSV 数据。[打开 Alpha](https://tinkora.github.io/csv_sculptor/)。
+- [Data Toolbox](https://github.com/Tinkora/data_toolbox) 检查 CSV/TSV 的结构、
+  分隔符歧义、行宽不一致和电子表格公式风险，并且不会静默修改输入。
+  [打开 Draft](https://tinkora.github.io/data_toolbox/)。
 - [Developer Primitives](https://github.com/Tinkora/developer_primitives) 通过
   浏览器本地工作台和跨平台 `tinkora-id`、`tinkora-time` CLI 生成并检查 UUID/ULID、
   转换显式时间戳，并明确显示 IANA 时区的 DST gap/fold。[打开工具](https://tinkora.github.io/developer_primitives/)或
@@ -54,8 +59,14 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [image_to_icns](https://github.com/Tinkora/image_to_icns) 是一个隐私优先的 macOS
   `.icns` 生成器，提供浏览器编辑器和 MCP server。
   [打开工具](https://tinkora.github.io/image_to_icns/)。
+- [JSON YAML Swiss](https://github.com/Tinkora/json_yaml_swiss) 校验、格式化并有意地
+  转换 JSON、YAML 和 TOML，同时明确报告有损边界。
+  [打开 Alpha](https://tinkora.github.io/json_yaml_swiss/)。
 - [MCP Doctor](https://github.com/Tinkora/mcp_doctor) 静态诊断本地 stdio MCP server
   的配置、路径、环境和传输契约。[查看版本](https://github.com/Tinkora/mcp_doctor/releases/latest)。
+- [PE Version Info](https://github.com/Tinkora/pe_version_info) 提供跨平台 `pevi` CLI，
+  用于检查并安全更新 Windows PE 的 `VERSIONINFO` 资源和图标。
+  [下载 Alpha](https://github.com/Tinkora/pe_version_info/releases/tag/v0.1.0-alpha.1)。
 - [QR Forge](https://github.com/Tinkora/qr_forge) 是一个在浏览器本地运行的 QR、
   Code 128 与 EAN-13 生成器，支持导出 SVG 和 PNG。
   [打开工具](https://tinkora.github.io/qr_forge/)。
