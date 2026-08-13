@@ -97,7 +97,7 @@
         "projects": {"applicability": "CURRENT", "value": false},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 2},
-        "releases": {"applicability": "CURRENT", "value": 0}
+        "releases": {"applicability": "CURRENT", "value": 1}
       },
       "curl_builder": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},

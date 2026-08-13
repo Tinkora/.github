@@ -57,6 +57,8 @@ when releases begin.
 
 ### Changed
 
+- Synchronized the settings policy and release policy with CSV Sculptor's
+  verified `v0.1.0-alpha.1` release and protected `main` branch.
 - Synchronized Developer Primitives `v0.2.0`, including its browser-local IANA
   time-zone module, dual CLI archives, release evidence, and discovery topics.
 - Synchronized governance evidence with Tool Call Trace `v0.2.0` and its
