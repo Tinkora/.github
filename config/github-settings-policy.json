@@ -158,6 +158,15 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
+      "pe_version_info": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["ai-agents", "developer-tools", "pe", "rust", "tinkora", "windows"]},
+        "issues": {"applicability": "CURRENT", "value": false},
+        "discussions": {"applicability": "CURRENT", "value": false},
+        "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
+        "rulesMinimum": {"applicability": "FUTURE_GATE", "gate": "independentSecondOwner", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 0}
+      },
       "jwt_inspector": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["developer-tools", "jwt", "privacy", "rust", "security", "tinkora", "wasm"]},
