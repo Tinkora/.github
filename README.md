@@ -2,6 +2,8 @@
 
 [中文说明](README.zh-CN.md)
 
+[![Support Tinkora on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/tinkora)
+
 This special repository maintains Tinkora's public organization profile,
 default community health files, reusable GitHub Actions workflows, and
 governance policies.

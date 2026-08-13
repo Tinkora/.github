@@ -4,6 +4,8 @@
 
 [中文说明](README.zh-CN.md)
 
+[![Support Tinkora on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/tinkora)
+
 Tinkora builds focused, open-source utilities for developers and AI agents.
 Projects favor clear workflows, local processing where privacy matters, stable
 machine-readable contracts, and behavior that can be verified in CI.
@@ -75,13 +77,12 @@ capacity.
 
 ## Support the work
 
-Tinkora's tools are free and open source. If they save you time and you would
-like to help with maintenance costs, you can leave a tip on
-[Ko-fi](https://ko-fi.com/tinkora). In practical terms, this mostly helps keep
-the AI token meter running for research, testing, documentation, and
+[![Support Tinkora on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/tinkora)
+
+If Tinkora saves you time, you can support the work on Ko-fi. Your tip mostly
+keeps the AI token meter running for research, testing, documentation, and
 maintenance.
 
-Tips are entirely optional. They do not purchase access, faster responses,
-issue priority, or influence over the roadmap. Using the tools, reporting
-reproducible issues, and contributing thoughtful improvements are equally
-valued ways to support the work.
+Tips are optional and never affect access, support priority, or roadmap
+decisions. Using the tools, reporting reproducible issues, and contributing
+improvements are equally valued ways to help.

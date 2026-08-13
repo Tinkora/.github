@@ -4,6 +4,8 @@
 
 [English](README.md)
 
+[![在 Ko-fi 上支持 Tinkora](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/tinkora)
+
 Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目重视清晰的工作流、在隐私敏感场景中
 进行本地处理、稳定的机器可读契约，以及可以通过 CI 验证的实际行为。
 
@@ -61,9 +63,10 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 
 ## 支持项目
 
-Tinkora 的所有工具均保持免费和开源。如果它们为你节省了时间，并且你愿意分担一些维护成本，
-可以通过 [Ko-fi](https://ko-fi.com/tinkora) 随意请我们喝一杯。说得实际一点，这些支持主要用来
-让 AI token 计价器继续转动，帮助完成调研、测试、文档和日常维护。
+[![在 Ko-fi 上支持 Tinkora](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/tinkora)
 
-赞助完全自愿，不会购买到额外访问权、更快回复、Issue 优先级或路线图影响力。使用和分享工具、
-提交可复现的问题、贡献经过思考的改进，也都是同样受到重视的支持方式。
+如果 Tinkora 帮你节省了时间，可以在 Ko-fi 上支持项目。你的支持主要是给 AI token
+计价器续杯，用于调研、测试、文档和日常维护。
+
+赞助完全自愿，不会影响访问权限、支持优先级或路线图决策。使用和分享工具、提交可复现的问题、
+贡献经过思考的改进，也都是同样受到重视的支持方式。
