@@ -93,7 +93,7 @@ begin
   errors << "csv_sculptor Issues must be enabled" unless csv_targets.dig("issues", "value") == true
   errors << "csv_sculptor Discussions must be enabled" unless csv_targets.dig("discussions", "value") == true
   errors << "csv_sculptor Projects must remain disabled" unless csv_targets.dig("projects", "value") == false
-  errors << "csv_sculptor must remain release-free" unless csv_targets.dig("releases", "value") == 0
+  errors << "csv_sculptor must have its alpha release" unless csv_targets.dig("releases", "value") == 1
   errors << "csv_sculptor topics must include csv" unless csv_targets.dig("topics", "value").include?("csv")
   errors << "csv_sculptor code scanning must be configured" unless csv_targets.dig("codeScanning", "value") == "configured"
   errors << "csv_sculptor must protect main and release tags" unless csv_targets.dig("rulesMinimum", "value") == 2
