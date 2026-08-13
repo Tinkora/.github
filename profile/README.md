@@ -4,7 +4,17 @@
 
 [中文说明](README.zh-CN.md)
 
-[![Support Tinkora on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/tinkora)
+<!-- markdownlint-disable MD033 -->
+<p align="center">
+  <a href="https://ko-fi.com/tinkora" target="_blank" rel="noopener noreferrer">
+    <img
+      src="https://ko-fi.com/img/githubbutton_sm.svg"
+      alt="Support Tinkora on Ko-fi"
+      width="520"
+    >
+  </a>
+</p>
+<!-- markdownlint-enable MD033 -->
 
 Tinkora builds focused, open-source utilities for developers and AI agents.
 Projects favor clear workflows, local processing where privacy matters, stable
@@ -76,8 +86,6 @@ organization establishes sustainable moderation and private conduct-reporting
 capacity.
 
 ## Support the work
-
-[![Support Tinkora on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/tinkora)
 
 If Tinkora saves you time, you can support the work on Ko-fi. Your tip mostly
 keeps the AI token meter running for research, testing, documentation, and
