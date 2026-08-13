@@ -191,6 +191,33 @@ updates remain eligible for immediate pull requests and are not delayed by the
 cooldown. Repositories with extra Cargo workspaces or worker manifests may add
 separate entries with a documented directory rationale.
 
+Dependabot is a change proposal generator, not an auto-merge authority. A
+passing check is necessary but does not authorize merging a dependency update.
+Review the manifest and lockfile diff, upstream release notes, license and
+advisory state, MSRV, supported targets, and the repository's public contract.
+Keep a PR open only while it is actionable; close or regenerate stale PRs whose
+base branch is no longer current.
+
+For Rust updates, treat a major or ecosystem-coupled change as a migration.
+Before editing application code, inspect the dependency graph with
+`cargo tree -d` and `cargo tree -i <package>`, identify duplicate `digest`,
+`rand_core`, or other trait ecosystems, and decide whether the whole group can
+move together. HMAC/hash/RSA changes must be tested as one compatibility unit;
+do not merge a standalone `sha2`, `hmac`, or `rand` PR when the existing source
+still uses the old API. A failed required check is a hard stop, not a reason to
+lower lint levels, skip tests, or merge the lockfile manually. The migration PR
+must include outcome-focused tests for native, WASM, MSRV, and platform-specific
+paths that the dependency can affect.
+
+For patch and minor updates, prefer the configured ecosystem group, then run
+the complete repository checks with the updated lockfile. For major updates,
+keep the PR separate unless a reviewed migration plan explicitly combines the
+required packages. Record intentional deferrals with the package, current
+version, affected contract or platform, and a re-review trigger; never use a
+permanent Dependabot ignore as a substitute for that decision. A repository
+must have no unresolved failed dependency PRs at release time unless the
+release checklist records their scope and rationale.
+
 The organization audit treats missing, untracked, or divergent Dependabot
 configuration as drift. A project must not claim a complete supply-chain gate
 until its manifest directories, lockfiles, update groups, cooldown, and PR
@@ -221,6 +248,18 @@ version updates long enough for early upstream regressions to surface. GitHub
 documents that cooldown applies only to version updates, not security updates,
 so a security update is not delayed by this window. See the official
 [Dependabot options reference](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference#cooldown-).
+
+The minimum review record for a dependency PR is:
+
+1. Current base branch and exact head commit are verified.
+2. The manifest, lockfile, upstream release notes, MSRV, license, and advisory
+   impact are reviewed.
+3. Native, WASM, MSRV, browser, and platform checks relevant to the repository
+   are green on the current base.
+4. Major or coupled Rust updates include a migration note and compatibility
+   tests; failed checks remain unmerged.
+5. The merge is squash-only on `main`, and the release changelog records a
+   user-visible or security-relevant dependency change.
 
 Run the repository-owned checks locally with:
 
