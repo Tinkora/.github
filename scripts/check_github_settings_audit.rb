@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "cert_viewer", "cron_maker", "curl_builder", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "pe_version_info", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "cert_viewer", "cron_maker", "csv_sculptor", "curl_builder", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "pe_version_info", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -88,6 +88,15 @@ begin
   errors << "cron_maker topics must include cron-expression" unless cron_targets.dig("topics", "value").include?("cron-expression")
   errors << "cron_maker code scanning must be configured" unless cron_targets.dig("codeScanning", "value") == "configured"
   errors << "cron_maker must protect release tags" unless cron_targets.dig("rulesMinimum", "value") == 1
+  csv_targets = production_policy.repository_targets("csv_sculptor")
+  errors << "csv_sculptor source must be published" unless csv_targets.dig("sourcePublished", "value") == true
+  errors << "csv_sculptor Issues must be enabled" unless csv_targets.dig("issues", "value") == true
+  errors << "csv_sculptor Discussions must be enabled" unless csv_targets.dig("discussions", "value") == true
+  errors << "csv_sculptor Projects must remain disabled" unless csv_targets.dig("projects", "value") == false
+  errors << "csv_sculptor must remain release-free" unless csv_targets.dig("releases", "value") == 0
+  errors << "csv_sculptor topics must include csv" unless csv_targets.dig("topics", "value").include?("csv")
+  errors << "csv_sculptor code scanning must be configured" unless csv_targets.dig("codeScanning", "value") == "configured"
+  errors << "csv_sculptor must protect main and release tags" unless csv_targets.dig("rulesMinimum", "value") == 2
   curl_targets = production_policy.repository_targets("curl_builder")
   errors << "curl_builder source must be published" unless curl_targets.dig("sourcePublished", "value") == true
   errors << "curl_builder Issues must be enabled" unless curl_targets.dig("issues", "value") == true
