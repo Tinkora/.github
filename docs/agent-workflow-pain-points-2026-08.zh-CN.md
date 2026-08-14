@@ -12,6 +12,7 @@
 | --- | --- | --- |
 | [MCP servers #719](https://github.com/modelcontextprotocol/servers/issues/719) | 本地服务器下载依赖时 MCP 初始化超时。 | 诊断必须区分启动、依赖、PATH 和超时原因。 |
 | [MCP servers #4199](https://github.com/modelcontextprotocol/servers/issues/4199) | fetch server 静默依赖 Node.js，且可能无超时阻塞。 | 运行时前置条件和子进程限制必须明确。 |
+| [GitHub Copilot CLI #4323](https://github.com/github/copilot-cli/issues/4323) | 仓库级 `.mcp.json` 中的注释使严格解析器跳过全部工作区 MCP server。 | 静态诊断需要兼容客户端原生 JSONC，同时保持窄边界且不执行命令。 |
 | [MCP servers #3741](https://github.com/modelcontextprotocol/servers/issues/3741) | 用户要求阻断内网、限制大小/类型、验证重定向和设置超时。 | 网络型工具需要安全策略，而不只是 URL 字段。 |
 | [OpenAI Agents #4016](https://github.com/openai/openai-agents-python/issues/4016) | MCP 凭证和 query token 出现在错误、trace 和持久化元数据中。 | 脱敏必须在格式化、导出和持久化之前完成。 |
 | [OpenAI Agents #4353](https://github.com/openai/openai-agents-python/issues/4353) | 严格 schema 转换静默删除约束并输出不支持的关键字。 | schema 工具需要 fixture 接收集合测试，并在不支持时显式失败。 |
@@ -28,6 +29,9 @@
 只有来自三个不同 Agent SDK 的真实 trace fixture 都能解析时才通过立项。不得构建托管观测平台、账号系统、厂商 exporter，或承诺识别全部密钥。
 
 ### P2：有界 MCP 探测
+
+证据支持的静态兼容增量已经完成：`mcp_doctor` 接受 JSONC 注释和尾逗号，把 VS Code
+`${input:name}` 引用视为客户端提供的值，同时仍不执行配置中的命令。
 
 `mcp_doctor` 继续默认静态检查。只有三位外部用户复现静态检查无法解释的失败，才考虑可选 `--probe`。探测只能执行用户明确选择的命令，必须有硬超时、环境和输出清理，并禁止访问远程 URL。
 

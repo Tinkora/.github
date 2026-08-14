@@ -15,6 +15,7 @@ verify the result without collecting user secrets.
 | --- | --- | --- |
 | [MCP servers #719](https://github.com/modelcontextprotocol/servers/issues/719) | MCP initialization timed out while a local server downloaded dependencies. | Diagnostics must distinguish startup, dependency, PATH, and timeout causes. |
 | [MCP servers #4199](https://github.com/modelcontextprotocol/servers/issues/4199) | A fetch server silently required Node.js and could block without a timeout. | Runtime prerequisites and subprocess limits must be explicit. |
+| [GitHub Copilot CLI #4323](https://github.com/github/copilot-cli/issues/4323) | Comments in a repository `.mcp.json` caused a strict parser to skip every workspace MCP server. | Static diagnosis must accept client-native JSONC while preserving a narrow, non-executing parser boundary. |
 | [MCP servers #3741](https://github.com/modelcontextprotocol/servers/issues/3741) | Production users requested private-network blocking, size/type limits, redirect validation, and fetch timeouts. | Network-capable tools need a security policy, not only a URL field. |
 | [OpenAI Agents #4016](https://github.com/openai/openai-agents-python/issues/4016) | MCP credentials and query tokens appeared in errors, traces, and persisted metadata. | Redaction must happen before formatting, export, and persistence. |
 | [OpenAI Agents #4353](https://github.com/openai/openai-agents-python/issues/4353) | Strict schema conversion silently removed constraints and emitted unsupported keywords. | Schema tooling needs fixture-based accept-set tests and loud failures. |
@@ -39,6 +40,11 @@ correctly. Do not build hosted observability, accounts, vendor exporters, or a
 claim to detect every secret.
 
 ### P2: Bounded MCP probing
+
+The evidence-backed static compatibility increment is complete: `mcp_doctor`
+accepts JSONC comments and trailing commas, treats VS Code `${input:name}`
+references as client-provided values, and still does not execute configured
+commands.
 
 Keep `mcp_doctor` static by default. An optional `--probe` may be considered
 only after three external users reproduce failures that static checks cannot
