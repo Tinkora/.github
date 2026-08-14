@@ -57,6 +57,9 @@ when releases begin.
 
 ### Changed
 
+- Synchronized PE Version Info `v0.1.0-alpha.2` publication governance and
+  recorded MCP Doctor's evidence-backed JSONC compatibility increment without
+  relaxing the static no-execution boundary.
 - Registered the verified Color Atlas and MD Porter Alpha releases in the
   bilingual organization profile, settings policy, and release governance.
 - Documented dependency-update review gates: Dependabot is proposal-only,
