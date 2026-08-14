@@ -27,6 +27,9 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [Cert Viewer](https://github.com/Tinkora/cert_viewer) 在本地检查 X.509 PEM
   和 DER 证书，包括扩展和指纹。
   [打开工具](https://tinkora.github.io/cert_viewer/)。
+- [Color Atlas](https://github.com/Tinkora/color_atlas) 在不上传源图片的情况下
+  转换颜色、提取图片调色板、检查 WCAG 对比度、预览色觉差异并生成 CSS。
+  [打开 Alpha](https://tinkora.github.io/color_atlas/)。
 - [Curl Builder](https://github.com/Tinkora/curl_builder) 在本地构建 HTTP 请求，
   生成经过转义的 cURL、Fetch、Python、Go、Rust 和 Node.js 代码片段，但不会执行请求。
   [打开工具](https://tinkora.github.io/curl_builder/)。
@@ -62,6 +65,9 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [JSON YAML Swiss](https://github.com/Tinkora/json_yaml_swiss) 校验、格式化并有意地
   转换 JSON、YAML 和 TOML，同时明确报告有损边界。
   [打开 Alpha](https://tinkora.github.io/json_yaml_swiss/)。
+- [MD Porter](https://github.com/Tinkora/md_porter) 在浏览器本地预览受限 GFM、
+  检查 YAML frontmatter，并导出安全的自包含 HTML。
+  [打开 Alpha](https://tinkora.github.io/md_porter/)。
 - [MCP Doctor](https://github.com/Tinkora/mcp_doctor) 静态诊断本地 stdio MCP server
   的配置、路径、环境和传输契约。[查看版本](https://github.com/Tinkora/mcp_doctor/releases/latest)。
 - [PE Version Info](https://github.com/Tinkora/pe_version_info) 提供跨平台 `pevi` CLI，
