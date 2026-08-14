@@ -28,6 +28,10 @@ machine-readable contracts, and behavior that can be verified in CI.
 - [Cert Viewer](https://github.com/Tinkora/cert_viewer) inspects X.509 PEM and
   DER certificates locally, including extensions and fingerprints.
   [Open the tool](https://tinkora.github.io/cert_viewer/).
+- [Color Atlas](https://github.com/Tinkora/color_atlas) converts colors,
+  extracts image palettes, checks WCAG contrast, previews color-vision
+  differences, and generates CSS without uploading source images.
+  [Open the Alpha](https://tinkora.github.io/color_atlas/).
 - [Curl Builder](https://github.com/Tinkora/curl_builder) builds HTTP requests
   locally and generates escaped cURL, Fetch, Python, Go, Rust, and Node.js
   snippets without executing the request.
@@ -73,6 +77,9 @@ machine-readable contracts, and behavior that can be verified in CI.
   formats, and deliberately converts JSON, YAML, and TOML while reporting
   lossy boundaries.
   [Open the Alpha](https://tinkora.github.io/json_yaml_swiss/).
+- [MD Porter](https://github.com/Tinkora/md_porter) previews a bounded GFM
+  subset, checks YAML frontmatter, and exports safe self-contained HTML in the
+  browser. [Open the Alpha](https://tinkora.github.io/md_porter/).
 - [MCP Doctor](https://github.com/Tinkora/mcp_doctor) statically diagnoses local
   stdio MCP server configuration, paths, environment, and transport contracts.
   [View the release](https://github.com/Tinkora/mcp_doctor/releases/latest).

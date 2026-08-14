@@ -79,6 +79,16 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 2}
       },
+      "color_atlas": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["accessibility", "browser-tool", "color-converter", "color-tool", "contrast-checker", "palette-generator", "rust", "wasm", "wcag", "webassembly"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 2},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
       "cron_maker": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["cron", "cron-expression", "developer-tools", "privacy", "rust", "scheduling", "timezone", "tinkora", "webassembly"]},
@@ -213,6 +223,16 @@
         "discussions": {"applicability": "CURRENT", "value": true},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
+      "md_porter": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["developer-tools", "markdown", "offline-first", "privacy", "rust", "tinkora", "wasm"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 2},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
       "qr_forge": {

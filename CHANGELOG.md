@@ -57,6 +57,8 @@ when releases begin.
 
 ### Changed
 
+- Registered the verified Color Atlas and MD Porter Alpha releases in the
+  bilingual organization profile, settings policy, and release governance.
 - Documented dependency-update review gates: Dependabot is proposal-only,
   patch/minor groups use full checks, and coupled Rust major upgrades require a
   coordinated migration with dependency-graph and compatibility evidence.
