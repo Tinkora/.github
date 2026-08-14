@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "cert_viewer", "cron_maker", "csv_sculptor", "curl_builder", "data_toolbox", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "json_yaml_swiss", "pe_version_info", "jwt_inspector", "mcp_doctor", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "cert_viewer", "color_atlas", "cron_maker", "csv_sculptor", "curl_builder", "data_toolbox", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "json_yaml_swiss", "pe_version_info", "jwt_inspector", "mcp_doctor", "md_porter", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
