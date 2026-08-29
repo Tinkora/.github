@@ -299,7 +299,7 @@
         "discussions": {"applicability": "CURRENT", "value": false},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
-        "releases": {"applicability": "CURRENT", "value": 4}
+        "releases": {"applicability": "CURRENT", "value": 3}
       }
     }
   },
