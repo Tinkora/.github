@@ -251,8 +251,8 @@
         "issues": {"applicability": "CURRENT", "value": true},
         "discussions": {"applicability": "CURRENT", "value": false},
         "projects": {"applicability": "CURRENT", "value": true},
-        "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
-        "rulesMinimum": {"applicability": "CURRENT", "value": 0},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 2},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
       "qr_forge": {
