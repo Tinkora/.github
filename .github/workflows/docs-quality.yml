@@ -7,6 +7,8 @@ name: Documentation quality
       - '.markdownlint-cli2.jsonc'
       - 'scripts/check_docs.rb'
       - 'scripts/check_external_links.rb'
+      - 'config/github-settings-policy.json'
+      - 'scripts/check_github_settings_audit.rb'
       - '.github/workflows/docs-quality.yml'
   push:
     branches: [main]
@@ -15,6 +17,8 @@ name: Documentation quality
       - '.markdownlint-cli2.jsonc'
       - 'scripts/check_docs.rb'
       - 'scripts/check_external_links.rb'
+      - 'config/github-settings-policy.json'
+      - 'scripts/check_github_settings_audit.rb'
       - '.github/workflows/docs-quality.yml'
   schedule:
     - cron: '17 4 * * 1'
