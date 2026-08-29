@@ -73,6 +73,8 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [MCP Timeout Guard](https://github.com/Tinkora/mcp_timeout_guard) 是一个有边界的
   stdio JSON-RPC 代理，为请求施加截止时间，不执行或改写下游 MCP server。
   [查看 Alpha](https://github.com/Tinkora/mcp_timeout_guard/releases/latest)。
+- [Prompt Smith](https://github.com/Tinkora/prompt_smith) 在本地检查提示词模板中缺失、未使用和格式错误的占位符，
+  不调用模型，也不访问网络。[查看 Alpha](https://github.com/Tinkora/prompt_smith/releases/latest)。
 - [PE Version Info](https://github.com/Tinkora/pe_version_info) 提供跨平台 `pevi` CLI，
   用于检查并安全更新 Windows PE 的 `VERSIONINFO` 资源和图标。
   [下载 Alpha](https://github.com/Tinkora/pe_version_info/releases/latest)。

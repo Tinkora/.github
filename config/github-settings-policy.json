@@ -245,6 +245,16 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 2},
         "releases": {"applicability": "CURRENT", "value": 1}
       },
+      "prompt_smith": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["ai-agents", "developer-tools", "local-first", "prompt-engineering", "rust", "tinkora", "wasm"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": false},
+        "projects": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 0},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
       "qr_forge": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["barcode-generator", "developer-tools", "privacy-tools", "qr-code-generator", "rust", "webassembly"]},
