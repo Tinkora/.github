@@ -233,7 +233,7 @@
         "projects": {"applicability": "CURRENT", "value": true},
         "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 2},
-        "releases": {"applicability": "CURRENT", "value": 3}
+        "releases": {"applicability": "CURRENT", "value": 4}
       },
       "mcp_timeout_guard": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
