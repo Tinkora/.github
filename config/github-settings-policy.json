@@ -225,6 +225,16 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 16}
       },
+      "mcp_schema_compat": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["ai-agents", "developer-tools", "json-schema", "mcp", "model-context-protocol", "rust", "tinkora"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": false},
+        "projects": {"applicability": "CURRENT", "value": true},
+        "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 2},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
       "mcp_timeout_guard": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["agent-tools", "developer-tools", "json-rpc", "mcp", "rust", "timeout"]},

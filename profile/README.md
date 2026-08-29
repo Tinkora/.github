@@ -87,6 +87,9 @@ machine-readable contracts, and behavior that can be verified in CI.
   stdio JSON-RPC proxy that enforces request deadlines without executing or
   rewriting the downstream MCP server.
   [View the Alpha](https://github.com/Tinkora/mcp_timeout_guard/releases/latest).
+- [MCP Schema Compat](https://github.com/Tinkora/mcp_schema_compat) checks MCP tool
+  schemas against provider compatibility profiles without network access.
+  [View the Alpha](https://github.com/Tinkora/mcp_schema_compat/releases/latest).
 - [Prompt Smith](https://github.com/Tinkora/prompt_smith) checks prompt templates
   for missing, unused, and malformed placeholders locally, with no model or network dependency.
   [View the Alpha](https://github.com/Tinkora/prompt_smith/releases/latest).
