@@ -42,7 +42,7 @@ machine-readable contracts, and behavior that can be verified in CI.
 - [Data Toolbox](https://github.com/Tinkora/data_toolbox) reports CSV/TSV
   shape, delimiter ambiguity, jagged rows, and spreadsheet-formula risks
   without silently changing the input.
-  [Open the Draft](https://tinkora.github.io/data_toolbox/).
+  [Open the Alpha](https://tinkora.github.io/data_toolbox/).
 - [Developer Primitives](https://github.com/Tinkora/developer_primitives)
   generates and inspects UUID/ULID values, converts explicit timestamps across
   IANA time zones, and exposes DST gaps and folds through a browser-local
@@ -83,13 +83,21 @@ machine-readable contracts, and behavior that can be verified in CI.
 - [MCP Doctor](https://github.com/Tinkora/mcp_doctor) statically diagnoses local
   stdio MCP server configuration, paths, environment, and transport contracts.
   [View the release](https://github.com/Tinkora/mcp_doctor/releases/latest).
+- [MCP Timeout Guard](https://github.com/Tinkora/mcp_timeout_guard) is a bounded
+  stdio JSON-RPC proxy that enforces request deadlines without executing or
+  rewriting the downstream MCP server.
+  [View the Alpha](https://github.com/Tinkora/mcp_timeout_guard/releases/latest).
 - [PE Version Info](https://github.com/Tinkora/pe_version_info) provides the
   cross-platform `pevi` CLI for inspecting and safely updating Windows PE
   `VERSIONINFO` resources and icons.
-  [Download the Alpha](https://github.com/Tinkora/pe_version_info/releases/tag/v0.1.0-alpha.1).
+  [Download the Alpha](https://github.com/Tinkora/pe_version_info/releases/latest).
 - [QR Forge](https://github.com/Tinkora/qr_forge) is a browser-local QR,
   Code 128, and EAN-13 generator with SVG and PNG exports.
   [Open the tool](https://tinkora.github.io/qr_forge/).
+- [Recoverable Delete](https://github.com/Tinkora/recoverable_delete) adds a
+  Codex pre-tool guardrail for destructive cleanup and routes supported deletes
+  through the operating system trash workflow.
+  [View the release](https://github.com/Tinkora/recoverable_delete/releases/latest).
 
 A repository appears here only after its implementation, documentation,
 security boundary, maintenance status, and public URL have been verified. A

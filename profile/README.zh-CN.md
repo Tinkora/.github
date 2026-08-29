@@ -37,7 +37,7 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
   排序和转换 CSV/TSV 数据。[打开 Alpha](https://tinkora.github.io/csv_sculptor/)。
 - [Data Toolbox](https://github.com/Tinkora/data_toolbox) 检查 CSV/TSV 的结构、
   分隔符歧义、行宽不一致和电子表格公式风险，并且不会静默修改输入。
-  [打开 Draft](https://tinkora.github.io/data_toolbox/)。
+  [打开 Alpha](https://tinkora.github.io/data_toolbox/)。
 - [Developer Primitives](https://github.com/Tinkora/developer_primitives) 通过
   浏览器本地工作台和跨平台 `tinkora-id`、`tinkora-time` CLI 生成并检查 UUID/ULID、
   转换显式时间戳，并明确显示 IANA 时区的 DST gap/fold。[打开工具](https://tinkora.github.io/developer_primitives/)或
@@ -70,12 +70,18 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
   [打开 Alpha](https://tinkora.github.io/md_porter/)。
 - [MCP Doctor](https://github.com/Tinkora/mcp_doctor) 静态诊断本地 stdio MCP server
   的配置、路径、环境和传输契约。[查看版本](https://github.com/Tinkora/mcp_doctor/releases/latest)。
+- [MCP Timeout Guard](https://github.com/Tinkora/mcp_timeout_guard) 是一个有边界的
+  stdio JSON-RPC 代理，为请求施加截止时间，不执行或改写下游 MCP server。
+  [查看 Alpha](https://github.com/Tinkora/mcp_timeout_guard/releases/latest)。
 - [PE Version Info](https://github.com/Tinkora/pe_version_info) 提供跨平台 `pevi` CLI，
   用于检查并安全更新 Windows PE 的 `VERSIONINFO` 资源和图标。
-  [下载 Alpha](https://github.com/Tinkora/pe_version_info/releases/tag/v0.1.0-alpha.1)。
+  [下载 Alpha](https://github.com/Tinkora/pe_version_info/releases/latest)。
 - [QR Forge](https://github.com/Tinkora/qr_forge) 是一个在浏览器本地运行的 QR、
   Code 128 与 EAN-13 生成器，支持导出 SVG 和 PNG。
   [打开工具](https://tinkora.github.io/qr_forge/)。
+- [Recoverable Delete](https://github.com/Tinkora/recoverable_delete) 为 Codex
+  提供删除前置防护，并将支持的删除操作交给操作系统 Trash/Recycle Bin 工作流。
+  [查看版本](https://github.com/Tinkora/recoverable_delete/releases/latest)。
 
 只有实现、文档、安全边界、维护状态和公开 URL 均已验证的仓库，才会列在这里。仅有 tool schema
 或规划文档，不会被视为可由 Agent 调用的产品。

@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "cert_viewer", "color_atlas", "cron_maker", "csv_sculptor", "curl_builder", "data_toolbox", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "json_yaml_swiss", "pe_version_info", "jwt_inspector", "mcp_doctor", "md_porter", "qr_forge", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "cert_viewer", "color_atlas", "cron_maker", "csv_sculptor", "curl_builder", "data_toolbox", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "json_yaml_swiss", "pe_version_info", "jwt_inspector", "mcp_doctor", "mcp_timeout_guard", "md_porter", "qr_forge", "recoverable_delete", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -93,7 +93,7 @@ begin
   errors << "csv_sculptor Issues must be enabled" unless csv_targets.dig("issues", "value") == true
   errors << "csv_sculptor Discussions must be enabled" unless csv_targets.dig("discussions", "value") == true
   errors << "csv_sculptor Projects must remain disabled" unless csv_targets.dig("projects", "value") == false
-  errors << "csv_sculptor must have its alpha release" unless csv_targets.dig("releases", "value") == 1
+  errors << "csv_sculptor must have five published releases" unless csv_targets.dig("releases", "value") == 5
   errors << "csv_sculptor topics must include csv" unless csv_targets.dig("topics", "value").include?("csv")
   errors << "csv_sculptor code scanning must be configured" unless csv_targets.dig("codeScanning", "value") == "configured"
   errors << "csv_sculptor must protect main and release tags" unless csv_targets.dig("rulesMinimum", "value") == 2
@@ -111,7 +111,7 @@ begin
   errors << "data_toolbox Issues must be enabled" unless data_targets.dig("issues", "value") == true
   errors << "data_toolbox Discussions must be enabled" unless data_targets.dig("discussions", "value") == true
   errors << "data_toolbox Projects must be enabled" unless data_targets.dig("projects", "value") == true
-  errors << "data_toolbox must remain release-free" unless data_targets.dig("releases", "value") == 0
+  errors << "data_toolbox must have its alpha release" unless data_targets.dig("releases", "value") == 1
   errors << "data_toolbox topics must include ai-agents" unless data_targets.dig("topics", "value").include?("ai-agents")
   errors << "data_toolbox topics must include tinkora" unless data_targets.dig("topics", "value").include?("tinkora")
   errors << "data_toolbox code scanning must be configured" unless data_targets.dig("codeScanning", "value") == "configured"
@@ -189,7 +189,7 @@ begin
   errors << "pe_version_info source must be published" unless pe_targets.dig("sourcePublished", "value") == true
   errors << "pe_version_info Issues must be enabled" unless pe_targets.dig("issues", "value") == true
   errors << "pe_version_info Discussions must be enabled" unless pe_targets.dig("discussions", "value") == true
-  errors << "pe_version_info must have its alpha release" unless pe_targets.dig("releases", "value") == 1
+  errors << "pe_version_info must have four published releases" unless pe_targets.dig("releases", "value") == 4
   errors << "pe_version_info topics must include PE" unless pe_targets.dig("topics", "value").include?("pe")
   errors << "pe_version_info code scanning status must be explicit" unless pe_targets.dig("codeScanning", "value") == "not-configured"
   jwt_targets = production_policy.repository_targets("jwt_inspector")
@@ -204,10 +204,19 @@ begin
   errors << "mcp_doctor source must be published" unless mcp_targets.dig("sourcePublished", "value") == true
   errors << "mcp_doctor Issues must be enabled" unless mcp_targets.dig("issues", "value") == true
   errors << "mcp_doctor Discussions must be enabled" unless mcp_targets.dig("discussions", "value") == true
-  errors << "mcp_doctor must have its first release" unless mcp_targets.dig("releases", "value") == 1
+  errors << "mcp_doctor must have sixteen published releases" unless mcp_targets.dig("releases", "value") == 16
   errors << "mcp_doctor topics must include mcp" unless mcp_targets.dig("topics", "value").include?("mcp")
   errors << "mcp_doctor code scanning must be configured" unless mcp_targets.dig("codeScanning", "value") == "configured"
   errors << "mcp_doctor must protect its main branch and release tags" unless mcp_targets.dig("rulesMinimum", "value") == 1
+  timeout_targets = production_policy.repository_targets("mcp_timeout_guard")
+  errors << "mcp_timeout_guard source must be published" unless timeout_targets.dig("sourcePublished", "value") == true
+  errors << "mcp_timeout_guard Issues must be enabled" unless timeout_targets.dig("issues", "value") == true
+  errors << "mcp_timeout_guard Discussions must be enabled" unless timeout_targets.dig("discussions", "value") == true
+  errors << "mcp_timeout_guard Projects must be enabled" unless timeout_targets.dig("projects", "value") == true
+  errors << "mcp_timeout_guard must have its first release" unless timeout_targets.dig("releases", "value") == 1
+  errors << "mcp_timeout_guard topics must include mcp" unless timeout_targets.dig("topics", "value").include?("mcp")
+  errors << "mcp_timeout_guard code scanning must be configured" unless timeout_targets.dig("codeScanning", "value") == "configured"
+  errors << "mcp_timeout_guard must protect main and release tags" unless timeout_targets.dig("rulesMinimum", "value") == 2
   qr_targets = production_policy.repository_targets("qr_forge")
   errors << "qr_forge source must be published" unless qr_targets.dig("sourcePublished", "value") == true
   errors << "qr_forge Issues must be enabled" unless qr_targets.dig("issues", "value") == true
@@ -217,6 +226,15 @@ begin
   errors << "qr_forge topics must include qr-code-generator" unless qr_targets.dig("topics", "value").include?("qr-code-generator")
   errors << "qr_forge code scanning must be configured" unless qr_targets.dig("codeScanning", "value") == "configured"
   errors << "qr_forge must protect its main branch and release tags" unless qr_targets.dig("rulesMinimum", "value") == 1
+  recoverable_targets = production_policy.repository_targets("recoverable_delete")
+  errors << "recoverable_delete source must be published" unless recoverable_targets.dig("sourcePublished", "value") == true
+  errors << "recoverable_delete Issues must be enabled" unless recoverable_targets.dig("issues", "value") == true
+  errors << "recoverable_delete Discussions must remain disabled" unless recoverable_targets.dig("discussions", "value") == false
+  errors << "recoverable_delete Projects must be enabled" unless recoverable_targets.dig("projects", "value") == true
+  errors << "recoverable_delete must have its first release" unless recoverable_targets.dig("releases", "value") == 1
+  errors << "recoverable_delete topics must include trash" unless recoverable_targets.dig("topics", "value").include?("trash")
+  errors << "recoverable_delete code scanning status must be explicit" unless recoverable_targets.dig("codeScanning", "value") == "not-configured"
+  errors << "recoverable_delete must protect main and release tags" unless recoverable_targets.dig("rulesMinimum", "value") == 2
   template_targets = production_policy.repository_targets("repo-template-rust-wasm")
   errors << "repo-template-rust-wasm source must be published" unless template_targets.dig("sourcePublished", "value") == true
   errors << "repo-template-rust-wasm Issues must remain disabled" unless template_targets.dig("issues", "value") == false
@@ -228,7 +246,7 @@ begin
   errors << "tool_call_trace source must be published" unless trace_targets.dig("sourcePublished", "value") == true
   errors << "tool_call_trace Issues must remain disabled" unless trace_targets.dig("issues", "value") == false
   errors << "tool_call_trace Discussions must remain disabled" unless trace_targets.dig("discussions", "value") == false
-  errors << "tool_call_trace must have two published releases" unless trace_targets.dig("releases", "value") == 2
+  errors << "tool_call_trace must have three published releases" unless trace_targets.dig("releases", "value") == 3
   errors << "tool_call_trace topics must include ai-agents" unless trace_targets.dig("topics", "value").include?("ai-agents")
   errors << "tool_call_trace code scanning must be configured" unless trace_targets.dig("codeScanning", "value") == "configured"
   errors << "tool_call_trace must protect release tags" unless trace_targets.dig("rulesMinimum", "value") == 1
