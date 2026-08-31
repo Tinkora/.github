@@ -21,6 +21,9 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 
 ## 项目
 
+- [Agent Worktree Doctor](https://github.com/Tinkora/agent_worktree_doctor)
+  在不修改仓库、不执行 hooks 的前提下，检查 Git worktree 拓扑、过期管理元数据和不安全重定向。
+  [查看 Alpha](https://github.com/Tinkora/agent_worktree_doctor/releases/latest)。
 - [Cron Maker](https://github.com/Tinkora/cron_maker) 是一个在浏览器本地运行的
   Unix cron 构建、校验与解释工具，并按所选时区预览后续执行时间。
   [打开工具](https://tinkora.github.io/cron_maker/)。
@@ -53,6 +56,9 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [Encoding Toolbox](https://github.com/Tinkora/encoding_toolbox) 提供本地
   Base64、十六进制、摘要、HMAC 和文件校验工作流，面向开发者和 Agent。
   [打开工具](https://tinkora.github.io/encoding_toolbox/)。
+- [Eval Split Guard](https://github.com/Tinkora/eval_split_guard) 检测显式声明的
+  evaluation split 组合间的精确内容、sample ID 和 group 泄漏，不上传或回显数据集内容。
+  [查看 Alpha](https://github.com/Tinkora/eval_split_guard/releases/latest)。
 - [Favicon Kit](https://github.com/Tinkora/favicon_kit) 在浏览器本地将一张原图
   转换为经过验证的浏览器、Apple Touch、PWA 和 Windows favicon 资产包。
   [打开工具](https://tinkora.github.io/favicon_kit/)或

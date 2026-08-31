@@ -22,6 +22,10 @@ machine-readable contracts, and behavior that can be verified in CI.
 
 ## Projects
 
+- [Agent Worktree Doctor](https://github.com/Tinkora/agent_worktree_doctor)
+  audits Git worktree topology, stale administrative metadata, and unsafe
+  redirections without modifying the repository or executing hooks.
+  [View the Alpha](https://github.com/Tinkora/agent_worktree_doctor/releases/latest).
 - [Cron Maker](https://github.com/Tinkora/cron_maker) is a browser-local Unix
   cron builder, validator, explainer, and time-zone-aware execution preview.
   [Open the tool](https://tinkora.github.io/cron_maker/).
@@ -62,6 +66,10 @@ machine-readable contracts, and behavior that can be verified in CI.
   local Base64, hexadecimal, digest, HMAC, and file-checksum workflows for
   developers and agents.
   [Open the tool](https://tinkora.github.io/encoding_toolbox/).
+- [Eval Split Guard](https://github.com/Tinkora/eval_split_guard) detects exact
+  content, sample ID, and group leakage across explicitly declared evaluation
+  split pairs without uploading or echoing dataset content.
+  [View the Alpha](https://github.com/Tinkora/eval_split_guard/releases/latest).
 - [Favicon Kit](https://github.com/Tinkora/favicon_kit) turns one source image
   into a validated browser, Apple Touch, PWA, and Windows favicon package,
   entirely in the browser.

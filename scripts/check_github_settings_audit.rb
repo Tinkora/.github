@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "cert_viewer", "color_atlas", "cron_maker", "csv_sculptor", "curl_builder", "data_toolbox", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "favicon_kit", "image_to_icns", "json_yaml_swiss", "pe_version_info", "jwt_inspector", "mcp_doctor", "mcp_schema_compat", "mcp_timeout_guard", "md_porter", "prompt_smith", "qr_forge", "recoverable_delete", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "agent_worktree_doctor", "cert_viewer", "color_atlas", "cron_maker", "csv_sculptor", "curl_builder", "data_toolbox", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "eval_split_guard", "favicon_kit", "image_to_icns", "json_yaml_swiss", "pe_version_info", "jwt_inspector", "mcp_doctor", "mcp_schema_compat", "mcp_timeout_guard", "md_porter", "prompt_smith", "qr_forge", "recoverable_delete", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -79,6 +79,15 @@ begin
   errors << ".github source must be published" unless repository_targets.dig("sourcePublished", "value") == true
   errors << ".github Issues must remain disabled" unless repository_targets.dig("issues", "value") == false
   errors << ".github Discussions must remain disabled" unless repository_targets.dig("discussions", "value") == false
+  worktree_targets = production_policy.repository_targets("agent_worktree_doctor")
+  errors << "agent_worktree_doctor source must be published" unless worktree_targets.dig("sourcePublished", "value") == true
+  errors << "agent_worktree_doctor Issues must be enabled" unless worktree_targets.dig("issues", "value") == true
+  errors << "agent_worktree_doctor Discussions must be enabled" unless worktree_targets.dig("discussions", "value") == true
+  errors << "agent_worktree_doctor Projects must remain disabled" unless worktree_targets.dig("projects", "value") == false
+  errors << "agent_worktree_doctor must have two published releases" unless worktree_targets.dig("releases", "value") == 2
+  errors << "agent_worktree_doctor topics must include worktree" unless worktree_targets.dig("topics", "value").include?("worktree")
+  errors << "agent_worktree_doctor code scanning must be configured" unless worktree_targets.dig("codeScanning", "value") == "configured"
+  errors << "agent_worktree_doctor currently uses branch protection instead of repository rulesets" unless worktree_targets.dig("rulesMinimum", "value") == 0
   cron_targets = production_policy.repository_targets("cron_maker")
   errors << "cron_maker source must be published" unless cron_targets.dig("sourcePublished", "value") == true
   errors << "cron_maker Issues must remain disabled" unless cron_targets.dig("issues", "value") == false
@@ -160,6 +169,15 @@ begin
   errors << "encoding_toolbox topics must include encoding" unless encoding_targets.dig("topics", "value").include?("encoding")
   errors << "encoding_toolbox code scanning must be configured" unless encoding_targets.dig("codeScanning", "value") == "configured"
   errors << "encoding_toolbox must protect its main branch" unless encoding_targets.dig("rulesMinimum", "value") == 1
+  split_targets = production_policy.repository_targets("eval_split_guard")
+  errors << "eval_split_guard source must be published" unless split_targets.dig("sourcePublished", "value") == true
+  errors << "eval_split_guard Issues must be enabled" unless split_targets.dig("issues", "value") == true
+  errors << "eval_split_guard Discussions must be enabled" unless split_targets.dig("discussions", "value") == true
+  errors << "eval_split_guard Projects must remain disabled" unless split_targets.dig("projects", "value") == false
+  errors << "eval_split_guard must have two published releases" unless split_targets.dig("releases", "value") == 2
+  errors << "eval_split_guard topics must include evaluation" unless split_targets.dig("topics", "value").include?("evaluation")
+  errors << "eval_split_guard code scanning must be configured" unless split_targets.dig("codeScanning", "value") == "configured"
+  errors << "eval_split_guard currently uses branch protection instead of repository rulesets" unless split_targets.dig("rulesMinimum", "value") == 0
   favicon_targets = production_policy.repository_targets("favicon_kit")
   errors << "favicon_kit source must be published" unless favicon_targets.dig("sourcePublished", "value") == true
   errors << "favicon_kit Issues must be enabled" unless favicon_targets.dig("issues", "value") == true

@@ -70,6 +70,16 @@
         "codeScanning": {"applicability": "CURRENT", "value": "not-configured"},
         "releases": {"applicability": "CURRENT", "value": 0}
       },
+      "agent_worktree_doctor": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["ai-agents", "cli", "diagnostics", "git", "rust", "tinkora", "worktree"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": false},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 0},
+        "releases": {"applicability": "CURRENT", "value": 2}
+      },
       "cert_viewer": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["certificate", "cryptography", "developer-tools", "privacy", "rust", "tinkora", "webassembly", "x509"]},
@@ -167,6 +177,16 @@
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
         "releases": {"applicability": "CURRENT", "value": 1}
+      },
+      "eval_split_guard": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["agent-tools", "cli", "dataset-quality", "evaluation", "leakage-detection", "rust", "tinkora"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": false},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 0},
+        "releases": {"applicability": "CURRENT", "value": 2}
       },
       "favicon_kit": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
