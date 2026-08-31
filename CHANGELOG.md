@@ -57,6 +57,10 @@ when releases begin.
 
 ### Changed
 
+- Registered Agent Worktree Doctor `v0.1.0-alpha.3` and Eval Split Guard
+  `v0.1.0-alpha.4` in the bilingual organization profile, release policy, and
+  settings audit after their immutable releases and supply-chain evidence were
+  verified, including the removal of runner-local SBOM references.
 - Synchronized MCP Doctor `v0.1.17`, including bounded offline transcript
   linting and a verified immutable release with four platform archives,
   per-asset checksums, aggregate `SHA256SUMS`, a CycloneDX SBOM, provenance,
