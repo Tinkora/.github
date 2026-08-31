@@ -57,6 +57,10 @@ when releases begin.
 
 ### Changed
 
+- Synchronized MCP Doctor `v0.1.17`, including bounded offline transcript
+  linting and a verified immutable release with four platform archives,
+  per-asset checksums, aggregate `SHA256SUMS`, a CycloneDX SBOM, provenance,
+  and SBOM attestations.
 - Synchronized PE Version Info `v0.1.0-alpha.2` publication governance and
   recorded MCP Doctor's evidence-backed JSONC compatibility increment without
   relaxing the static no-execution boundary.

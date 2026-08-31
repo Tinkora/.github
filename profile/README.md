@@ -81,7 +81,9 @@ machine-readable contracts, and behavior that can be verified in CI.
   subset, checks YAML frontmatter, and exports safe self-contained HTML in the
   browser. [Open the Alpha](https://tinkora.github.io/md_porter/).
 - [MCP Doctor](https://github.com/Tinkora/mcp_doctor) statically diagnoses local
-  stdio MCP server configuration, paths, environment, and transport contracts.
+  stdio MCP configuration and performs bounded, offline linting of redacted MCP
+  transcript envelopes, including JSON-RPC shape, initialization order, and
+  stdout pollution.
   [View the release](https://github.com/Tinkora/mcp_doctor/releases/latest).
 - [MCP Timeout Guard](https://github.com/Tinkora/mcp_timeout_guard) is a bounded
   stdio JSON-RPC proxy that enforces request deadlines without executing or

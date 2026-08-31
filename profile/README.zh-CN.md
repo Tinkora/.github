@@ -68,8 +68,8 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 - [MD Porter](https://github.com/Tinkora/md_porter) 在浏览器本地预览受限 GFM、
   检查 YAML frontmatter，并导出安全的自包含 HTML。
   [打开 Alpha](https://tinkora.github.io/md_porter/)。
-- [MCP Doctor](https://github.com/Tinkora/mcp_doctor) 静态诊断本地 stdio MCP server
-  的配置、路径、环境和传输契约。[查看版本](https://github.com/Tinkora/mcp_doctor/releases/latest)。
+- [MCP Doctor](https://github.com/Tinkora/mcp_doctor) 静态诊断本地 stdio MCP server 配置，并对脱敏的 MCP transcript envelope
+  执行有界、离线检查，覆盖 JSON-RPC 结构、初始化顺序和 stdout 污染。[查看版本](https://github.com/Tinkora/mcp_doctor/releases/latest)。
 - [MCP Timeout Guard](https://github.com/Tinkora/mcp_timeout_guard) 是一个有边界的
   stdio JSON-RPC 代理，为请求施加截止时间，不执行或改写下游 MCP server。
   [查看 Alpha](https://github.com/Tinkora/mcp_timeout_guard/releases/latest)。
