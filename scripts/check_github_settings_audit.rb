@@ -204,7 +204,7 @@ begin
   errors << "mcp_doctor source must be published" unless mcp_targets.dig("sourcePublished", "value") == true
   errors << "mcp_doctor Issues must be enabled" unless mcp_targets.dig("issues", "value") == true
   errors << "mcp_doctor Discussions must be enabled" unless mcp_targets.dig("discussions", "value") == true
-  errors << "mcp_doctor must have sixteen published releases" unless mcp_targets.dig("releases", "value") == 16
+  errors << "mcp_doctor must have seventeen published releases" unless mcp_targets.dig("releases", "value") == 17
   errors << "mcp_doctor topics must include mcp" unless mcp_targets.dig("topics", "value").include?("mcp")
   errors << "mcp_doctor code scanning must be configured" unless mcp_targets.dig("codeScanning", "value") == "configured"
   errors << "mcp_doctor must protect its main branch and release tags" unless mcp_targets.dig("rulesMinimum", "value") == 1

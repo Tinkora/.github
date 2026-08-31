@@ -223,7 +223,7 @@
         "discussions": {"applicability": "CURRENT", "value": true},
         "codeScanning": {"applicability": "CURRENT", "value": "configured"},
         "rulesMinimum": {"applicability": "CURRENT", "value": 1},
-        "releases": {"applicability": "CURRENT", "value": 16}
+        "releases": {"applicability": "CURRENT", "value": 17}
       },
       "mcp_schema_compat": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
