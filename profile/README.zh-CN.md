@@ -21,6 +21,9 @@ Tinkora 为开发者和 AI Agent 构建聚焦、开源的实用工具。项目�
 
 ## 项目
 
+- [Agent Context Doctor](https://github.com/Tinkora/agent_context_doctor) 离线解释
+  Codex、Claude Code 和 GitHub Copilot 的 instruction、settings 与 skills 哪些生效、被遮蔽或受信任门禁限制，
+  不启动 host 或模型。[查看 Alpha](https://github.com/Tinkora/agent_context_doctor/releases/latest)。
 - [Agent Worktree Doctor](https://github.com/Tinkora/agent_worktree_doctor)
   在不修改仓库、不执行 hooks 的前提下，检查 Git worktree 拓扑、过期管理元数据和不安全重定向。
   [查看 Alpha](https://github.com/Tinkora/agent_worktree_doctor/releases/latest)。
