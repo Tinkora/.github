@@ -10,6 +10,12 @@ when releases begin.
 
 ### Added
 
+- Registered the evidence-backed `agent_context_doctor` repository, its first
+  alpha release, and its cross-host static context diagnostics in the profile,
+  settings policy, audit contracts, and release policy.
+
+### Added
+
 - Initial local Tinkora organization profile, community health files, and
   governance policies.
 - Public Issue Form for non-sensitive usage and integration questions.
