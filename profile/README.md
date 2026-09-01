@@ -22,10 +22,6 @@ machine-readable contracts, and behavior that can be verified in CI.
 
 ## Projects
 
-- [Agent Context Doctor](https://github.com/Tinkora/agent_context_doctor) explains
-  which Codex, Claude Code, and GitHub Copilot instructions, settings, and skills
-  are active, shadowed, or trust-gated without starting a host or model.
-  [View the Alpha](https://github.com/Tinkora/agent_context_doctor/releases/latest).
 - [Agent Worktree Doctor](https://github.com/Tinkora/agent_worktree_doctor)
   audits Git worktree topology, stale administrative metadata, and unsafe
   redirections without modifying the repository or executing hooks.

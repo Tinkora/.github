@@ -67,7 +67,7 @@ begin
   production_policy = GitHubSettingsAudit::Policy.load(ROOT.join("config/github-settings-policy.json"))
   errors << "production policy organization must be tinkora" unless production_policy.organization == "tinkora"
   errors << "production policy login must be tinkeragora" unless production_policy.expected_login == "tinkeragora"
-  expected_repositories = [".github", "agent_worktree_doctor", "agent_context_doctor", "cert_viewer", "color_atlas", "cron_maker", "csv_sculptor", "curl_builder", "data_toolbox", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "eval_split_guard", "favicon_kit", "image_to_icns", "json_yaml_swiss", "pe_version_info", "jwt_inspector", "mcp_doctor", "mcp_schema_compat", "mcp_timeout_guard", "md_porter", "prompt_smith", "qr_forge", "recoverable_delete", "repo-template-rust-wasm", "tool_call_trace"]
+  expected_repositories = [".github", "agent_worktree_doctor", "cert_viewer", "color_atlas", "cron_maker", "csv_sculptor", "curl_builder", "data_toolbox", "developer_primitives", "diff_viz", "dmg_background", "encoding_toolbox", "eval_split_guard", "favicon_kit", "image_to_icns", "json_yaml_swiss", "pe_version_info", "jwt_inspector", "mcp_doctor", "mcp_schema_compat", "mcp_timeout_guard", "md_porter", "prompt_smith", "qr_forge", "recoverable_delete", "repo-template-rust-wasm", "tool_call_trace"]
   errors << "production policy must manage the planned public repositories" unless production_policy.repositories == expected_repositories
   errors << "production policy stage must be solo-public" unless production_policy.stage == "solo-public"
   gates = production_policy.data.fetch("gates")
@@ -88,15 +88,6 @@ begin
   errors << "agent_worktree_doctor topics must include worktree" unless worktree_targets.dig("topics", "value").include?("worktree")
   errors << "agent_worktree_doctor code scanning must be configured" unless worktree_targets.dig("codeScanning", "value") == "configured"
   errors << "agent_worktree_doctor currently uses branch protection instead of repository rulesets" unless worktree_targets.dig("rulesMinimum", "value") == 0
-  context_targets = production_policy.repository_targets("agent_context_doctor")
-  errors << "agent_context_doctor source must be published" unless context_targets.dig("sourcePublished", "value") == true
-  errors << "agent_context_doctor Issues must be enabled" unless context_targets.dig("issues", "value") == true
-  errors << "agent_context_doctor Discussions must be enabled" unless context_targets.dig("discussions", "value") == true
-  errors << "agent_context_doctor Projects must remain disabled" unless context_targets.dig("projects", "value") == false
-  errors << "agent_context_doctor must have its first published release" unless context_targets.dig("releases", "value") == 1
-  errors << "agent_context_doctor topics must include codex" unless context_targets.dig("topics", "value").include?("codex")
-  errors << "agent_context_doctor code scanning must be configured" unless context_targets.dig("codeScanning", "value") == "configured"
-  errors << "agent_context_doctor must protect its main branch" unless context_targets.dig("rulesMinimum", "value") == 1
   cron_targets = production_policy.repository_targets("cron_maker")
   errors << "cron_maker source must be published" unless cron_targets.dig("sourcePublished", "value") == true
   errors << "cron_maker Issues must remain disabled" unless cron_targets.dig("issues", "value") == false
