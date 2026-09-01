@@ -80,6 +80,16 @@
         "rulesMinimum": {"applicability": "CURRENT", "value": 0},
         "releases": {"applicability": "CURRENT", "value": 2}
       },
+      "agent_context_doctor": {
+        "sourcePublished": {"applicability": "CURRENT", "value": true},
+        "topics": {"applicability": "CURRENT", "value": ["ai-agents", "claude-code", "cli", "codex", "diagnostics", "github-copilot", "privacy", "rust", "tinkora"]},
+        "issues": {"applicability": "CURRENT", "value": true},
+        "discussions": {"applicability": "CURRENT", "value": true},
+        "projects": {"applicability": "CURRENT", "value": false},
+        "codeScanning": {"applicability": "CURRENT", "value": "configured"},
+        "rulesMinimum": {"applicability": "CURRENT", "value": 1},
+        "releases": {"applicability": "CURRENT", "value": 1}
+      },
       "cert_viewer": {
         "sourcePublished": {"applicability": "CURRENT", "value": true},
         "topics": {"applicability": "CURRENT", "value": ["certificate", "cryptography", "developer-tools", "privacy", "rust", "tinkora", "webassembly", "x509"]},
